@@ -2,9 +2,9 @@ import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
+  firstName: "Muhammad",
+  lastName: "Arinal Haq",
+  name: `Muhammad Arinal Haq`,
   role: "Design Engineer",
   avatar: "/images/avatar.jpg",
   email: "example@gmail.com",
@@ -26,7 +26,7 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/arhaqx",
     essential: true,
   },
   {
@@ -73,7 +73,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/projects/building-once-ui-a-customizable-design-system",
   },
   subline: (
     <>
@@ -244,12 +244,12 @@ const blog: Blog = {
 };
 
 const work: Work = {
-  path: "/work",
-  label: "Work",
+  path: "/projects",
+  label: "Projects",
   title: `Projects – ${person.name}`,
   description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  // Create new project pages by adding a new .mdx file to app/projects/projects
+  // All projects will be listed on the /home and /projects routes
 };
 
 const gallery: Gallery = {
