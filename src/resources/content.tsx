@@ -2,21 +2,21 @@ import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Muhammad",
-  lastName: "Arinal Haq",
+  firstName: "Arinal",
+  lastName: "Haq",
   name: `Muhammad Arinal Haq`,
-  role: "Design Engineer",
+  role: "Full Stack Web Developer",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
+  email: "arxhaq@gmail.com",
   location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
-  locale: "en", // BCP 47 language tag for the HTML lang attribute, e.g., 'en', 'ja', 'zh-TW'
+  languages: ["Bahasa Indonesia", "English"], // optional: Leave the array empty if you don't want to display languages
+  locale: "id", // BCP 47 language tag for the HTML lang attribute, e.g., 'en', 'ja', 'zh-TW'
 };
 
 const newsletter: Newsletter = {
-  display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  display: false,
+  title: <>Berlangganan Newsletter {person.firstName}</>,
+  description: <>Update seputar web development, software engineering, dan teknologi.</>,
 };
 
 const social: Social = [
@@ -32,19 +32,7 @@ const social: Social = [
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-    essential: true,
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
-    essential: false,
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    link: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5",
     essential: true,
   },
   {
@@ -53,32 +41,37 @@ const social: Social = [
     link: `mailto:${person.email}`,
     essential: true,
   },
+  {
+    name: "WhatsApp",
+    icon: "whatsapp",
+    link: "https://wa.me/6282141658305",
+    essential: true,
+  },
 ];
 
 const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  title: `${person.name} – Full Stack Web Developer`,
+  description: `Portofolio website ${person.name}, seorang Full Stack Web Developer berdedikasi membangun aplikasi web responsif dan berskala tinggi.`,
+  headline: <>Membangun Aplikasi Web Responsif, Modern, dan Berskala Tinggi</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">HealSpace</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          Featured work
+          Featured Project
         </Text>
       </Row>
     ),
-    href: "/projects/building-once-ui-a-customizable-design-system",
+    href: "/projects/healspace-self-check-platform",
   },
   subline: (
     <>
-      I'm {person.firstName}, a {person.role.toLowerCase()} at{" "}
-      <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
+      Halo! Saya {person.firstName}, seorang {person.role.toLowerCase()} berbasis di Semarang, Indonesia. Berpengalaman mengembangkan sisi front-end dan back-end menggunakan <Text as="span" size="xl" weight="strong">React, Next.js, Node.js, Django, & Laravel</Text>.
     </>
   ),
 };
@@ -87,7 +80,7 @@ const about: About = {
   path: "/about",
   label: "About",
   title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  description: `Profil dan latar belakang profesional ${person.name}, ${person.role} dari Semarang, Indonesia`,
   tableOfContent: {
     display: true,
     subItems: false,
@@ -96,139 +89,214 @@ const about: About = {
     display: true,
   },
   calendar: {
-    display: true,
+    display: false,
     link: "https://cal.com",
   },
   intro: {
     display: true,
-    title: "Introduction",
+    title: "Ringkasan Profil",
     description: (
       <>
-        {person.firstName} is a {person.location.split("/")[1]?.replace("_", " ")}-based {person.role.toLowerCase()} with a passion for transforming complex challenges
-        into simple, elegant design solutions. Their work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro dan Dicoding Fullstack Web Developer Bootcamp yang berdedikasi membangun aplikasi web responsif dan berskala tinggi. Memiliki pengalaman praktis mengembangkan sisi front-end dan back-end menggunakan React, Next.js, Node.js, Django, dan Laravel.
+        <br /><br />
+        Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek seperti aplikasi Self-Check Platform "HealSpace". Terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang efisien.
       </>
     ),
   },
   work: {
     display: true, // set to false to hide this section
-    title: "Work Experience",
+    title: "Pengalaman Kerja & Proyek",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Semarang",
+        timeframe: "Maret 2024 – Oktober 2024",
+        role: "Full Stack Web Developer (Internship)",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Mengembangkan fitur baru serta melakukan pemeliharaan sistem, termasuk bug fixing dan optimasi performa, pada berbagai portal web sekolah di lingkup Kota Semarang untuk memastikan kelancaran operasional website.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Memastikan kelancaran operasional, keamanan data, dan keandalan sistem informasi pelayanan publik.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "PT Worthfind Travel Goods Jepara",
+        timeframe: "Juli 2026 – Agustus 2026",
+        role: "Full Stack Web Developer",
+        achievements: [
+          <>
+            Membangun sistem informasi internal berbasis web untuk digitalisasi pencatatan dan manajemen data volume kendaraan parkir karyawan secara efisien.
           </>,
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
           {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            src: "/images/projects/project-01/cover-02.jpg",
+            alt: "Sistem Parkir PT Worthfind",
             width: 16,
             height: 9,
           },
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Dicoding Bootcamp (Capstone Project)",
+        timeframe: "April 2026 – Mei 2026",
+        role: "Full Stack Web Developer (Proyek Akhir)",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Berkolaborasi dalam tim untuk merancang dan mengembangkan "HealSpace", sebuah aplikasi web Self-Check Platform kesehatan mental.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Pengembangan sistem diprioritaskan pada optimalisasi arsitektur guna memastikan skalabilitas dan performa yang tinggi.
           </>,
         ],
-        images: [],
+        images: [
+          {
+            src: "/images/projects/project-01/cover-01.jpg",
+            alt: "HealSpace Project",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
+      {
+        company: "Vinty Coffee & Space Jepara",
+        timeframe: "Februari 2026",
+        role: "Frontend Web Developer",
+        achievements: [
+          <>
+            Merancang dan mengembangkan antarmuka landing page yang responsif untuk menampilkan profil bisnis serta katalog menu digital guna meningkatkan presensi online kafe.
+          </>,
+        ],
+        images: [
+          {
+            src: "/images/projects/project-01/cover-03.jpg",
+            alt: "Vinty Coffee & Space",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
+      {
+        company: "Bimbingan Karir Universitas Dian Nuswantoro",
+        timeframe: "Februari 2024",
+        role: "Full Stack Web Developer",
+        achievements: [
+          <>
+            Merancang UI/UX dan mengembangkan antarmuka (front-end) website poliklinik kampus yang responsif untuk mendigitalisasi alur pelayanan kesehatan serta memudahkan akses informasi bagi mahasiswa.
+          </>,
+        ],
+        images: [
+          {
+            src: "/images/projects/project-01/cover-04.jpg",
+            alt: "Poliklinik UDINUS",
+            width: 16,
+            height: 9,
+          },
+        ],
       },
     ],
   },
   studies: {
     display: true, // set to false to hide this section
-    title: "Studies",
+    title: "Pendidikan & Sertifikasi",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Universitas Dian Nuswantoro (UDINUS)",
+        description: <>S1 Teknik Informatika (2021 – 2026) • IPK 3.2</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Dicoding Academy",
+        description: <>Dicoding Fullstack Web Developer Bootcamp (2026)</>,
+      },
+      {
+        name: "Lembaga Sertifikasi Profesi (LSP)",
+        description: <>Sertifikat Kompetensi Bidang Pemrograman Web / TI (2024)</>,
       },
     ],
   },
   technical: {
     display: true, // set to false to hide this section
-    title: "Technical skills",
+    title: "Keahlian Teknis (Skills)",
     skills: [
       {
-        title: "Figma",
+        title: "Frontend Development",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>Pengembangan antarmuka web modern, responsif, dan interaktif dengan ekosistem React dan Next.js.</>
         ),
         tags: [
           {
-            name: "Figma",
-            icon: "figma",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
-      },
-      {
-        title: "Next.js",
-        description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
-        ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
+            name: "React",
+            icon: "react",
           },
           {
             name: "Next.js",
             icon: "nextjs",
           },
           {
-            name: "Supabase",
-            icon: "supabase",
+            name: "TypeScript",
+            icon: "typescript",
           },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
           {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
+            name: "JavaScript",
+            icon: "javascript",
           },
         ],
+        images: [],
+      },
+      {
+        title: "Backend Development",
+        description: (
+          <>Perancangan RESTful API, arsitektur server, manajemen database, dan integrasi logika bisnis.</>
+        ),
+        tags: [
+          {
+            name: "Node.js",
+            icon: "nodejs",
+          },
+          {
+            name: "Laravel",
+            icon: "laravel",
+          },
+          {
+            name: "Django",
+            icon: "django",
+          },
+          {
+            name: "PHP",
+            icon: "php",
+          },
+          {
+            name: "Python",
+            icon: "python",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Soft Skills & Kolaborasi",
+        description: (
+          <>Terbiasa memecahkan masalah teknis kompleks, bekerja sama dalam tim, komunikatif, dan memiliki manajemen waktu yang baik.</>
+        ),
+        tags: [
+          {
+            name: "Problem Solving",
+          },
+          {
+            name: "Teamwork",
+          },
+          {
+            name: "Komunikatif",
+          },
+          {
+            name: "Kemauan Belajar Tinggi",
+          },
+          {
+            name: "Manajemen Waktu",
+          },
+        ],
+        images: [],
       },
     ],
   },
@@ -237,19 +305,15 @@ const about: About = {
 const blog: Blog = {
   path: "/blog",
   label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
+  title: "Blog & Tulisan Teknis",
+  description: `Tulisan dan artikel teknologi oleh ${person.name}`,
 };
 
 const work: Work = {
   path: "/projects",
   label: "Projects",
-  title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/projects/projects
-  // All projects will be listed on the /home and /projects routes
+  title: `Proyek – ${person.name}`,
+  description: `Portofolio proyek software engineering dan web development oleh ${person.name}`,
 };
 
 const gallery: Gallery = {
@@ -257,8 +321,6 @@ const gallery: Gallery = {
   label: "Gallery",
   title: `Photo gallery – ${person.name}`,
   description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
   images: [
     {
       src: "/images/gallery/horizontal-1.jpg",
