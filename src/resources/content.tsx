@@ -145,16 +145,19 @@ const about: About = {
       {
         company: "PT Worthfind Travel Goods Jepara",
         timeframe: "Juli 2026 – Agustus 2026",
-        role: "Full Stack Web Developer",
+        role: "Full Stack Developer",
         achievements: [
           <>
-            Membangun sistem informasi internal berbasis web untuk digitalisasi pencatatan dan manajemen data volume kendaraan parkir karyawan secara efisien.
+            Mengembangkan sistem manajemen parkir dan kalkulasi pemasukan harian menggunakan React Native, Node.js, dan database PostgreSQL di server VPS.
+          </>,
+          <>
+            Mengintegrasikan Cloudinary untuk foto bukti lapangan dengan algoritma deteksi keaslian/duplikasi foto, serta dashboard analitik okupansi dengan fitur export Excel.
           </>,
         ],
         images: [
           {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Sistem Parkir PT Worthfind",
+            src: "/images/projects/parkir/dashboard-analitik.png",
+            alt: "Dashboard Analitik Parkir PT Worthfind",
             width: 16,
             height: 9,
           },
@@ -263,6 +266,10 @@ const about: About = {
             name: "JavaScript",
             icon: "javascript",
           },
+          {
+            name: "React Native",
+            icon: "react",
+          },
         ],
         images: [],
       },
@@ -291,6 +298,14 @@ const about: About = {
           {
             name: "Python",
             icon: "python",
+          },
+          {
+            name: "PostgreSQL",
+            icon: "postgresql",
+          },
+          {
+            name: "Cloudinary",
+            icon: "cloudinary",
           },
         ],
         images: [],

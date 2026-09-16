@@ -1,13 +1,14 @@
 ---
-title: "Sistem Informasi Lahan Parkir PT Worthfind Travel Goods"
+title: "Sistem Informasi & Analitik Lahan Parkir PT Worthfind"
 publishedAt: "2026-08-15"
-summary: "Membangun sistem informasi internal berbasis web untuk digitalisasi pencatatan dan manajemen data volume kendaraan parkir karyawan secara efisien."
+summary: "Aplikasi manajemen parkir pabrik berbasis React Native dan Node.js dengan database PostgreSQL, integrasi storage Cloudinary, fitur deteksi keaslian foto lapangan, serta dashboard analitik tren okupansi dan export Excel."
 images:
-  - "/images/projects/project-01/cover-02.jpg"
-  - "/images/projects/project-01/image-02.jpg"
+  - "/images/projects/parkir/dashboard-analitik.png"
+  - "/images/projects/parkir/form-petugas.png"
+  - "/images/projects/parkir/riwayat-keaslian-foto.png"
 team:
   - name: "Muhammad Arinal Haq"
-    role: "Full Stack Web Developer"
+    role: "Full Stack Developer"
     avatar: "/images/avatar.jpg"
     linkedIn: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5"
 link: "https://github.com/arhaqx/catatan-parkir"
@@ -15,17 +16,36 @@ link: "https://github.com/arhaqx/catatan-parkir"
 
 ## Overview
 
-Proyek ini dibangun untuk **PT Worthfind Travel Goods Jepara** guna mengatasi pencatatan kendaraan masuk-keluar karyawan yang sebelumnya masih dilakukan secara manual. Sistem informasi internal berbasis web ini mendigitalkan seluruh pencatatan data dan rekapitulasi volume kendaraan.
+**Sistem Informasi Lahan Parkir PT Worthfind Travel Goods** adalah solusi digitalisasi operasional terpadu yang dibangun untuk mengelola pencatatan kendaraan dan arus pendapatan parkir harian karyawan pabrik di Jepara.
+
+Sebelum adanya sistem ini, pencatatan kendaraan dan pembukuan uang masuk dilakukan secara manual di atas kertas, yang rentan terhadap kehilangan catatan, kesalahan hitung kapasitas, dan potensi manipulasi laporan shift. Sistem ini menggantikan seluruh proses tersebut dengan alur kerja digital yang cepat, transparan, dan terverifikasi secara *real-time*.
 
 ## Fitur Utama
 
-- **Pencatatan Real-time**: Input dan validasi data keluar-masuk kendaraan secara cepat oleh petugas parkir.
-- **Monitoring Kapasitas Parkir**: Tampilan visual slot kapasitas parkir motor dan mobil secara live.
-- **Laporan & Rekapitulasi Otomatis**: Ekspor data dan grafik statistik harian, mingguan, dan bulanan untuk audit internal.
-- **Manajemen Karyawan & Hak Akses**: Pengaturan peran pengguna (Admin dan Operator).
+### 1. Form Petugas & Pengawasan Kapasitas Real-Time
+- **Pencatatan Cepat & Responsif**: Petugas lapangan dapat menyesuaikan volume motor masuk/keluar dengan tombol pintas (`-10`, `-1`, `+1`, `+5`, `+10`) maupun input manual.
+- **Pemisahan Kategori Shift**: Mendukung jadwal *Senin–Jumat Reguler* dan *Sabtu Lembur*.
+- **Indikator Kapasitas Live**: Gauge kapasitas visual dengan batas standar 90 unit dan toleransi overload hingga 110 unit.
+- **Kalkulasi Otomatis Pemasukan**: Estimasi pendapatan dihitung instan per unit motor (Rp 3.000 / unit) termasuk kalkulasi cuan overload secara akurat.
 
-## Teknologi yang Digunakan
+### 2. Fitur Cek Keaslian Foto Lapangan (Anti-Fraud)
+- Setiap laporan pergantian shift mewajibkan dokumentasi foto kondisi lapangan sebagai bukti fisik.
+- Sistem dilengkapi algoritma verifikasi integritas foto yang secara otomatis mendeteksi apakah foto yang diunggah merupakan **foto baru yang valid** (`✓ Asli`) atau **foto duplikat / repetitif** dari laporan shift sebelumnya (`X Duplikat - Mirip lap. [Tanggal] (#ID)`).
+- Mencegah petugas lapangan melakukan manipulasi atau menggunakan kembali foto lama.
 
-- **Frontend & Backend**: Full Stack Web Application (PHP / Laravel / JavaScript)
-- **Database**: MySQL / Relational Database
-- **Interface**: Responsive UI dengan performa ringan untuk perangkat kantor
+### 3. Dashboard Analitik Eksekutif & Tren Okupansi
+- Menampilkan metrik performa utama: **Total Pemasukan**, **Total Unit Terlayani**, dan **Tingkat Rata-rata Okupansi**.
+- Visualisasi data interaktif dengan opsi **Grafik Batang** dan **Grafik Area** untuk melihat fluktuasi arus motor harian.
+- Filter data fleksibel: *Hari Ini*, *7 Hari Terakhir*, *Minggu Ini*, *Bulan Ini*, hingga rentang tanggal kustom (*Date Range Picker*).
+
+### 4. Rekapitulasi & Export ke Excel
+- Data riwayat shift kerja dapat dilihat dalam mode tabel terperinci maupun kartu ringkas.
+- Dilengkapi fitur **Export ke Excel (.xlsx)** satu klik untuk memudahkan kebutuhan pembukuan finansial, audit internal, dan arsip manajemen pabrik.
+
+## Arsitektur & Teknologi yang Digunakan
+
+- **Frontend**: React Native & Modern Web Interface dengan estetika dark mode dan navigasi tab responsif (*Form Petugas* & *Dashboard Admin*)
+- **Backend**: Node.js REST API Service yang dideploy di server Linux VPS
+- **Database**: PostgreSQL (Relational schema untuk entitas shift kerja, log kendaraan, status kapasitas, dan hash keaslian foto)
+- **Media & File Storage**: Cloudinary (CDN cloud image storage teroptimasi untuk foto bukti lapangan)
+- **Deployment**: Linux VPS Server dengan arsitektur produksi mandiri

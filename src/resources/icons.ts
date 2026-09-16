@@ -35,6 +35,8 @@ import {
   SiDjango,
   SiNodedotjs,
   SiUbuntu,
+  SiPostgresql,
+  SiCloudinary,
 } from "react-icons/si";
 
 import { FaDiscord, FaGithub, FaLinkedin, FaX, FaThreads, FaInstagram, FaXTwitter, FaFacebook, FaPinterest, FaWhatsapp, FaReddit, FaTelegram, FaMicrosoft, } from "react-icons/fa6";
@@ -81,6 +83,8 @@ export const iconLibrary: Record<string, IconType> = {
   instagram: FaInstagram,
   azure: FaMicrosoft,
   ubuntu: SiUbuntu,
+  postgresql: SiPostgresql,
+  cloudinary: SiCloudinary,
 };
 
 export type IconLibrary = typeof iconLibrary;
