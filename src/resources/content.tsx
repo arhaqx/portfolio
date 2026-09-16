@@ -204,7 +204,7 @@ const about: About = {
     institutions: [
       {
         name: "Universitas Dian Nuswantoro (UDINUS)",
-        description: <>S1 Teknik Informatika (2021 – 2026) • IPK 3.2</>,
+        description: <>S1 Teknik Informatika</>,
       },
       {
         name: "Dicoding Academy",
