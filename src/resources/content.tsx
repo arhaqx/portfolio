@@ -143,9 +143,9 @@ const about: About = {
         images: [],
       },
       {
-        company: "PT Worthfind Travel Goods Jepara",
+        company: "PT Worthfind Travel Goods Jepara (Project)",
         timeframe: "Juli 2026 – Agustus 2026",
-        role: "Full Stack Developer",
+        role: "Full Stack Developer (Project)",
         achievements: [
           <>
             Mengembangkan sistem manajemen parkir dan kalkulasi pemasukan harian menggunakan React Native, Node.js, dan database PostgreSQL di server VPS.
