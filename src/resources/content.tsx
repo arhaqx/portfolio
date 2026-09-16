@@ -60,18 +60,18 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">HealSpace</strong>{" "}
+        <strong className="ml-4">Hermes Agent</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured Project
         </Text>
       </Row>
     ),
-    href: "/projects/healspace-self-check-platform",
+    href: "/projects/hermes-autonomous-agent-azure",
   },
   subline: (
     <>
-      Halo! Saya {person.firstName}, seorang {person.role.toLowerCase()} berbasis di Semarang, Indonesia. Berpengalaman mengembangkan sisi front-end dan back-end menggunakan <Text as="span" size="xl" weight="strong">React, Next.js, Node.js, Django, & Laravel</Text>.
+      Halo! Saya {person.firstName}, seorang {person.role.toLowerCase()} berbasis di Semarang, Indonesia. Berpengalaman mengembangkan aplikasi web modern dan autonomous AI agent menggunakan <Text as="span" size="xl" weight="strong">React, Next.js, Azure, Node.js, & Laravel</Text>.
     </>
   ),
 };
@@ -107,6 +107,27 @@ const about: About = {
     display: true, // set to false to hide this section
     title: "Pengalaman Kerja & Proyek",
     experiences: [
+      {
+        company: "Hermes Autonomous Agent & Cloud Automation",
+        timeframe: "2026",
+        role: "AI Systems & Cloud Engineer (Independent Project)",
+        achievements: [
+          <>
+            Merancang dan men-deploy autonomous AI agent 24/7 di Microsoft Azure Ubuntu VM dengan integrasi Telegram Bot multi-thread dan background cron scheduler.
+          </>,
+          <>
+            Mengintegrasikan 9Router Proxy AI Gateway untuk multi-model routing dan prompt caching yang berhasil menghemat ~85% token (2,4M+ input tokens ter-cache).
+          </>,
+        ],
+        images: [
+          {
+            src: "/images/projects/hermes/cover.jpg",
+            alt: "Hermes Cloud Agent Architecture",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
       {
         company: "Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Semarang",
         timeframe: "Maret 2024 – Oktober 2024",
@@ -266,6 +287,33 @@ const about: About = {
           {
             name: "PHP",
             icon: "php",
+          },
+          {
+            name: "Python",
+            icon: "python",
+          },
+        ],
+        images: [],
+      },
+      {
+        title: "Cloud & Autonomous AI Agents",
+        description: (
+          <>Pengembangan autonomous AI agent, integrasi AI gateway (9Router Proxy), cloud deployment di Microsoft Azure VM, dan automasi cron / Linux.</>
+        ),
+        tags: [
+          {
+            name: "Azure",
+            icon: "azure",
+          },
+          {
+            name: "AI Agents",
+          },
+          {
+            name: "9Router Proxy",
+          },
+          {
+            name: "Ubuntu / Linux",
+            icon: "ubuntu",
           },
           {
             name: "Python",

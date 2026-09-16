@@ -1,0 +1,57 @@
+---
+title: "Hermes: Cloud-Native Autonomous AI Agent with 9Router & Azure"
+publishedAt: "2026-09-16"
+summary: "Sistem autonomous AI agent yang dideploy di Microsoft Azure VM (Ubuntu 24.04 LTS) dengan integrasi Telegram bot multi-thread, automasi cronjob harian, dan optimasi biaya melalui 9Router Proxy AI Gateway."
+images:
+  - "/images/projects/hermes/cover.jpg"
+  - "/images/projects/hermes/9router-dashboard.png"
+  - "/images/projects/hermes/telegram-bot.png"
+  - "/images/projects/hermes/azure-terminal.png"
+team:
+  - name: "Muhammad Arinal Haq"
+    role: "AI Systems & Cloud Engineer"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5"
+---
+
+## Overview
+
+**Hermes Cloud Agent** adalah asisten otonom (*Autonomous AI Agent*) pribadi yang beroperasi 24/7 di atas infrastruktur cloud **Microsoft Azure Virtual Machine** (Ubuntu 24.04 LTS). Sistem ini dirancang untuk mengotomasi berbagai alur kerja harian—mulai dari kurasi berita berkala, monitoring tugas, hingga pemecahan masalah teknis (*troubleshooting*)—yang dapat dikendalikan langsung melalui antarmuka **Telegram Client**.
+
+Untuk menjaga keandalan dan efisiensi biaya yang tinggi, arsitektur agen ini diintegrasikan dengan **9Router Proxy** sebagai *AI Gateway* pintar yang mengelola *routing* multi-model LLM dan teknik *prompt/token caching*.
+
+## Arsitektur Sistem
+
+Sistem ini dibangun dengan pendekatan *decoupled architecture* yang terdiri dari 4 lapisan utama:
+
+1. **User Interface (Telegram Forum / Topic Threads)**:
+   - Menggunakan Telegram Client dengan pembagian topik terpisah: *Informasi Berita Terkini*, *Level Up Skills*, *Perbaikan Fitur*, dan *Gmail Support*.
+   - Memungkinkan pengelolaan konteks dan instruksi yang terorganisir tanpa tumpang tindih.
+
+2. **Agent Core & Execution Engine (Microsoft Azure VM)**:
+   - Dijalankan pada VM Azure (*Standard B2ats v2: 2 vCPU, 1 GiB RAM*) berbasis Ubuntu 24.04 LTS.
+   - Dilengkapi *sandbox execution*, manajemen memori/persona adaptif (`soul.md`), serta kemampuan *tool calling* (membaca file sistem, memeriksa log, dan mengeksekusi skrip Python).
+   - Memiliki *session continuity* (`attach_to_session`) yang memungkinkan agen melanjutkan interaksi percakapan panjang secara konsisten.
+
+3. **Automation & Scheduler Layer (Cron Engine)**:
+   - Menjalankan *background job scheduler* (`jobs.json`) untuk otomasi terjadwal, seperti agregasi dan pengiriman berita harian setiap pukul 08:00 WIB ke thread Telegram yang telah ditentukan.
+
+4. **AI Gateway & Cost Optimizer (9Router Proxy)**:
+   - Berfungsi sebagai reverse proxy cerdas antara agen dan berbagai penyedia model LLM (Gemini 3.8 Flash, OpenCode, MiMo Code).
+   - Mengimplementasikan *Prompt Caching* agresif sehingga berhasil menghemat **2,46 juta token** dari total 2,90 juta input token (**tingkat cache ~85%**).
+   - Menyediakan mekanisme *failover/fallback* otomatis jika salah satu provider mengalami limitasi kuota atau *downtime*.
+
+## Fitur Unggulan
+
+- **Autonomous Tool Calling**: Agen dapat mencari file, membaca log sistem, dan menjalankan skrip shell secara mandiri berdasarkan instruksi bahasa alami.
+- **Dynamic Thread Routing**: Kemampuan mengenali dan memindahkan *cronjob* maupun output tugas ke thread Telegram spesifik secara dinamis.
+- **Resource-Efficient Deployment**: Berhasil mengoperasikan *agentic runtime* secara stabil pada spesifikasi VM hemat resource (1 GB RAM) dengan pemantauan *system load* dan *swap usage* yang terjaga.
+- **Observed Metrics**: Memproses puluhan *autonomous requests* dengan total jutaan token namun tetap mempertahankan estimasi biaya sangat rendah (~$1.14) berkat *token caching*.
+
+## Teknologi yang Digunakan
+
+- **Cloud & OS**: Microsoft Azure, Ubuntu 24.04.4 LTS, Bash / Linux System Administration
+- **AI & Automation**: Hermes Agent Framework, Autonomous Tool Calling, Cronjob Automation
+- **AI Gateway**: 9Router Proxy (v0.5.75), Token Caching, Model Failover
+- **LLM Backbone**: Gemini 3.8 Flash High, OpenCode, MiMo Code
+- **Integration**: Telegram Bot API, Python 3 (Virtualenv), RESTful API
