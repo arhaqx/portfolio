@@ -99,7 +99,7 @@ const about: About = {
       <>
         Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro dan Dicoding Fullstack Web Developer Bootcamp yang berdedikasi membangun aplikasi web responsif dan berskala tinggi. Memiliki pengalaman praktis mengembangkan sisi front-end dan back-end menggunakan React, Next.js, Node.js, Django, dan Laravel.
         <br /><br />
-        Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek seperti aplikasi Self-Check Platform "HealSpace". Terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang efisien.
+        Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek dan Terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang efisien.
       </>
     ),
   },
