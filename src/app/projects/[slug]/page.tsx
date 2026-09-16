@@ -101,7 +101,7 @@ export default async function Project({
         </Text>
         <Heading variant="display-strong-m">{post.metadata.title}</Heading>
       </Column>
-      <Row marginBottom="32" horizontal="center">
+      <Row marginBottom="32" horizontal="center" gap="24" vertical="center">
         <Row gap="16" vertical="center">
           {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="s" />}
           <Text variant="label-default-m" onBackground="brand-weak">
@@ -117,6 +117,15 @@ export default async function Project({
             ))}
           </Text>
         </Row>
+        {post.metadata.link && (
+          <Button
+            href={post.metadata.link}
+            variant="secondary"
+            size="s"
+            suffixIcon="arrowUpRightFromSquare"
+            label="View project"
+          />
+        )}
       </Row>
       {post.metadata.images.length > 0 && (
         <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
