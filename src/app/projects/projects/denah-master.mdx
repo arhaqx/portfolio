@@ -1,0 +1,61 @@
+---
+title: "Denah Master: Interactive 3D Land Subdivision & Site Plan Visualizer"
+publishedAt: "2026-04-15"
+summary: "Aplikasi 3D WebGL interaktif untuk visualisasi dan pembagian tanah kapling seluas 9.910 m² bagi developer perumahan, mengintegrasikan zoning makro (ruko & jalan akses) serta pemetaan mikro berbasis data valuasi riil dengan Three.js dan React Three Fiber."
+images:
+  - "/images/projects/denah-master/masterplan-detail.png"
+  - "/images/projects/denah-master/sketsa-kasar.png"
+team:
+  - name: "Muhammad Arinal Haq"
+    role: "3D Front-End Developer (Freelance)"
+    avatar: "/images/avatar.jpg"
+    linkedIn: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5"
+link: "https://github.com/arhaqx/denah-master.git"
+---
+
+## Overview
+
+**Denah Master** adalah aplikasi WebGL 3D interaktif berbasis peramban (*browser*) yang dikembangkan untuk developer perumahan (*Property & Housing Developer*) guna memetakan, memvisualisasikan, dan mensimulasikan pembagian tanah kapling komersial dan residensial seluas **9.910 m²**.
+
+Proyek ini menggabungkan pemodelan spasial 3D dengan data valuasi tanah riil sehingga memudahkan calon investor, pembeli, dan stakeholder perumahan dalam memahami tata letak, elevasi bangunan, dan aksesibilitas lahan secara imersif.
+
+## Background & Problem
+
+Sebelum adanya visualisasi 3D interaktif ini, developer perumahan mengandalkan lembar kerja Excel dan denah 2D konvensional. Pendekatan tersebut memiliki beberapa kendala signifikan:
+- **Keterbatasan Perspektif Spasial**: Calon pembeli sulit membayangkan ketinggian ruko, batas keliling lahan, lebar jalan akses, dan orientasi arah hadap kapling.
+- **Kompleksitas Pembagian Zona**: Tanah seluas 9.910 m² terbagi ke dalam berbagai fungsi yang berbeda (ruko komersial di pinggir jalan raya, kapling residensial/waris, jalan keliling internal, fasilitas umum, dan musholla).
+- **Kebutuhan Presentasi Valuasi**: Sulitnya mengaitkan data harga/valuasi per meter persegi secara langsung dengan objek kapling fisik di atas peta 2D.
+
+## Solution & Architecture
+
+Untuk menjawab tantangan tersebut, sistem dibangun menggunakan ekosistem **React 19**, **Three.js**, dan **React Three Fiber (R3F)** dengan pendekatan arsitektur berikut:
+
+### 1. Custom Geometry Shape Generation
+- Menghitung dan menghasilkan geometri poligon lahan tanah tidak beraturan (*irregular polygon*) seluas 9.910 m² secara presisi menggunakan `THREE.Shape` dan ekstrusi 3D (`THREE.ExtrudeGeometry`).
+- Menambahkan batas dinding transparan (*perimeter glass wall*) untuk mempertegas batas kepemilikan lahan secara visual.
+
+### 2. Dual Scene Architecture
+Aplikasi menyediakan dua mode perspektif visual yang dapat beralih secara instan:
+- **Sketsa Kasar (Draft Scene)**: Menampilkan *zoning makro* lingkungan sekitar, mencakup ruko 2 lantai dengan fasad kaca dan kanopi di pinggir jalan raya, gerbang utama perumahan, jalan aspal dengan marka garis, vegetasi pohon, serta *environment landmarks* seperti SPBU dan perumahan tetangga.
+- **Master Plan Detail**: Menampilkan pemetaan mikro puluhan blok kapling dengan dimensi ukuran fisik akurat (10x16m, 13x30m, 10x32m, 20x30m, dll) yang langsung di-render di atas permukaan tanah beserta label dimensi dan kode kapling.
+
+### 3. Interactive Lot Selection & Valuasi Komersial
+- Mengimplementasikan *raycasting event listener* saat pengguna mengklik blok kapling tertentu.
+- Menghasilkan efek visual *highlight emissive glow* pada kapling yang dipilih.
+- Memunculkan *3D HTML overlay tooltip* (`@react-three/drei`) yang menampilkan rincian data: nama pemilik/status kapling, ukuran fisik dalam meter persegi, serta estimasi valuasi komersial tanah (berkisar antara **Rp 320 Juta s/d Rp 1,8 Miliar**).
+
+### 4. Orbit Controls & Camera Constraint
+- Kontrol navigasi kamera 360° yang mulus (*smooth pan, zoom, and rotate*).
+- Dibatasi dengan parameter `maxPolarAngle` agar sudut pandang kamera tidak menembus ke bawah permukaan tanah (*underground clipping*), menjaga navigasi tetap stabil dan nyaman digunakan di desktop maupun laptop.
+
+## Arsitektur & Teknologi yang Digunakan
+
+- **Core Framework**: React 19, TypeScript, Vite
+- **3D Graphics & Rendering Engine**: Three.js, React Three Fiber (`@react-three/fiber`)
+- **3D Helpers & Camera Controls**: `@react-three/drei` (OrbitControls, Html Overlays)
+- **Styling & UI**: Tailwind CSS & Glassmorphic HUD Controls
+
+## Tautan Repositori
+
+Source code dan implementasi 3D WebGL proyek ini dapat diakses di GitHub:
+- **GitHub Repository**: [https://github.com/arhaqx/denah-master.git](https://github.com/arhaqx/denah-master.git)

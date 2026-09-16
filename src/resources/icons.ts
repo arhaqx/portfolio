@@ -37,6 +37,8 @@ import {
   SiUbuntu,
   SiPostgresql,
   SiCloudinary,
+  SiThreedotjs,
+  SiVite,
 } from "react-icons/si";
 
 import { FaDiscord, FaGithub, FaLinkedin, FaX, FaThreads, FaInstagram, FaXTwitter, FaFacebook, FaPinterest, FaWhatsapp, FaReddit, FaTelegram, FaMicrosoft, } from "react-icons/fa6";
@@ -85,6 +87,8 @@ export const iconLibrary: Record<string, IconType> = {
   ubuntu: SiUbuntu,
   postgresql: SiPostgresql,
   cloudinary: SiCloudinary,
+  threejs: SiThreedotjs,
+  vite: SiVite,
 };
 
 export type IconLibrary = typeof iconLibrary;

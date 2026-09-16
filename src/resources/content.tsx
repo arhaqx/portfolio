@@ -185,6 +185,27 @@ const about: About = {
         ],
       },
       {
+        company: "Denah Master (Property Developer Project)",
+        timeframe: "Maret – April 2026",
+        role: "3D Front-End Developer (Freelance)",
+        achievements: [
+          <>
+            Membangun aplikasi WebGL 3D interaktif untuk visualisasi dan simulasi pembagian tanah kapling seluas 9.910 m² menggunakan Three.js dan React Three Fiber.
+          </>,
+          <>
+            Mengembangkan fitur Dual Scene (Sketsa Kasar makro & Master Plan mikro), ekstrusi poligon lahan custom, serta tooltip interaktif valuasi tanah komersial.
+          </>,
+        ],
+        images: [
+          {
+            src: "/images/projects/denah-master/masterplan-detail.png",
+            alt: "Denah Master 3D Visualizer",
+            width: 16,
+            height: 9,
+          },
+        ],
+      },
+      {
         company: "Vinty Coffee & Space Jepara",
         timeframe: "Februari 2026",
         role: "Frontend Web Developer",
@@ -269,6 +290,13 @@ const about: About = {
           {
             name: "React Native",
             icon: "react",
+          },
+          {
+            name: "Three.js",
+            icon: "threejs",
+          },
+          {
+            name: "React Three Fiber",
           },
         ],
         images: [],
