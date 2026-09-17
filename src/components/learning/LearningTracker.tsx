@@ -511,9 +511,16 @@ export default function LearningTracker() {
                     radius="m"
                     background="neutral-alpha-weak"
                     border="brand-alpha-medium"
-                    gap="8"
+                    gap="12"
                   >
-                    <Row fillWidth horizontal="between" vertical="center" wrap gap="8">
+                    <Row
+                      fillWidth
+                      horizontal="between"
+                      vertical="center"
+                      wrap
+                      gap="8"
+                      s={{ direction: "column", horizontal: "start", gap: "8" }}
+                    >
                       <Row vertical="center" gap="8">
                         <Icon name="trophy" size="xs" onBackground="brand-strong" />
                         <Text variant="body-strong-xs" onBackground="brand-strong">
@@ -522,7 +529,7 @@ export default function LearningTracker() {
                       </Row>
                       <Tag size="s">{track.nextTarget.status}</Tag>
                     </Row>
-                    <Text variant="body-strong-m">
+                    <Text variant="body-strong-m" wrap="balance">
                       {track.nextTarget.title}
                     </Text>
                     <Text variant="body-default-xs" onBackground="neutral-weak">
