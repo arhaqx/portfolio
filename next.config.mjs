@@ -29,6 +29,11 @@ const nextConfig = {
         destination: "/learning",
         permanent: false,
       },
+      {
+        source: "/gallery",
+        destination: "/projects",
+        permanent: false,
+      },
     ];
   },
 };
