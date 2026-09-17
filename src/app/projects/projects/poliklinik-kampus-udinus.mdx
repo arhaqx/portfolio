@@ -1,9 +1,10 @@
 ---
-title: "Website Poliklinik Kampus Universitas Dian Nuswantoro"
+title: "Sistem Manajemen Poliklinik Terpadu (Laravel)"
 publishedAt: "2024-02-20"
-summary: "Merancang UI/UX dan mengembangkan antarmuka (front-end) website poliklinik kampus yang responsif untuk mendigitalisasi alur pelayanan kesehatan serta memudahkan akses informasi bagi mahasiswa."
+summary: "Aplikasi web manajemen dan pendaftaran layanan kesehatan poliklinik terpadu berbasis framework Laravel, memfasilitasi registrasi pasien online, pemilihan jadwal pemeriksaan & keluhan, serta penerbitan nomor antrean digital secara efisien."
 images:
-  - "/images/projects/project-01/cover-04.jpg"
+  - "/images/projects/poliklinik/landing-page.png"
+  - "/images/projects/poliklinik/daftar-poli.png"
 team:
   - name: "Muhammad Arinal Haq"
     role: "Full Stack Web Developer"
@@ -14,17 +15,44 @@ link: "https://github.com/arhaqx/poliklinik"
 
 ## Overview
 
-Proyek ini dikembangkan di bawah naungan **Bimbingan Karir Universitas Dian Nuswantoro (UDINUS)** untuk mendukung digitalisasi layanan kesehatan kampus bagi seluruh mahasiswa, dosen, dan staf universitas.
+**Sistem Manajemen Poliklinik Terpadu** adalah aplikasi web berbasis **Laravel** yang dirancang untuk mendigitalisasi alur pelayanan kesehatan, mulai dari pendaftaran pasien baru, penjadwalan pemeriksaan dokter, hingga penerbitan nomor antrean secara sistematis.
+
+Sebelum adanya sistem terpadu ini, alur pendaftaran pasien masih mengandalkan pencatatan fisik dan antrean langsung di loket poliklinik, yang sering kali menimbulkan penumpukan pasien di ruang tunggu, ketidakpastian jam giliran konsultasi, dan potensi kekeliruan pencatatan data riwayat kunjungan. Aplikasi ini hadir memberikan solusi administrasi poliklinik yang modern, tertib, dan transparan.
+
+---
 
 ## Fitur Utama
 
-- **Pendaftaran Pemeriksaan Online**: Mahasiswa dapat mendaftar antrean pemeriksaan secara mandiri tanpa harus menunggu lama di lokasi.
-- **Jadwal Dokter & Poliklinik**: Informasi jadwal praktek dokter umum, gigi, dan layanan konseling secara terperinci.
-- **Riwayat Pelayanan & Surat Izin**: Akses informasi rekam layanan kesehatan dasar mahasiswa.
-- **Antarmuka Responsif & Inklusif**: Desain UI/UX yang ramah mahasiswa dengan navigasi yang mudah dan jelas.
+### 1. Portal Utama & Autentikasi Terpadu (Landing Page)
+- **Tampilan Informatif & Bersih**: Menampilkan profil layanan kesehatan, deskripsi fungsi sistem, serta akses cepat bagi pengguna.
+- **Sistem Autentikasi Pengguna**: Mendukung pendaftaran akun pasien baru (**Register**) dan otentikasi login aman (**Login**) untuk mengakses portal layanan pasien.
 
-## Teknologi yang Digunakan
+### 2. Modul Pendaftaran Pemeriksaan Poli (Daftar Poli)
+- **Pendaftaran Online Mandiri**: Pasien dapat melakukan registrasi pemeriksaan secara mandiri melalui modul *Pendaftaran*, tanpa perlu antre manual di loket fisik.
+- **Pemilihan Jadwal & Input Keluhan**: Pasien dapat menentukan jadwal kedatangan yang tersedia serta mencantumkan keluhan kesehatan awal untuk memudahkan dokter dalam persiapan medis awal.
+- **Penerbitan Nomor Antrean Otomatis**: Sistem secara otomatis meng-generate nomor urut antrean untuk menjaga ketertiban urutan konsultasi pada masing-masing unit poli.
 
-- **Frontend**: HTML5, CSS3, JavaScript, UI Framework
-- **Backend & Database**: PHP, MySQL
-- **Metodologi**: Prototyping UI/UX, User-Centered Design, Agile Development
+### 3. Monitoring Riwayat & Tabel Antrean Pasien
+- **Tinjau Data Pendaftaran**: Menampilkan daftar pendaftaran aktif dengan rincian kolom **Jadwal**, **Keluhan Pasien**, dan **Nomor Antrian**.
+- **Kontrol Data & Paginasi**: Tabel data terstruktur dilengkapi penomoran halaman (*Page pagination*) yang rapi untuk kenyamanan navigasi riwayat pemeriksaan.
+
+---
+
+## Arsitektur & Teknologi yang Digunakan
+
+Aplikasi ini dibangun menggunakan arsitektur **Model-View-Controller (MVC)** yang terstandarisasi:
+
+- **Back-End Framework**: **Laravel (PHP)** — Menyediakan struktur backend yang kuat, routing ekspresif, controller terstruktur, dan middleware autentikasi.
+- **Front-End & UI Templating**: **Blade Templating Engine**, HTML5, CSS3, dan JavaScript untuk interaktivitas form pendaftaran yang responsif.
+- **Database & ORM**: **MySQL** dengan **Eloquent ORM** untuk pemodelan data relasional entitas pasien, dokter, poliklinik, jadwal, dan transaksi pendaftaran.
+- **Keamanan Aplikasi**: Mengimplementasikan CSRF token protection, password hashing (Bcrypt), serta validasi formulir berlapis (*Form Request Validation*) untuk menjamin keaslian data yang masuk ke sistem.
+
+---
+
+## Peran & Tanggung Jawab
+
+Sebagai **Full Stack Web Developer** pada proyek ini, tanggung jawab utama meliputi:
+1. Merancang skema database relasional (ERD) untuk entitas pasien, poli, dokter, dan jadwal pemeriksaan.
+2. Mengembangkan antarmuka front-end responsif mulai dari landing page hingga dashboard portal pendaftaran pasien.
+3. Membangun logika backend Laravel mencakup authentication guard, controller pendaftaran poli, dan algoritma penomoran antrean otomatis.
+4. Melakukan testing fungsionalitas alur registrasi dan pengelolaan data sebelum sistem dioperasikan.

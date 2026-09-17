@@ -224,18 +224,21 @@ const about: About = {
         ],
       },
       {
-        company: "Bimbingan Karir Universitas Dian Nuswantoro",
+        company: "Sistem Manajemen Poliklinik Terpadu – Bimbingan Karir UDINUS",
         timeframe: "Februari 2024",
-        role: "Full Stack Web Developer",
+        role: "Full Stack Web Developer (Laravel)",
         achievements: [
           <>
-            Merancang UI/UX dan mengembangkan antarmuka (front-end) website poliklinik kampus yang responsif untuk mendigitalisasi alur pelayanan kesehatan serta memudahkan akses informasi bagi mahasiswa.
+            Mengembangkan aplikasi web "Sistem Manajemen Poliklinik Terpadu" berbasis framework Laravel untuk mendigitalisasi alur pelayanan kesehatan kampus.
+          </>,
+          <>
+            Membangun modul pendaftaran pemeriksaan pasien online, pemilihan jadwal poli & dokter, pencatatan keluhan awal, serta penerbitan nomor antrean digital secara otomatis.
           </>,
         ],
         images: [
           {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Poliklinik UDINUS",
+            src: "/images/projects/poliklinik/landing-page.png",
+            alt: "Sistem Manajemen Poliklinik Terpadu",
             width: 16,
             height: 9,
           },
