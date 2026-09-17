@@ -1,39 +1,76 @@
 ---
-title: "HealSpace – Self-Check Mental Health Platform"
+title: "HealSpace: AI-Powered Mental Health Self-Check & Virtual Counseling Platform"
 publishedAt: "2026-05-20"
-summary: "Aplikasi web Self-Check Platform yang dirancang dan dikembangkan secara kolaboratif dalam tim dengan fokus pada optimalisasi arsitektur guna memastikan skalabilitas dan performa yang tinggi."
+summary: "Platform kesehatan mental mandiri berbasis React, Django, dan Google Gemini API yang menyediakan asesmen skrining mandiri PHQ-9 dengan visualisasi grafik riwayat tren, konseling AI 24/7 empatik tanpa menghakimi, latihan relaksasi terpandu (box breathing), serta integrasi tombol krisis darurat SOS."
 images:
-  - "/images/projects/project-01/cover-01.jpg"
-  - "/images/projects/project-01/image-01.jpg"
+  - "/images/projects/healspace/dashboard.png"
+  - "/images/projects/healspace/konseling-ai.png"
+  - "/images/projects/healspace/riwayat-asesmen.png"
+  - "/images/projects/healspace/relaksasi-box-breathing.png"
+  - "/images/projects/healspace/login.png"
 team:
   - name: "Muhammad Arinal Haq"
-    role: "Full Stack Web Developer"
+    role: "Full Stack Web Developer (Capstone Project)"
     avatar: "/images/arinal-crop.jpg"
     linkedIn: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5"
-link: "https://github.com/arhaqx/my-capstone-project"
+link: "https://healspace.my.id"
 ---
 
 ## Overview
 
-**HealSpace** adalah proyek akhir (Capstone Project) pada program **Dicoding Fullstack Web Developer Bootcamp**. Proyek ini bertujuan untuk menyediakan platform self-check kesehatan mental berbasis web yang mudah diakses, cepat, dan aman bagi pengguna umum.
+**HealSpace** adalah proyek akhir (**Capstone Project**) dalam program **Dicoding Fullstack Web Developer Bootcamp**. Proyek ini lahir dari kesadaran akan pentingnya kesehatan mental serta tingginya hambatan masyarakat—khususnya generasi muda—dalam mencari pertolongan awal akibat stigma sosial, rasa canggung, maupun keterbatasan biaya konsultasi konvensional.
+
+HealSpace hadir sebagai ruang aman (*safe space*) digital yang menyediakan sarana evaluasi mandiri (*self-check*), teman konseling virtual berbasis kecerdasan buatan (**Google Gemini API**), panduan relaksasi pernapasan interaktif, serta akses cepat ke nomor bantuan krisis (*emergency SOS*).
+
+Aplikasi ini telah aktif dan dapat diakses publik melalui: [https://healspace.my.id](https://healspace.my.id).
+
+---
+
+## Fitur Unggulan
+
+### 1. Konseling AI 24/7 Berbasis Google Gemini API
+- **Teman Curhat Tanpa Menghakimi**: Pengguna dapat menuangkan perasaan, keluhan, dan kecemasan secara bebas kapan saja melalui antarmuka percakapan interaktif (*chat interface*).
+- **Respons Empatik & Konstruktif**: Model AI Gemini diprogram dengan *system prompt* khusus untuk memberikan validasi emosi, sudut pandang positif, dan panduan menenangkan.
+- **Deteksi Krisis & Safety Guardrail**: Sistem memiliki mekanisme pendeteksian sentimen berbahaya (misalnya indikasi keputusasaan berat atau keinginan menyakiti diri). Bila terdeteksi, AI secara otomatis menyarankan pengguna untuk segera menghubungi layanan profesional dan menampilkan kontak darurat resmi (**Layanan Sejiwa di nomor 119 ext 8**).
+
+### 2. Asesmen Mandiri & Pelacakan Skor Klinis PHQ-9
+- **Kuesioner Terstandar**: Mengadopsi instrumen klinis *Patient Health Questionnaire-9 (PHQ-9)* untuk mengukur tingkat keparahan gejala depresi dan gangguan suasana hati.
+- **Kalkulasi & Klasifikasi Otomatis**: Skor total dihitung instan dengan kategori tingkat keparahan (*Mild*, *Moderate*, hingga *Severe*) beserta tanggal dan waktu pengerjaan.
+- **Grafik Tren Kesehatan Mental**: Dilengkapi visualisasi grafik garis interaktif yang memetakan histori skor asesmen dari waktu ke waktu, memudahkan pengguna melihat dinamika pemulihan mentalnya.
+
+### 3. Latihan Relaksasi Interaktif (Box Breathing)
+- **Panduan Napas Terstruktur**: Mengimplementasikan teknik *Box Breathing* (tarik napas 4 detik, tahan 4 detik, hembuskan 4 detik, tahan 4 detik) yang terbukti klinis meredakan kepanikan, kecemasan akut, dan stres.
+- **Visualisasi Dinamis**: Animasi lingkaran mengembang dan menyusut yang tersinkronisasi dengan ritme napas pengguna untuk memberikan pengalaman meditasi yang menenangkan.
+
+### 4. Tombol Darurat Cepat (Floating SOS Button)
+- Tombol aksi cepat berwarna merah (*floating action button*) disematkan di pojok antarmuka di semua halaman, memungkinkan pengguna dalam kondisi krisis emosional langsung mengakses nomor kontak darurat dan saluran bantuan tanpa hambatan alur navigasi.
+
+### 5. Autentikasi Pengguna & Kerahasiaan Riwayat
+- Sistem otentikasi login dan pendaftaran pengguna yang aman untuk melindungi privasi catatan kesehatan mental, percakapan curhat, dan hasil asesmen.
+
+---
+
+## Arsitektur & Tumpukan Teknologi (Tech Stack)
+
+Proyek ini dibangun dengan arsitektur modern yang memisahkan sisi *client* dan *server* secara modular:
+
+- **Front-End**: 
+  - **React (Single Page Application)**: Menyediakan antarmuka web yang reaktif, cepat, dan navigasi mulus tanpa *page reload*.
+  - **Modern UI Styling**: Tampilan bernuansa bersih (*clean UI*), palet warna menenangkan (*soothing blue & purple*), dukungan dark mode toggle, serta komponen responsif untuk desktop dan mobile.
+  - **Data Visualization**: Grafik garis interaktif untuk visualisasi skor PHQ-9 berkala.
+- **Back-End**:
+  - **Django & Django REST Framework (DRF)**: Framework berbasis Python yang tangguh untuk mengelola logika bisnis, autentikasi pengguna, manajemen database relasional, serta penyediaan RESTful API yang aman dan terstruktur.
+- **Artificial Intelligence Integration**:
+  - **Google Gemini API**: Orkestrasi integrasi AI dilakukan melalui backend Django (*server-side proxy*) guna melindungi *API keys* dan menjaga kepatuhan aturan keamanan data.
+- **Deployment**:
+  - Dideploy pada lingkungan server produksi dengan domain kustom terkonfigurasi SSL: [https://healspace.my.id](https://healspace.my.id).
+
+---
 
 ## Peran & Tanggung Jawab
 
-Sebagai **Full Stack Web Developer**, Arinal berkolaborasi secara intensif bersama tim pengembang untuk:
-- Merancang arsitektur aplikasi end-to-end (front-end dan back-end).
-- Mengembangkan RESTful API yang aman dan scalable untuk pemrosesan kuesioner dan data pengguna.
-- Membangun antarmuka pengguna yang responsif, interaktif, dan mudah dipahami dengan React & Next.js.
-- Mengoptimalkan performa queries dan response time server agar platform tetap stabil dalam beban akses tinggi.
-
-## Fitur Utama
-
-- **Kuesioner Self-Check Interaktif**: Alur pertanyaan dinamis dengan kalkulasi skor otomatis untuk indikasi awal kesehatan mental.
-- **Hasil & Rekomendasi Terstruktur**: Tampilan hasil self-check yang informatif disertai saran tindak lanjut yang dapat diunduh atau disimpan.
-- **Manajemen Pengguna & Privasi**: Autentikasi aman dan proteksi data sensitif pengguna.
-- **Dashboard & Analitik Ringkas**: Tampilan monitoring riwayat self-check untuk evaluasi berkala.
-
-## Teknologi yang Digunakan
-
-- **Frontend**: React, Next.js, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express / Hapi, RESTful API
-- **Database & Deployment**: Cloud Database, CI/CD Pipeline
+Sebagai **Full Stack Web Developer** dalam tim Capstone Project Dicoding Bootcamp, tanggung jawab utama meliputi:
+1. Mengembangkan arsitektur aplikasi end-to-end dengan React pada front-end dan Django REST Framework pada back-end.
+2. Mengintegrasikan Google Gemini API pada sistem konseling virtual lengkap dengan *prompt engineering*, penanganan error, dan integrasi hotline darurat anti-krisis.
+3. Membangun visualisasi analitik tren skor PHQ-9 dan fitur interaktif latihan relaksasi Box Breathing.
+4. Melakukan pengujian integrasi API, deployment ke production server, serta konfigurasi domain dan SSL [healspace.my.id](https://healspace.my.id).

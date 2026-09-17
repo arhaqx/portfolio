@@ -164,21 +164,21 @@ const about: About = {
         ],
       },
       {
-        company: "Dicoding Bootcamp (Capstone Project)",
+        company: "HealSpace – Dicoding Bootcamp (Capstone Project)",
         timeframe: "April 2026 – Mei 2026",
         role: "Full Stack Web Developer (Proyek Akhir)",
         achievements: [
           <>
-            Berkolaborasi dalam tim untuk merancang dan mengembangkan "HealSpace", sebuah aplikasi web Self-Check Platform kesehatan mental.
+            Mengembangkan platform kesehatan mental terpadu "HealSpace" (healspace.my.id) menggunakan React dan Django REST Framework dengan integrasi AI konseling interaktif 24/7 berbasis Google Gemini API.
           </>,
           <>
-            Pengembangan sistem diprioritaskan pada optimalisasi arsitektur guna memastikan skalabilitas dan performa yang tinggi.
+            Mengimplementasikan skrining kuesioner PHQ-9 dengan visualisasi grafik tren skor kesehatan emosional, latihan pernapasan interaktif Box Breathing, serta integrasi tombol krisis darurat (SOS).
           </>,
         ],
         images: [
           {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "HealSpace Project",
+            src: "/images/projects/healspace/dashboard.png",
+            alt: "HealSpace AI Mental Health Platform",
             width: 16,
             height: 9,
           },
@@ -347,6 +347,9 @@ const about: About = {
           {
             name: "Azure",
             icon: "azure",
+          },
+          {
+            name: "Gemini API",
           },
           {
             name: "AI Agents",
