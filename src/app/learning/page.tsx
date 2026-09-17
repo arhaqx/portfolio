@@ -34,8 +34,7 @@ export default function Learning() {
         <Column fillWidth gap="12" marginBottom="16">
           <Row vertical="center" gap="8">
             <Text
-              variant="body-default-s"
-              weight="strong"
+              variant="body-strong-s"
               onBackground="brand-strong"
               style={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
             >
