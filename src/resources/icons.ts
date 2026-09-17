@@ -12,6 +12,8 @@ import {
   HiOutlineDocument,
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
+  HiOutlineClock,
+  HiLockClosed,
 } from "react-icons/hi2";
 
 import {
@@ -20,6 +22,10 @@ import {
   PiGridFourDuotone,
   PiBookBookmarkDuotone,
   PiImageDuotone,
+  PiGraduationCapDuotone,
+  PiSparkleDuotone,
+  PiTrophyDuotone,
+  PiCheckCircleDuotone,
 } from "react-icons/pi";
 
 import {
@@ -55,6 +61,12 @@ export const iconLibrary: Record<string, IconType> = {
   calendar: HiCalendarDays,
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
+  graduationCap: PiGraduationCapDuotone,
+  sparkles: PiSparkleDuotone,
+  trophy: PiTrophyDuotone,
+  checkCircle: PiCheckCircleDuotone,
+  clock: HiOutlineClock,
+  lock: HiLockClosed,
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,

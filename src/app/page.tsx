@@ -10,8 +10,10 @@ import {
   Schema,
   Meta,
   Line,
+  Card,
+  Tag,
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
+import { home, about, person, baseURL, routes, learning } from "@/resources";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/projects/Projects";
 import { Posts } from "@/components/blog/Posts";
@@ -103,6 +105,90 @@ export default function Home() {
       <RevealFx translateY="16" delay={0.6}>
         <Projects range={[1, 1]} />
       </RevealFx>
+      {routes["/learning"] && (
+        <Column fillWidth gap="24" marginBottom="l">
+          <Row fillWidth paddingRight="64">
+            <Line maxWidth={48} />
+          </Row>
+          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
+            <Row flex={1} paddingLeft="l" paddingTop="24">
+              <Column gap="8">
+                <Heading as="h2" variant="display-strong-xs" wrap="balance">
+                  Active Learning & Roadmap
+                </Heading>
+                <Text variant="body-default-xs" onBackground="neutral-weak">
+                  Eksplorasi kurikulum intensif, beasiswa, dan sertifikasi terkini.
+                </Text>
+                <Row marginTop="12">
+                  <Button href="/learning" variant="secondary" size="s">
+                    Buka Tracker
+                  </Button>
+                </Row>
+              </Column>
+            </Row>
+            <Row flex={3} paddingX="20" s={{ paddingX: "0" }}>
+              <Column fillWidth gap="12">
+                {learning.tracks.map((track) => (
+                  <Card
+                    key={track.id}
+                    href="/learning"
+                    padding="16"
+                    radius="m"
+                    border="neutral-medium"
+                    background="surface"
+                    fillWidth
+                  >
+                    <Row fillWidth horizontal="between" vertical="center" wrap gap="12">
+                      <Column gap="4">
+                        <Row vertical="center" gap="8">
+                          <Tag size="s">{track.provider}</Tag>
+                          <Text variant="body-default-xs" onBackground="neutral-weak">
+                            {track.level}
+                          </Text>
+                        </Row>
+                        <Text variant="heading-strong-s">{track.program}</Text>
+                        <Text variant="body-default-xs" onBackground="brand-strong">
+                          {track.trackName}
+                        </Text>
+                      </Column>
+                      <Row
+                        padding="4"
+                        paddingX="8"
+                        radius="full"
+                        background={
+                          track.status === "completed"
+                            ? "accent-alpha-weak"
+                            : "brand-alpha-weak"
+                        }
+                        border={
+                          track.status === "completed"
+                            ? "accent-alpha-strong"
+                            : "brand-alpha-strong"
+                        }
+                      >
+                        <Text
+                          variant="body-default-xs"
+                          weight="strong"
+                          onBackground={
+                            track.status === "completed"
+                              ? "accent-strong"
+                              : "brand-strong"
+                          }
+                        >
+                          {track.statusLabel}
+                        </Text>
+                      </Row>
+                    </Row>
+                  </Card>
+                ))}
+              </Column>
+            </Row>
+          </Row>
+          <Row fillWidth paddingLeft="64" horizontal="end">
+            <Line maxWidth={48} />
+          </Row>
+        </Column>
+      )}
       {routes["/blog"] && (
         <Column fillWidth gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">

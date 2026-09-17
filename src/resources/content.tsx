@@ -1,4 +1,4 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import { About, Blog, Gallery, Home, Learning, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
@@ -462,4 +462,118 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+const learning: Learning = {
+  path: "/learning",
+  label: "Learning",
+  title: `Learning & Progress Tracker – ${person.name}`,
+  description: `Roadmap, kelas aktif, dan progres pembelajaran berkelanjutan oleh ${person.name} dalam bidang Cloud, Generative AI, dan Full-Stack Web Development.`,
+  headline: <>Learning Journey & Skill Tracker</>,
+  subline: (
+    <>
+      Dokumentasi kelas, program sertifikasi, dan kurikulum intensif yang sedang ditempuh maupun telah selesai. Menjaga komitmen transparansi belajar berkelanjutan (<em>learn in public</em>).
+    </>
+  ),
+  tracks: [
+    {
+      id: "dbs-coding-camp-2026",
+      program: "Coding Camp 3.0 powered by DBS Foundation",
+      provider: "DBS Foundation & Dicoding Academy",
+      trackName: "Full-Stack Web Developer",
+      level: "Tahap Dasar & Pengenalan",
+      status: "completed",
+      statusLabel: "100% Selesai (1 Bulan Lebih Cepat)",
+      progress: 100,
+      deadline: "28 September 2026",
+      deadlineLabel: "Pengumuman Seleksi Beasiswa Lanjutan (Batch 2): 30 September 2026",
+      announcement: {
+        type: "success",
+        title: "Langkah 3: Selamat! Anda selangkah lebih dekat menuju Beasiswa Kelas Lanjutan 🎉",
+        message: "Seluruh kelas pada setiap milestone telah diselesaikan 100% sebelum batas waktu resmi. Saat ini menunggu pengumuman hasil seleksi Beasiswa Kelas Lanjutan Batch 2 (30 September 2026).",
+      },
+      modules: [
+        {
+          title: "Belajar Dasar Pemrograman Web",
+          status: "completed",
+          tags: ["HTML5", "CSS3", "Responsive Design", "Web Fundamentals"],
+          note: "Penguasaan struktur semantik HTML dan styling modern.",
+        },
+        {
+          title: "Belajar Dasar Pemrograman JavaScript",
+          status: "completed",
+          tags: ["JavaScript", "ES6+", "Async Programming", "Logic"],
+          note: "Algoritma pemrograman, manipulasi data array/object, dan fungsi asinkron.",
+        },
+        {
+          title: "Belajar Membuat Front-End Web untuk Pemula",
+          status: "completed",
+          tags: ["DOM Manipulation", "Web Storage", "Event Handling"],
+          note: "Interaktivitas browser, event listener, dan persistensi client-side storage.",
+        },
+        {
+          title: "Soft Skill: Belajar Strategi Pengembangan Diri",
+          status: "completed",
+          tags: ["Soft Skill", "Growth Mindset", "Time Management"],
+          note: "Pola pikir bertumbuh, strategi manajemen fokus, dan produktivitas insinyur software.",
+        },
+        {
+          title: "Introduction to Financial Literacy",
+          status: "completed",
+          tags: ["Finance", "Financial Literacy", "Investment Basics"],
+          note: "Fondasi pengambilan keputusan finansial dan literasi investasi cerdas.",
+        },
+      ],
+      nextTarget: {
+        title: "Belajar Fundamental Front-End Web Development",
+        description: "Kurikulum beasiswa kelas lanjutan untuk mendalami arsitektur front-end modern, component lifecycle, dan integrasi API mendalam.",
+        status: "Target Seleksi Beasiswa Lanjutan (Pengumuman 30 Sept 2026)",
+      },
+      link: "https://www.dbs.com/foundation",
+    },
+    {
+      id: "aws-ai-academy-2026",
+      program: "AWS AI Academy 2026",
+      provider: "Amazon Web Services (AWS) & Dicoding",
+      trackName: "AWS AI Academy - Level Dasar & Pemula",
+      level: "Level Dasar & Pemula (Cloud & Generative AI)",
+      status: "in-progress",
+      statusLabel: "Sedang Berjalan (Active)",
+      progress: 25,
+      deadline: "31 Desember 2026 pukul 23.59",
+      deadlineLabel: "Deadline Materi: 31 Desember 2026 (Target penyelesaian bertahap)",
+      announcement: {
+        type: "info",
+        title: "Eksplorasi Cloud Infrastructure & Generative AI",
+        message: "Program akselerasi kecerdasan buatan dari AWS untuk menguasai komputasi awan, generative AI dasar, dan penerapan model machine learning praktis.",
+      },
+      modules: [
+        {
+          title: "Spec-Driven Development dengan Kiro",
+          status: "completed",
+          tags: ["AI Methodology", "Specification", "Kiro"],
+          note: "Penerapan metodologi rekayasa perangkat lunak berbasis spesifikasi terarah AI.",
+        },
+        {
+          title: "Belajar Dasar Cloud dan Gen AI di AWS",
+          status: "in-progress",
+          tags: ["AWS", "Cloud Computing", "Generative AI", "Bedrock"],
+          note: "Sedang dipelajari — konsep infrastruktur AWS Cloud & ekosistem Gen AI.",
+        },
+        {
+          title: "Memulai Pemrograman dengan Python",
+          status: "locked",
+          tags: ["Python", "Programming", "OOP"],
+          note: "Modul prasyarat sebelum pendalaman machine learning.",
+        },
+        {
+          title: "Belajar Machine Learning untuk Pemula",
+          status: "upcoming",
+          tags: ["Machine Learning", "Data Modeling", "Supervised Learning"],
+          note: "Pondasi algoritma machine learning dan evaluasi model klasifikasi/regresi.",
+        },
+      ],
+      link: "https://aws.amazon.com",
+    },
+  ],
+};
+
+export { person, social, newsletter, home, about, blog, learning, work, gallery };

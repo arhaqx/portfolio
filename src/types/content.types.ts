@@ -217,11 +217,56 @@ export interface About extends BasePageConfig {
   };
 }
 
-/**
- * Blog page configuration.
- * @description Configuration for the Blog page, including metadata and navigation label.
- */
 export interface Blog extends BasePageConfig {}
+
+/**
+ * Course module item in a learning track.
+ */
+export interface CourseModule {
+  title: string;
+  status: "completed" | "in-progress" | "locked" | "upcoming";
+  tags?: string[];
+  note?: string;
+  completionDate?: string;
+  certificateUrl?: string;
+}
+
+/**
+ * Learning track configuration.
+ */
+export interface LearningTrack {
+  id: string;
+  program: string;
+  provider: string;
+  trackName: string;
+  level: string;
+  status: "completed" | "in-progress" | "upcoming";
+  statusLabel: string;
+  progress: number;
+  deadline?: string;
+  deadlineLabel?: string;
+  announcement?: {
+    type: "success" | "info" | "warning";
+    title: string;
+    message: string;
+  };
+  modules: CourseModule[];
+  nextTarget?: {
+    title: string;
+    description: string;
+    status: string;
+  };
+  link?: string;
+}
+
+/**
+ * Learning page configuration.
+ */
+export interface Learning extends BasePageConfig {
+  headline?: React.ReactNode;
+  subline?: React.ReactNode;
+  tracks: LearningTrack[];
+}
 
 /**
  * Work/projects page configuration.
