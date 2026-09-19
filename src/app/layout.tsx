@@ -52,10 +52,11 @@ export default async function RootLayout({
               (function() {
                 try {
                   const root = document.documentElement;
-                  const defaultTheme = 'system';
+                  const defaultTheme = '${style.theme || "light"}';
                   
                   // Set defaults from config
                   const config = ${JSON.stringify({
+                    theme: style.theme || "light",
                     brand: style.brand,
                     accent: style.accent,
                     neutral: style.neutral,
@@ -75,7 +76,10 @@ export default async function RootLayout({
                   
                   // Resolve theme
                   const resolveTheme = (themeValue) => {
-                    if (!themeValue || themeValue === 'system') {
+                    if (!themeValue) {
+                      return defaultTheme;
+                    }
+                    if (themeValue === 'system') {
                       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                     }
                     return themeValue;
@@ -96,7 +100,7 @@ export default async function RootLayout({
                   });
                 } catch (e) {
                   console.error('Failed to initialize theme:', e);
-                  document.documentElement.setAttribute('data-theme', 'dark');
+                  document.documentElement.setAttribute('data-theme', 'light');
                 }
               })();
             `,
