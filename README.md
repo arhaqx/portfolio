@@ -146,6 +146,8 @@ This project is configured with continuous deployment via **Vercel**:
 
 ---
 
+thanks.
+
 <div align="center">
   <sub>Designed & Developed with ❤️ by <strong>Muhammad Arinal Haq</strong> · © 2026 arhaq.dev</sub>
 </div>
