@@ -51,7 +51,7 @@ const social: Social = [
 
 const home: Home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "/images/og/home.jpg?v=2",
   label: "Home",
   title: `${person.name} – Full Stack Web Developer`,
   description: `Portofolio website ${person.name}, seorang Full Stack Web Developer berdedikasi membangun aplikasi web responsif dan berskala tinggi.`,
