@@ -102,6 +102,9 @@ export default async function RootLayout({
             `,
           }}
         />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/images/logo.png" />
       </head>
       <Providers>
         <Column
