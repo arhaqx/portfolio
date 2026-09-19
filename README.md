@@ -1,94 +1,151 @@
-# Magic Portfolio
+<div align="center">
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+  <img src="public/images/logo.svg" alt="arhaq.dev logo" width="96" height="96" />
 
-View the demo [here](https://demo.magic-portfolio.com).
+  # arhaq.dev
 
-![Magic Portfolio](public/images/og/home.jpg)
+  **Personal Portfolio & Engineering Showcase**  
+  *Crafted by Muhammad Arinal Haq — Full Stack Web Developer & AI Systems Engineer*
 
-Launch your portfolio on [Aveiro](https://www.aveiro.app/marketplace/spotlight), our managed publishing platform. Update case studies, blog posts and content through MCP from your favorite AI tools.
+  [![Live Site](https://img.shields.io/badge/Live_Site-arhaq.dev-38bdf8?style=for-the-badge&logo=vercel&logoColor=white)](https://arhaq.dev)
+  [![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
+  [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+  [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
 
-## Getting started
+  <br />
 
-**1. Clone the repository**
+  <p align="center">
+    <a href="https://arhaq.dev"><strong>🌐 Explore Live Portfolio »</strong></a>
+    <br />
+    <a href="https://arhaq.dev/projects">View Projects</a>
+    ·
+    <a href="https://arhaq.dev/learning">Learning Tracker</a>
+    ·
+    <a href="https://arhaq.dev/about">About Me</a>
+  </p>
+
+</div>
+
+---
+
+## 🌟 Overview
+
+**`arhaq.dev`** is the personal portfolio and digital playground of **Muhammad Arinal Haq**, an Informatics Engineering graduate from Universitas Dian Nuswantoro (UDINUS) and Dicoding Bootcamp Alumni. 
+
+Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases full-stack web applications, autonomous AI agent systems, interactive case studies, and a Notion-style live bootcamp progress tracker.
+
+---
+
+## ✨ Key Features
+
+- ⚡ **Next.js 16 & Turbopack:** Supercharged performance with hybrid Static Site Generation (SSG), Edge runtime routes, and lightning-fast page transitions.
+- 🎨 **Cyber-Dark Design System:** Sleek, minimalist aesthetics built on top of [Once UI](https://once-ui.com), featuring customized typography, neon cyan-indigo accents, and responsive micro-animations.
+- 💎 **Custom ARHAQ Monogram:** High-DPI vector SVG favicon and brand icon designed specifically for `arhaq.dev`.
+- 🛠️ **Interactive Project Showcase:** Detailed MDX case studies with tech stack tags, architecture diagrams, live demo links, and GitHub repository references:
+  - **Hermes Autonomous Agent:** Autonomous AI agent on Microsoft Azure with Google Gemini API.
+  - **HealSpace Platform:** Mental health self-check & consultation web platform (React + Django REST).
+  - **Poliklinik Kampus UDINUS:** Comprehensive clinical registration & medical records system (Laravel).
+  - **Sistem Informasi Parkir PT Worthfind:** Real-time parking management platform (Next.js + Django).
+- 📚 **Notion-Style Learning Tracker (`/learning`):** Real-time interactive progress tracker for ongoing technical programs:
+  - **DBS Foundation Coding Camp 2026** (Alumni Track — 100% Completed ahead of schedule).
+  - **AWS AI Academy 2026** (AI Systems & Cloud Architecture — Active progress).
+- 📱 **Mobile-First & Fully Responsive:** Engineered to deliver a desktop-grade experience across mobile phones, tablets, and ultrawide displays.
+- 🔍 **Production SEO & OpenGraph:** Auto-generated dynamic sitemap (`/sitemap.xml`), robots rules (`/robots.txt`), schema.org JSON-LD, and dynamic social preview cards.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Framework** | [Next.js 16](https://nextjs.org) (App Router, Turbopack) |
+| **Library** | [React 19](https://react.dev) |
+| **Language** | [TypeScript 5](https://www.typescriptlang.org) |
+| **Design & UI** | [Once UI Core](https://once-ui.com), SCSS Modules, CSS Variables |
+| **Content Engine** | MDX (`@next/mdx`, `next-mdx-remote`, `gray-matter`) |
+| **Deployment** | [Vercel](https://vercel.com) (Global Edge Anycast Network) |
+| **Domain & SSL** | Custom Domain (`arhaq.dev`) via Name.com with automated HTTPS |
+
+---
+
+## 📂 Project Structure
+
+```bash
+porto/
+├── public/                  # Static assets (favicons, brand logo, project media)
+│   ├── favicon.svg          # High-DPI vector favicon
+│   ├── favicon.ico          # Legacy desktop favicon
+│   └── images/              # Profile portraits, case study screenshots & logo
+├── src/
+│   ├── app/                 # Next.js App Router pages
+│   │   ├── page.tsx         # Home & Featured Hero section
+│   │   ├── about/           # Profile, work experience & technical skills
+│   │   ├── projects/        # Fullstack & AI projects catalog + [slug] MDX
+│   │   ├── learning/        # Interactive Notion-style progress tracker
+│   │   ├── sitemap.ts       # Automated SEO sitemap generator
+│   │   └── layout.tsx       # Root layout with brand metadata & theme provider
+│   ├── components/          # Reusable UI components (Header, Footer, Cards)
+│   ├── resources/           # Site configuration, content data, and routes
+│   │   ├── content.tsx      # Central source of truth for bio & experiences
+│   │   └── once-ui.config.ts# Domain baseURL, theme variables & route flags
+│   └── types/               # TypeScript interfaces & type definitions
+├── scripts/                 # Utility scripts (icon generation, asset building)
+└── package.json             # Project dependencies and npm scripts
 ```
-git clone https://github.com/once-ui-system/magic-portfolio.git
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js**: v18.18.0 or later (Recommended: v20+)
+- **npm** or **pnpm** / **yarn**
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/arhaqx/portfolio.git
+cd portfolio
 ```
 
-**2. Install dependencies**
-```
+### 2. Install Dependencies
+```bash
 npm install
 ```
 
-**3. Run dev server**
-```
+### 3. Run the Development Server
+```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-**4. Edit config**
-```
-src/resources/once-ui.config.js
-```
-
-**5. Edit content**
-```
-src/resources/content.js
+### 4. Build for Production
+```bash
+npm run build
 ```
 
-**6. Create blog posts / projects**
-```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
-```
+---
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+## 🌐 Deployment
 
-## Documentation
+This project is configured with continuous deployment via **Vercel**:
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+- **Production Branch:** `main`
+- **Custom Domain:** `https://arhaq.dev`
+- **Edge Anycast Routing:** Subdomain `www.arhaq.dev` automatically redirects to `https://arhaq.dev` with end-to-end SSL/TLS encryption.
 
-## Features
+---
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+## 📬 Connect With Me
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+- **Website:** [arhaq.dev](https://arhaq.dev)
+- **LinkedIn:** [Muhammad Arinal Haq](https://www.linkedin.com/in/muhammad-arinal-2451a63a5)
+- **GitHub:** [@arhaqx](https://github.com/arhaqx)
+- **Email:** [arxhaq@gmail.com](mailto:arxhaq@gmail.com)
+- **WhatsApp:** [+62 821-4165-8305](https://wa.me/6282141658305)
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+---
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
-
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
-
-## Creators
-
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
-
-## Get involved
-
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
-
-## License
-
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
-
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
-thanks
+<div align="center">
+  <sub>Designed & Developed with ❤️ by <strong>Muhammad Arinal Haq</strong> · © 2026 arhaq.dev</sub>
+</div>
