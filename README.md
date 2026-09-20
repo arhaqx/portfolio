@@ -41,7 +41,7 @@ Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases
 ## ✨ Key Features
 
 - 🤖 **Interactive RAG AI Chatbot:** An intelligent portfolio assistant powered by **Google Gemini** and an in-memory Retrieval-Augmented Generation (RAG) engine:
-  - Answers recruiter queries regarding tech stack, on-site job readiness, S1 thesis (*IndoBERT sentiment analysis*), leadership, and musical talents.
+  - Answers recruiter queries regarding tech stack, on-site job readiness, S1 thesis (*IndoBERT sentiment analysis on Makan Bergizi Gratis program*), leadership, and musical talents.
   - Natural greeting handling and intent-proportional responses.
   - Real-time Server-Sent Events (SSE) streaming with multi-model automatic failover.
   - Interactive quick-prompt chips, Markdown parsing, and mobile-friendly floating widget.

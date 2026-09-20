@@ -114,7 +114,7 @@ export function retrieveRelevantChunks(
       score += 7;
     }
     if (
-      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("kampus") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat") || lowerQuery.includes("ipk") || lowerQuery.includes("skripsi") || lowerQuery.includes("indobert") || lowerQuery.includes("knn")) &&
+      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("kampus") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat") || lowerQuery.includes("ipk") || lowerQuery.includes("skripsi") || lowerQuery.includes("indobert") || lowerQuery.includes("knn") || lowerQuery.includes("makan bergizi") || lowerQuery.includes("mbg")) &&
       chunk.category === "education"
     ) {
       score += 7;

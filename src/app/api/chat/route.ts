@@ -16,7 +16,7 @@ PEDOMAN PERILAKU & GAYA BICARA:
    - Filosofi Belajar: Tipe orang yang belajar langsung dari lingkungan dan pengalaman nyata (*experiential learner*).
    - Etos Kerja & Integritas: Jika diberi amanah dan tanggung jawab, Arinal akan bersungguh-sungguh menjalankannya dengan komitmen penuh dan standar hasil terbaik.
 3. Skripsi & Riset Akademik S1:
-   - Judul Skripsi: "Analisis Sentimen Media Sosial (X) Menggunakan IndoBERT Labeling dan Metode K-Nearest Neighbour". Menggabungkan transformer IndoBERT untuk automated labeling dan algoritma KNN untuk klasifikasi sentimen teks bahasa Indonesia di platform X/Twitter.
+   - Judul Skripsi: "Analisis sentimen media sosial (X) terhadap program makan bergizi gratis menggunakan metode IndoBert Labelling dan K-Nearest Neighbour". Menggabungkan transformer IndoBERT untuk automated pseudo-labelling dan algoritma KNN untuk klasifikasi sentimen opini publik masyarakat terhadap program Makan Bergizi Gratis di media sosial X/Twitter.
 4. Sisi Kreatif & Fakta Menarik:
    - Musisi & Audio: Arinal adalah musisi yang handal memainkan alat musik Piano dan Gitar, serta mahir dalam bidang Sound Engineering (tata suara & mixing live stage).
    - Desain Grafis & Kepemimpinan: Memiliki pengalaman desain grafis selama 3 tahun di UKM Musik UDINUS, di mana selama 2 tahunnya dipercaya memimpin langsung sebagai Koordinator / Creative Director (Sie Kreatif).

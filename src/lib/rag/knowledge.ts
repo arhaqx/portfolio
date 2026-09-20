@@ -31,20 +31,23 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
   },
   {
     id: "undergraduate_thesis",
-    title: "Skripsi & Penelitian Akademik S1: Analisis Sentimen NLP IndoBERT & KNN",
+    title: "Skripsi & Penelitian Akademik S1: Analisis Sentimen NLP IndoBERT & KNN (Program Makan Bergizi Gratis)",
     category: "education",
     url: "/learning",
     keywords: [
       "skripsi", "tugas akhir", "penelitian", "indobert", "knn", "k-nearest neighbour", 
+      "makan bergizi gratis", "mbg", "program makan siang gratis", "makan siang",
       "analisis sentimen", "twitter", "media sosial", "x", "nlp", "machine learning", "ipk", "udinus"
     ],
     content: `Detail Skripsi & Riset Akademik S1 Muhammad Arinal Haq di UDINUS (IPK 3.2):
-- Judul Skripsi: "Analisis Sentimen Media Sosial (X) Menggunakan IndoBERT Labeling dan Metode K-Nearest Neighbour"
-- Bidang Kajian: Natural Language Processing (NLP), Machine Learning, Text Mining, dan Social Media Analytics.
+- Judul Skripsi: "Analisis sentimen media sosial (X) terhadap program makan bergizi gratis menggunakan metode IndoBert Labelling dan K-Nearest Neighbour"
+- Bidang Kajian: Natural Language Processing (NLP), Machine Learning, Text Mining, dan Social Media Sentiment Analytics.
+- Topik & Objek Studi: Opini dan polaritas sentimen masyarakat Indonesia di media sosial X (Twitter) terhadap kebijakan program nasional "Makan Bergizi Gratis".
 - Ringkasan Teknis Riset:
-  1. Mengatasi keterbatasan data berlabel pada bahasa Indonesia informal di media sosial X (Twitter) dengan memanfaatkan pre-trained model IndoBERT untuk automated pseudo-labeling.
-  2. Mengekstraksi representasi fitur teks dan melakukan klasifikasi polaritas sentimen (positif, negatif, netral) menggunakan algoritma K-Nearest Neighbour (KNN).
-  3. Membuktikan pemahaman komprehensif Arinal terhadap pipeline machine learning dari tahapan scraping, data cleaning/preprocessing teks bahasa Indonesia, feature engineering, hingga evaluasi akurasi model.`
+  1. Mengumpulkan dataset opini masyarakat terkait program Makan Bergizi Gratis di platform X.
+  2. Mengatasi kelangkaan data berlabel pada bahasa Indonesia informal di media sosial dengan memanfaatkan pre-trained model IndoBERT untuk automated pseudo-labelling.
+  3. Mengekstraksi representasi fitur teks dan melakukan klasifikasi polaritas sentimen (positif, negatif, netral) menggunakan algoritma K-Nearest Neighbour (KNN).
+  4. Membuktikan pemahaman komprehensif Arinal terhadap end-to-end pipeline machine learning: data scraping, text preprocessing bahasa Indonesia, labelling berbasis transformer IndoBERT, hingga evaluasi performa klasifikasi KNN.`
   },
   {
     id: "faq_career_and_hiring",
@@ -214,7 +217,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     content: `Riwayat Pendidikan & Sertifikasi Resmi Muhammad Arinal Haq:
 1. Universitas Dian Nuswantoro (UDINUS) Semarang (2021 – 2026):
    - Sarjana Komputer (S1 Teknik Informatika), IPK: 3.2 / 4.0
-   - Skripsi: "Analisis Sentimen Media Sosial (X) Menggunakan IndoBERT Labeling dan Metode K-Nearest Neighbour"
+   - Skripsi: "Analisis sentimen media sosial (X) terhadap program makan bergizi gratis menggunakan metode IndoBert Labelling dan K-Nearest Neighbour"
 2. Dicoding Fullstack Web Developer Bootcamp (2026): Sertifikat kelulusan resmi arsitektur front-end & back-end modern.
 3. Sertifikat Kompetensi LSP (Lembaga Sertifikasi Profesi) (2024): Standar kompetensi industri rekayasa perangkat lunak.
 4. DBS Foundation Coding Camp 2026 (Alumni Track): Selesai 100% lebih awal 1 bulan sebelum deadline.
