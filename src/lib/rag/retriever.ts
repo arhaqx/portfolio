@@ -76,28 +76,34 @@ export function retrieveRelevantChunks(
       score += 5;
     }
     if (
-      (lowerQuery.includes("kontak") || lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("whatsapp") || lowerQuery.includes("hire") || lowerQuery.includes("rekrut") || lowerQuery.includes("gaji") || lowerQuery.includes("kerja sama")) &&
+      (lowerQuery.includes("kontak") || lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("whatsapp") || lowerQuery.includes("hire") || lowerQuery.includes("rekrut") || lowerQuery.includes("gaji") || lowerQuery.includes("kerja") || lowerQuery.includes("onsite") || lowerQuery.includes("on site") || lowerQuery.includes("penempatan") || lowerQuery.includes("fresh graduate") || lowerQuery.includes("internship")) &&
       chunk.category === "contact"
     ) {
       score += 7;
     }
     if (
-      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("kampus") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat") || lowerQuery.includes("ipk") || lowerQuery.includes("lsp")) &&
+      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("kampus") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat") || lowerQuery.includes("ipk") || lowerQuery.includes("skripsi") || lowerQuery.includes("indobert") || lowerQuery.includes("knn")) &&
       chunk.category === "education"
     ) {
-      score += 6;
+      score += 7;
     }
     if (
-      (lowerQuery.includes("organisasi") || lowerQuery.includes("kepemimpinan") || lowerQuery.includes("hmti") || lowerQuery.includes("litbang") || lowerQuery.includes("musik") || lowerQuery.includes("semnasti") || lowerQuery.includes("leadership")) &&
+      (lowerQuery.includes("organisasi") || lowerQuery.includes("kepemimpinan") || lowerQuery.includes("hmti") || lowerQuery.includes("litbang") || lowerQuery.includes("semnasti") || lowerQuery.includes("leadership") || lowerQuery.includes("sie kreatif")) &&
       chunk.category === "organization"
     ) {
       score += 7;
     }
     if (
-      (lowerQuery.includes("magang") || lowerQuery.includes("internship") || lowerQuery.includes("diskominfo") || lowerQuery.includes("kerja") || lowerQuery.includes("pengalaman")) &&
+      (lowerQuery.includes("magang") || lowerQuery.includes("internship") || lowerQuery.includes("diskominfo") || lowerQuery.includes("pengalaman")) &&
       chunk.category === "experience"
     ) {
       score += 6;
+    }
+    if (
+      (lowerQuery.includes("musik") || lowerQuery.includes("musisi") || lowerQuery.includes("piano") || lowerQuery.includes("gitar") || lowerQuery.includes("sound") || lowerQuery.includes("audio") || lowerQuery.includes("desain") || lowerQuery.includes("fakta menarik") || lowerQuery.includes("hobi") || lowerQuery.includes("mbti") || lowerQuery.includes("entj")) &&
+      (chunk.category === "interests" || chunk.category === "profile")
+    ) {
+      score += 8;
     }
 
     return { chunk, score };
