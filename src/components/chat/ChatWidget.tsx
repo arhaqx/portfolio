@@ -408,7 +408,7 @@ export const ChatWidget: React.FC = () => {
             </button>
           </form>
           <p className={styles.disclaimer}>
-            Didukung oleh Gemini 1.5 Flash & Semantic RAG Portfolio
+            Didukung oleh Google Gemini & Semantic RAG Portfolio
           </p>
         </div>
       )}

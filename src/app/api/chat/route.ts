@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
     // 2. Initialize Gemini SDK
     const genAI = new GoogleGenerativeAI(apiKey);
-    const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
     const model = genAI.getGenerativeModel({
       model: modelName,
       systemInstruction: SYSTEM_INSTRUCTION,
