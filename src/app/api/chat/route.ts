@@ -7,22 +7,26 @@ export const runtime = "nodejs";
 const SYSTEM_INSTRUCTION = `Kamu adalah Arinal AI Assistant, asisten virtual cerdas dan resmi untuk portofolio Muhammad Arinal Haq (website: arhaq.dev).
 
 PEDOMAN PERILAKU & GAYA BICARA:
-1. Identitas: Kamu mewakili Muhammad Arinal Haq (Full Stack Web Developer & AI Systems Engineer dari Semarang, lulusan UDINUS, alumni Dicoding Bootcamp, DBS Foundation Coding Camp 2026, dan AWS AI Academy).
-2. Nada & Sikap: Ramah, profesional, sopan, antusias, ringkas, dan solutif.
-3. Bahasa: Bilingual (Bahasa Indonesia dan English). Jawab dengan bahasa yang sama seperti yang digunakan oleh user.
-4. Akurasi Faktual (RAG): Gunakan data faktual yang diberikan dalam konteks. Jangan pernah mengarang data yang bertentangan dengan konteks. Jika ditanya hal yang benar-benar di luar konteks portofolio, jawab secara umum dengan sopan lalu tawarkan untuk menghubungkan dengan Arinal.
-5. Tautan & Rekomendasi: Selalu sertakan link markdown yang relevan ke halaman portofolio jika membahas proyek atau topik terkait, contoh:
+1. Identitas: Kamu mewakili Muhammad Arinal Haq, seorang Full Stack Web Developer & AI Systems Engineer dari Semarang, lulusan S1 Teknik Informatika UDINUS (IPK 3.2), alumni Dicoding Fullstack Web Developer Bootcamp, DBS Foundation Coding Camp 2026, dan AWS AI Academy.
+2. Kualitas & Kedalaman Jawaban:
+   - Ramah, profesional, percaya diri, berwawasan teknis mendalam, dan solutif.
+   - Jawablah secara MENDALAM, INFORMATIF, dan TERSTRUKTUR RAPI (gunakan paragraf pembuka yang jelas, poin-poin/bullet list terperinci, dan kesimpulan/ajakan bertindak).
+   - HINDARI jawaban yang terlalu singkat atau seadanya. Saat menjelaskan proyek atau pengalaman kerja, jelaskan konteks masalahnya, arsitektur/teknologi yang digunakan, tantangan teknisnya, dan dampak nyata (*impact/results*) menggunakan pendekatan STAR (Situation, Task, Action, Result).
+3. Bahasa: Bilingual (Bahasa Indonesia & English). Gunakan bahasa yang sama dengan yang dipakai user.
+4. Akurasi Faktual (RAG): Gunakan fakta resmi yang disertakan dalam konteks (misalnya: magang 6 bulan di Diskominfo Kota Semarang memelihara portal web sekolah dengan PHP/Laravel, proyek HealSpace di https://healspace.my.id, Hermes di Azure VM dengan prompt caching 85% di 9Router, Sistem Parkir PT Worthfind, kepemimpinan 3+ tahun di HMTI Litbang & UKM Musik UDINUS, dll.). Jangan pernah mengarang hal yang bertentangan dengan konteks.
+5. Tautan & Rekomendasi Portofolio: Selalu sertakan link markdown yang relevan agar pengunjung bisa langsung klik:
    - Proyek Hermes: [/projects/hermes-autonomous-agent-azure](/projects/hermes-autonomous-agent-azure)
-   - Sistem Informasi Parkir: [/projects/sistem-informasi-parkir-pt-worthfind](/projects/sistem-informasi-parkir-pt-worthfind)
-   - Poliklinik Kampus: [/projects/poliklinik-kampus-udinus](/projects/poliklinik-kampus-udinus)
-   - Tentang Arinal: [/about](/about)
-   - Pembelajaran / Sertifikasi: [/learning](/learning)
-   - Kontak / Hire: [/contact](/contact)
-6. Kontak Langsung: Jika user ingin merekrut, bekerja sama, atau berdiskusi lebih lanjut, berikan kontak resmi Arinal:
-   - Email: arxhaq@gmail.com
-   - WhatsApp: +62 821-4165-8305
-   - LinkedIn: https://linkedin.com/in/arhaqx
-   - GitHub: https://github.com/arhaqx`;
+   - Proyek HealSpace: [/projects/healspace-self-check-platform](/projects/healspace-self-check-platform) (Website live: [healspace.my.id](https://healspace.my.id))
+   - Sistem Informasi Parkir PT Worthfind: [/projects/sistem-informasi-parkir-pt-worthfind](/projects/sistem-informasi-parkir-pt-worthfind)
+   - Poliklinik Kampus UDINUS: [/projects/poliklinik-kampus-udinus](/projects/poliklinik-kampus-udinus)
+   - Halaman Tentang & Pengalaman: [/about](/about)
+   - Pembelajaran, Sertifikat & Tracker: [/learning](/learning)
+   - Kontak & Rekrut: [/contact](/contact)
+6. Rekrutmen & Kontak Langsung: Jika user bertanya mengenai perekrutan, lowongan kerja, ketersediaan, atau kolaborasi, jelaskan bahwa Arinal terbuka untuk posisi Full Stack, Frontend, Backend, maupun AI/Cloud Engineer (Full-time, Kontrak, Remote, atau Onsite Semarang & sekitarnya), lalu sertakan kontak:
+   - WhatsApp: [+62 821-4165-8305](https://wa.me/6282141658305)
+   - Email: [arxhaq@gmail.com](mailto:arxhaq@gmail.com)
+   - LinkedIn: [linkedin.com/in/muhammad-arinal-2451a63a5](https://linkedin.com/in/muhammad-arinal-2451a63a5)
+   - GitHub: [github.com/arhaqx](https://github.com/arhaqx)`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,8 +40,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 1. RAG Retrieval
-    const relevantChunks = retrieveRelevantChunks(message.trim(), 4);
+    // 1. RAG Retrieval (Ambil hingga 5 chunk paling relevan)
+    const relevantChunks = retrieveRelevantChunks(message.trim(), 5);
     const ragContext = buildContextPrompt(relevantChunks);
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -73,13 +77,12 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 2. Initialize Gemini SDK
+    // 2. Initialize Gemini SDK with model failover list
     const genAI = new GoogleGenerativeAI(apiKey);
-    const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
-    const model = genAI.getGenerativeModel({
-      model: modelName,
-      systemInstruction: SYSTEM_INSTRUCTION,
-    });
+    const primaryModel = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+    const candidateModels = Array.from(
+      new Set([primaryModel, "gemini-3.5-flash-lite", "gemini-3.6-flash"])
+    );
 
     // 3. Build contents with history and injected RAG context
     const contents: Array<{
@@ -101,21 +104,66 @@ export async function POST(req: NextRequest) {
     }
 
     // Final user prompt augmented with RAG facts
-    const userPromptWithContext = `${ragContext}\n\nPertanyaan Pengunjung: "${message.trim()}"\nJawablah dengan ramah, akurat, dan sertakan tautan relevan sesuai instruksi sistem:`;
+    const userPromptWithContext = `${ragContext}\n\nPertanyaan Pengunjung: "${message.trim()}"\nJawablah dengan ramah, berbobot, akurat, mendalam, dan sertakan tautan relevan sesuai instruksi sistem:`;
 
     contents.push({
       role: "user",
       parts: [{ text: userPromptWithContext }],
     });
 
-    // 4. Stream response from Gemini
-    const result = await model.generateContentStream({
-      contents,
-      generationConfig: {
-        temperature: 0.6,
-        maxOutputTokens: 1000,
-      },
-    });
+    // 4. Stream response with automatic model fallback
+    let result = null;
+    let usedModel = "";
+
+    for (const mName of candidateModels) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: mName,
+          systemInstruction: SYSTEM_INSTRUCTION,
+        });
+
+        result = await model.generateContentStream({
+          contents,
+          generationConfig: {
+            temperature: 0.65,
+            maxOutputTokens: 2048,
+          },
+        });
+        usedModel = mName;
+        break; // Successfully started stream
+      } catch (modelErr) {
+        console.warn(`Model ${mName} failed, trying next candidate...`, modelErr);
+      }
+    }
+
+    // If all models failed or threw 503, provide RAG facts stream fallback
+    if (!result) {
+      const fallbackStream = new ReadableStream({
+        start(controller) {
+          const encoder = new TextEncoder();
+          const fallbackText =
+            `*(Catatan: Server AI sedang mengalami antrean padat sementara. Berikut data resmi dari portofolio Arinal terkait pertanyaan Anda:)*\n\n` +
+            relevantChunks
+              .map(
+                (r) =>
+                  `### ${r.chunk.title}\n${r.chunk.content}\n${
+                    r.chunk.url ? `[Buka Halaman Portofolio: ${r.chunk.url}](${r.chunk.url})\n` : ""
+                  }`
+              )
+              .join("\n---\n\n");
+
+          controller.enqueue(encoder.encode(fallbackText));
+          controller.close();
+        },
+      });
+
+      return new Response(fallbackStream, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Transfer-Encoding": "chunked",
+        },
+      });
+    }
 
     const stream = new ReadableStream({
       async start(controller) {

@@ -28,7 +28,7 @@ export function retrieveRelevantChunks(
   if (queryTokens.length === 0) {
     // Default fallback to profile and skills
     const defaults = KNOWLEDGE_BASE.filter(
-      (c) => c.id === "profile_summary" || c.id === "technical_skills"
+      (c) => c.id === "profile_summary" || c.id === "technical_and_soft_skills"
     );
     return defaults.map((chunk) => ({ chunk, score: 1 }));
   }
@@ -59,9 +59,8 @@ export function retrieveRelevantChunks(
 
     // 3. Content matching
     for (const token of queryTokens) {
-      // Count rough occurrences
       const matches = (lowerContent.match(new RegExp(`\\b${token}`, "g")) || []).length;
-      score += Math.min(matches, 3) * 1.5;
+      score += Math.min(matches, 4) * 1.5;
     }
 
     // 4. Exact phrase matching bonus
@@ -71,20 +70,32 @@ export function retrieveRelevantChunks(
 
     // 5. Category intent boosts
     if (
-      (lowerQuery.includes("project") || lowerQuery.includes("proyek") || lowerQuery.includes("karya") || lowerQuery.includes("bikin apa")) &&
+      (lowerQuery.includes("project") || lowerQuery.includes("proyek") || lowerQuery.includes("karya") || lowerQuery.includes("bikin apa") || lowerQuery.includes("portfolio")) &&
       chunk.category === "projects"
     ) {
       score += 5;
     }
     if (
-      (lowerQuery.includes("kontak") || lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("whatsapp") || lowerQuery.includes("hire") || lowerQuery.includes("rekrut")) &&
+      (lowerQuery.includes("kontak") || lowerQuery.includes("contact") || lowerQuery.includes("email") || lowerQuery.includes("whatsapp") || lowerQuery.includes("hire") || lowerQuery.includes("rekrut") || lowerQuery.includes("gaji") || lowerQuery.includes("kerja sama")) &&
       chunk.category === "contact"
     ) {
       score += 7;
     }
     if (
-      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat")) &&
+      (lowerQuery.includes("sekolah") || lowerQuery.includes("kuliah") || lowerQuery.includes("kampus") || lowerQuery.includes("bootcamp") || lowerQuery.includes("dbs") || lowerQuery.includes("dicoding") || lowerQuery.includes("sertifikat") || lowerQuery.includes("ipk") || lowerQuery.includes("lsp")) &&
       chunk.category === "education"
+    ) {
+      score += 6;
+    }
+    if (
+      (lowerQuery.includes("organisasi") || lowerQuery.includes("kepemimpinan") || lowerQuery.includes("hmti") || lowerQuery.includes("litbang") || lowerQuery.includes("musik") || lowerQuery.includes("semnasti") || lowerQuery.includes("leadership")) &&
+      chunk.category === "organization"
+    ) {
+      score += 7;
+    }
+    if (
+      (lowerQuery.includes("magang") || lowerQuery.includes("internship") || lowerQuery.includes("diskominfo") || lowerQuery.includes("kerja") || lowerQuery.includes("pengalaman")) &&
+      chunk.category === "experience"
     ) {
       score += 6;
     }
