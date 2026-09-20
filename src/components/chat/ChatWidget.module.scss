@@ -4,12 +4,36 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 999;
+  z-index: 9999;
   font-family: inherit;
 
   @media (max-width: breakpoints.$s) {
     bottom: 84px;
     right: 16px;
+
+    &.open {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      right: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+.chatBackdrop {
+  display: none;
+
+  @media (max-width: breakpoints.$s) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    pointer-events: auto;
   }
 }
 
@@ -27,6 +51,7 @@
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(16px);
   user-select: none;
+  pointer-events: auto;
 
   &:hover {
     transform: translateY(-2px) scale(1.02);
@@ -100,30 +125,41 @@
   flex-direction: column;
   border-radius: 20px;
   border: 1px solid rgba(140, 160, 255, 0.18);
-  background: var(--surface-card, rgba(17, 20, 29, 0.88));
+  background: var(--surface-card, rgba(17, 20, 29, 0.95));
   backdrop-filter: blur(24px);
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45), 0 0 1px 1px rgba(255, 255, 255, 0.08);
   overflow: hidden;
   animation: modalEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: bottom right;
+  pointer-events: auto;
 
   [data-theme="light"] & {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.98);
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   @media (max-width: breakpoints.$s) {
     position: fixed;
-    bottom: 0;
-    right: 0;
+    top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
-    height: 80vh;
-    max-height: 80vh;
-    border-radius: 24px 24px 0 0;
-    border-bottom: none;
-    animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100dvw;
+    height: 100%;
+    height: 100dvh;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    z-index: 9999;
+    animation: slideUpMobile 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #0f121d;
+
+    [data-theme="light"] & {
+      background: #ffffff;
+    }
   }
 }
 
@@ -155,10 +191,15 @@
   padding: 14px 18px;
   border-bottom: 1px solid rgba(140, 160, 255, 0.12);
   background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
 
   [data-theme="light"] & {
     background: rgba(0, 0, 0, 0.02);
     border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+
+  @media (max-width: breakpoints.$s) {
+    padding-top: max(14px, env(safe-area-inset-top, 14px));
   }
 }
 
@@ -240,6 +281,7 @@
   overflow-x: auto;
   border-bottom: 1px solid rgba(140, 160, 255, 0.08);
   scrollbar-width: none;
+  flex-shrink: 0;
 
   &::-webkit-scrollbar {
     display: none;
@@ -462,9 +504,10 @@
   align-items: center;
   gap: 8px;
   background: rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
 
   [data-theme="light"] & {
-    background: rgba(0, 0, 0, 0.015);
+    background: #ffffff;
     border-top-color: rgba(0, 0, 0, 0.06);
   }
 }
@@ -480,6 +523,11 @@
   outline: none;
   transition: all 0.2s ease;
   font-family: inherit;
+
+  @media (max-width: breakpoints.$s) {
+    font-size: 16px; // Crucial for iOS Safari! Prevents zooming!
+    padding: 12px 14px;
+  }
 
   &:focus {
     border-color: rgba(99, 102, 241, 0.6);
@@ -539,8 +587,13 @@
   padding: 0 10px 8px 10px;
   margin: 0;
   background: rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
 
   [data-theme="light"] & {
-    background: rgba(0, 0, 0, 0.015);
+    background: #ffffff;
+  }
+
+  @media (max-width: breakpoints.$s) {
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
   }
 }

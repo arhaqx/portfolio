@@ -154,12 +154,56 @@ export const ChatWidget: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const chatWindowRef = useRef<HTMLDivElement | null>(null);
+  const [viewportStyle, setViewportStyle] = useState<React.CSSProperties>({});
 
   // Initialize with initial message on client mount
   useEffect(() => {
     setMounted(true);
     setMessages([{ ...INITIAL_MESSAGE, timestamp: formatCurrentTime() }]);
   }, []);
+
+  // Lock mobile body scroll and adapt dynamically to iPhone virtual keyboard
+  useEffect(() => {
+    if (!isOpen) {
+      setViewportStyle({});
+      return;
+    }
+
+    const isMobile = window.innerWidth <= 768;
+    const originalOverflow = document.body.style.overflow;
+
+    if (isMobile) {
+      document.body.style.overflow = "hidden";
+    }
+
+    const handleViewportChange = () => {
+      if (window.innerWidth <= 768 && window.visualViewport) {
+        const { height, offsetTop } = window.visualViewport;
+        setViewportStyle({
+          height: `${height}px`,
+          top: `${offsetTop}px`,
+          bottom: "auto",
+        });
+      } else {
+        setViewportStyle({});
+      }
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", handleViewportChange);
+      window.visualViewport.addEventListener("scroll", handleViewportChange);
+      handleViewportChange();
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("resize", handleViewportChange);
+        window.visualViewport.removeEventListener("scroll", handleViewportChange);
+      }
+    };
+  }, [isOpen]);
 
   // Auto scroll to bottom
   const scrollToBottom = () => {
@@ -169,9 +213,18 @@ export const ChatWidget: React.FC = () => {
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
-      setTimeout(() => inputRef.current?.focus(), 150);
+      // Only autofocus on desktop to prevent iOS keyboard from jumping on open
+      if (window.innerWidth > 768) {
+        setTimeout(() => inputRef.current?.focus(), 150);
+      }
     }
   }, [isOpen, messages, isLoading]);
+
+  const handleInputFocus = () => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 250);
+  };
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -276,7 +329,20 @@ export const ChatWidget: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <div className={styles.chatWidgetContainer}>
+    <div
+      className={`${styles.chatWidgetContainer} ${
+        isOpen ? styles.open : ""
+      }`}
+    >
+      {/* Background Backdrop for Mobile */}
+      {isOpen && (
+        <div
+          className={styles.chatBackdrop}
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Floating Trigger Button */}
       {!isOpen && (
         <button
@@ -294,7 +360,13 @@ export const ChatWidget: React.FC = () => {
 
       {/* Expandable Chat Window */}
       {isOpen && (
-        <div className={styles.chatWindow} role="dialog" aria-modal="true">
+        <div
+          ref={chatWindowRef}
+          style={viewportStyle}
+          className={styles.chatWindow}
+          role="dialog"
+          aria-modal="true"
+        >
           {/* Header */}
           <div className={styles.chatHeader}>
             <div className={styles.headerInfo}>
@@ -398,6 +470,7 @@ export const ChatWidget: React.FC = () => {
               placeholder="Ketik pertanyaan atau klik topik..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onFocus={handleInputFocus}
               disabled={isLoading}
             />
             <button

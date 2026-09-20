@@ -16,6 +16,16 @@ import {
 import { Footer, Header, RouteGuard, Providers, ChatWidget } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  interactiveWidget: "resizes-content",
+};
+
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
