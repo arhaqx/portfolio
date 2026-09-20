@@ -156,11 +156,28 @@ export const ChatWidget: React.FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const chatWindowRef = useRef<HTMLDivElement | null>(null);
   const [viewportStyle, setViewportStyle] = useState<React.CSSProperties>({});
+  const [isMac, setIsMac] = useState(false);
 
   // Initialize with initial message on client mount
   useEffect(() => {
     setMounted(true);
     setMessages([{ ...INITIAL_MESSAGE, timestamp: formatCurrentTime() }]);
+    setIsMac(
+      typeof navigator !== "undefined" &&
+        /Mac|iPhone|iPod|iPad/i.test(navigator.userAgent)
+    );
+  }, []);
+
+  // Global hotkey: Ctrl+K or Cmd+K to toggle chat widget
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, []);
 
   // Lock mobile body scroll and adapt dynamically to iPhone virtual keyboard
@@ -348,12 +365,15 @@ export const ChatWidget: React.FC = () => {
         <button
           className={styles.floatingTrigger}
           onClick={() => setIsOpen(true)}
-          aria-label="Tanya Arinal AI Assistant"
+          aria-label={`Tanya Arinal AI Assistant (${isMac ? "Cmd+K" : "Ctrl+K"})`}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
         >
           <div className={styles.triggerIconWrap}>
             <SparklesIcon />
           </div>
           <span className={styles.triggerLabel}>Tanya Arinal AI</span>
+          <kbd className={styles.shortcutKbd}>{isMac ? "⌘K" : "Ctrl K"}</kbd>
           <span className={styles.badgeOnline} />
         </button>
       )}
@@ -366,6 +386,7 @@ export const ChatWidget: React.FC = () => {
           className={styles.chatWindow}
           role="dialog"
           aria-modal="true"
+          aria-label="Arinal AI Assistant Chat Window"
         >
           {/* Header */}
           <div className={styles.chatHeader}>
@@ -417,7 +438,7 @@ export const ChatWidget: React.FC = () => {
           </div>
 
           {/* Messages Container */}
-          <div className={styles.messagesList}>
+          <div className={styles.messagesList} role="log" aria-live="polite">
             {messages.map((msg) => {
               const isWaiting = msg.role === "assistant" && msg.content === "";
 
