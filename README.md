@@ -62,6 +62,20 @@ Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases
 
 ---
 
+## 🧠 Interactive RAG Chatbot Architecture
+
+```mermaid
+flowchart LR
+    A[Recruiter / Visitor Query] --> B[Tokenized Retriever\nCategory Boost & Exact Match]
+    B --> C[(Domain Knowledge Base\nCV, Thesis, Tech Stack, On-Site)]
+    C --> D[STAR Prompt Assembler]
+    D --> E[Google Gemini 3.5 Flash\nLLM Engine]
+    E --> F[Server-Sent Events\nReal-Time SSE Stream]
+    F --> G[Interactive ChatWidget\nDynamic Viewport & Markdown]
+```
+
+---
+
 ## 🛠️ Tech Stack
 
 | Layer | Technologies |
