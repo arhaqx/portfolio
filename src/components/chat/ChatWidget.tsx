@@ -346,37 +346,39 @@ export const ChatWidget: React.FC = () => {
 
           {/* Messages Container */}
           <div className={styles.messagesList}>
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`${styles.messageRow} ${
-                  msg.role === "user" ? styles.messageUser : styles.messageAssistant
-                }`}
-              >
-                <div className={styles.bubble}>
-                  {renderFormattedContent(msg.content)}
-                </div>
-                {msg.timestamp && (
-                  <span
-                    className={`${styles.timestamp} ${
-                      msg.role === "user" ? styles.userTime : ""
-                    }`}
-                  >
-                    {msg.timestamp}
-                  </span>
-                )}
-              </div>
-            ))}
+            {messages.map((msg) => {
+              const isWaiting = msg.role === "assistant" && msg.content === "";
 
-            {isLoading && messages[messages.length - 1]?.content === "" && (
-              <div className={`${styles.messageRow} ${styles.messageAssistant}`}>
-                <div className={styles.typingIndicator}>
-                  <span />
-                  <span />
-                  <span />
+              return (
+                <div
+                  key={msg.id}
+                  className={`${styles.messageRow} ${
+                    msg.role === "user" ? styles.messageUser : styles.messageAssistant
+                  }`}
+                >
+                  <div className={styles.bubble}>
+                    {isWaiting ? (
+                      <div className={styles.typingDots}>
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                    ) : (
+                      renderFormattedContent(msg.content)
+                    )}
+                  </div>
+                  {!isWaiting && msg.timestamp && (
+                    <span
+                      className={`${styles.timestamp} ${
+                        msg.role === "user" ? styles.userTime : ""
+                      }`}
+                    >
+                      {msg.timestamp}
+                    </span>
+                  )}
                 </div>
-              </div>
-            )}
+              );
+            })}
 
             <div ref={messagesEndRef} />
           </div>
