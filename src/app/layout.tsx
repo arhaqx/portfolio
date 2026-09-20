@@ -74,19 +74,26 @@ export default async function RootLayout({
                     root.setAttribute('data-' + key, value);
                   });
                   
+                  // Ensure default theme is strictly 'light' for new visitors
+                  let savedTheme = null;
+                  try {
+                    savedTheme = localStorage.getItem('data-theme');
+                    if (!savedTheme || savedTheme === 'system') {
+                      savedTheme = defaultTheme || 'light';
+                      localStorage.setItem('data-theme', savedTheme);
+                    }
+                  } catch (e) {
+                    savedTheme = defaultTheme || 'light';
+                  }
+
                   // Resolve theme
                   const resolveTheme = (themeValue) => {
-                    if (!themeValue) {
-                      return defaultTheme;
+                    if (themeValue === 'dark' || themeValue === 'light') {
+                      return themeValue;
                     }
-                    if (themeValue === 'system') {
-                      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    }
-                    return themeValue;
+                    return 'light';
                   };
                   
-                  // Apply saved theme
-                  const savedTheme = localStorage.getItem('data-theme');
                   const resolvedTheme = resolveTheme(savedTheme);
                   root.setAttribute('data-theme', resolvedTheme);
                   

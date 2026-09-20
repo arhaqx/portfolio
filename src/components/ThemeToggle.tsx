@@ -10,17 +10,29 @@ export const ThemeToggle: React.FC = () => {
 
   useEffect(() => {
     setMounted(true);
-    const initial =
-      document.documentElement.getAttribute("data-theme") ||
-      localStorage.getItem("data-theme") ||
-      "light";
+    let initial = null;
+    try {
+      initial = localStorage.getItem("data-theme");
+    } catch {}
+
+    if (!initial || initial === "system") {
+      initial = "light";
+      try {
+        localStorage.setItem("data-theme", "light");
+      } catch {}
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.setAttribute("data-theme", initial);
+    }
     setCurrentTheme(initial);
   }, []);
 
   useEffect(() => {
     const active =
       document.documentElement.getAttribute("data-theme") || theme || "light";
-    setCurrentTheme(active);
+    if (active === "dark" || active === "light") {
+      setCurrentTheme(active);
+    }
   }, [theme]);
 
   const handleToggle = () => {
