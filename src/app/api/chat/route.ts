@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { retrieveRelevantChunks, buildContextPrompt } from "@/lib/rag/retriever";
+import { retrieveRelevantChunks, buildContextPrompt, isGreetingQuery } from "@/lib/rag/retriever";
 
 export const runtime = "nodejs";
 
-const SYSTEM_INSTRUCTION = `Kamu adalah Arinal AI Assistant, asisten virtual cerdas dan resmi untuk portofolio Muhammad Arinal Haq (website: arhaq.dev).
+const SYSTEM_INSTRUCTION = `Kamu adalah Arinal AI Assistant, asisten virtual resmi untuk portofolio Muhammad Arinal Haq (website: arhaq.dev).
 
 PEDOMAN PERILAKU & GAYA BICARA:
 1. Identitas & Status Karir:
@@ -20,11 +20,18 @@ PEDOMAN PERILAKU & GAYA BICARA:
 4. Sisi Kreatif & Fakta Menarik:
    - Musisi & Audio: Arinal adalah musisi yang handal memainkan alat musik Piano dan Gitar, serta mahir dalam bidang Sound Engineering (tata suara & mixing live stage).
    - Desain Grafis & Kepemimpinan: Memiliki pengalaman desain grafis selama 3 tahun di UKM Musik UDINUS, di mana selama 2 tahunnya dipercaya memimpin langsung sebagai Koordinator / Creative Director (Sie Kreatif).
-5. Kualitas & Kedalaman Jawaban:
-   - Ramah, profesional, percaya diri, berwawasan teknis mendalam, dan solutif.
-   - Jawablah secara MENDALAM, INFORMATIF, dan TERSTRUKTUR RAPI (gunakan paragraf pembuka yang jelas, poin-poin/bullet list terperinci, dan kesimpulan/ajakan bertindak).
-   - Saat menjelaskan proyek atau pengalaman kerja, gunakan pendekatan STAR (Situation, Task, Action, Result).
-6. Tautan & Rekomendasi Portofolio: Selalu sertakan link markdown yang relevan agar pengunjung bisa langsung klik:
+
+5. PRINSIP RESPON NATURAL & PROPORSIONAL (SANGAT PENTING):
+   - Jawablah secara NATURAL layaknya manusia mengobrol. JANGAN pernah membeberkan informasi panjang lebar yang TIDAK diminta oleh pengguna!
+   - Kategori 1 - SAPAAN / BASA-BASI (misal: "halo", "hai", "pagi", "assalamualaikum", "ping", "tes"):
+     Balaslah dengan sapaan hangat, ramah, dan RINGKAS (1-2 kalimat saja). Tanyakan apa yang bisa kamu bantu. JANGAN PERNAH menumpahkan ringkasan CV, status karir, atau biografi panjang jika pengguna hanya menyapa!
+   - Kategori 2 - PERTANYAAN SINGKAT / SPESIFIK (misal: "Arinal kuliah di mana?", "Berapa IPK-nya?", "Bisa on-site?", "Apa judul skripsinya?", "Bisa main alat musik apa?"):
+     Jawab langsung ke intinya secara to-the-point, jelas, padat, dan ramah (1-2 kalimat atau 1 paragraf singkat). Jangan membeberkan hal lain di luar yang ditanyakan.
+   - Kategori 3 - PERTANYAAN MENDALAM / MEMINTA PENJELASAN (misal: "Ceritakan proyek Hermes", "Bagaimana pengalaman magang di Diskominfo?", "Jelaskan proyek HealSpace", "Apa saja tech stack Arinal?"):
+     Baru di sini kamu memberikan penjelasan komprehensif, terstruktur dengan bullet points yang rapi, dan menggunakan metode STAR (Situation, Task, Action, Result) bila membahas proyek atau pekerjaan.
+
+6. Tautan & Rekomendasi Portofolio:
+   Sertakan link markdown yang relevan hanya jika topiknya memang sedang dibahas:
    - Proyek Hermes: [/projects/hermes-autonomous-agent-azure](/projects/hermes-autonomous-agent-azure)
    - Proyek HealSpace: [/projects/healspace-self-check-platform](/projects/healspace-self-check-platform) (Website live: [healspace.my.id](https://healspace.my.id))
    - Sistem Informasi Parkir PT Worthfind: [/projects/sistem-informasi-parkir-pt-worthfind](/projects/sistem-informasi-parkir-pt-worthfind)
@@ -32,8 +39,9 @@ PEDOMAN PERILAKU & GAYA BICARA:
    - Halaman Tentang & Pengalaman: [/about](/about)
    - Pembelajaran, Sertifikat & Tracker: [/learning](/learning)
    - Kontak & Rekrut: [/contact](/contact)
+
 7. Rekrutmen & Kontak Langsung:
-   - Jika pengunjung bertanya mengenai rekrutmen, interview, atau penawaran kerja, berikan email prioritas: [arxhaq@gmail.com](mailto:arxhaq@gmail.com) dan WhatsApp: [+62 821-4165-8305](https://wa.me/6282141658305), serta tautan LinkedIn [linkedin.com/in/muhammad-arinal-2451a63a5](https://linkedin.com/in/muhammad-arinal-2451a63a5).`;
+   Jika pengunjung bertanya mengenai rekrutmen, interview, atau penawaran kerja, berikan email prioritas: [arxhaq@gmail.com](mailto:arxhaq@gmail.com) dan WhatsApp: [+62 821-4165-8305](https://wa.me/6282141658305), serta tautan LinkedIn [linkedin.com/in/muhammad-arinal-2451a63a5](https://linkedin.com/in/muhammad-arinal-2451a63a5).`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,9 +55,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 1. RAG Retrieval (Ambil hingga 5 chunk paling relevan)
-    const relevantChunks = retrieveRelevantChunks(message.trim(), 5);
-    const ragContext = buildContextPrompt(relevantChunks);
+    const trimmedMessage = message.trim();
+    const isGreeting = isGreetingQuery(trimmedMessage);
+
+    // 1. RAG Retrieval (Hanya jalankan retrieval data jika bukan sapaan santai)
+    const relevantChunks = isGreeting ? [] : retrieveRelevantChunks(trimmedMessage, 4);
+    const ragContext = isGreeting ? "" : buildContextPrompt(relevantChunks);
 
     const apiKey = process.env.GEMINI_API_KEY;
 
@@ -58,18 +69,25 @@ export async function POST(req: NextRequest) {
       const fallbackStream = new ReadableStream({
         start(controller) {
           const encoder = new TextEncoder();
-          const fallbackText =
-            `*(Catatan: GEMINI_API_KEY belum disetel di file .env server. Berikut hasil retrieval data portofolio Arinal:)*\n\n` +
-            (relevantChunks.length > 0
-              ? relevantChunks
-                  .map(
-                    (r) =>
-                      `**${r.chunk.title}**\n${r.chunk.content}\n${
-                        r.chunk.url ? `Tautan: [Buka Halaman](${r.chunk.url})\n` : ""
-                      }`
-                  )
-                  .join("\n---\n\n")
-              : "Halo! Saya asisten Muhammad Arinal Haq. Silakan hubungi Arinal langsung melalui WhatsApp [+62 821-4165-8305](https://wa.me/6282141658305) atau email arxhaq@gmail.com.");
+          let fallbackText = "";
+
+          if (isGreeting) {
+            fallbackText =
+              "Halo! Selamat datang di platform portofolio Muhammad Arinal Haq. Ada yang bisa saya bantu seputar proyek, keahlian, atau peluang kerja sama dengan Arinal hari ini?";
+          } else {
+            fallbackText =
+              `*(Catatan: GEMINI_API_KEY belum disetel di server. Berikut hasil data portofolio Arinal:)*\n\n` +
+              (relevantChunks.length > 0
+                ? relevantChunks
+                    .map(
+                      (r) =>
+                        `**${r.chunk.title}**\n${r.chunk.content}\n${
+                          r.chunk.url ? `Tautan: [Buka Halaman](${r.chunk.url})\n` : ""
+                        }`
+                    )
+                    .join("\n---\n\n")
+                : "Halo! Silakan hubungi Arinal langsung melalui WhatsApp [+62 821-4165-8305](https://wa.me/6282141658305) atau email arxhaq@gmail.com.");
+          }
 
           controller.enqueue(encoder.encode(fallbackText));
           controller.close();
@@ -110,8 +128,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Final user prompt augmented with RAG facts
-    const userPromptWithContext = `${ragContext}\n\nPertanyaan Pengunjung: "${message.trim()}"\nJawablah dengan ramah, berbobot, akurat, mendalam, dan sertakan tautan relevan sesuai instruksi sistem:`;
+    // Final user prompt: jika sapaan, jangan sertakan wall of text RAG
+    let userPromptWithContext = "";
+    if (isGreeting) {
+      userPromptWithContext = `Pesan Pengunjung: "${trimmedMessage}". Ini adalah sapaan ramah. Balaslah sapaannya secara ramah, hangat, dan SINGKAT (1-2 kalimat saja). Sapa balik, kenalkan diri sebagai Arinal AI Assistant, dan tanyakan dengan sopan apa yang ingin diketahui seputar portofolio, proyek, atau peluang kerja sama dengan Arinal. JANGAN langsung menumpahkan biografi atau profil lengkap.`;
+    } else {
+      userPromptWithContext = `${ragContext}\n\nPertanyaan Pengunjung: "${trimmedMessage}"\nJawablah secara proporsional dan alami sesuai pertanyaan:`;
+    }
 
     contents.push({
       role: "user",
@@ -120,7 +143,6 @@ export async function POST(req: NextRequest) {
 
     // 4. Stream response with automatic model fallback
     let result = null;
-    let usedModel = "";
 
     for (const mName of candidateModels) {
       try {
@@ -136,28 +158,28 @@ export async function POST(req: NextRequest) {
             maxOutputTokens: 2048,
           },
         });
-        usedModel = mName;
         break; // Successfully started stream
       } catch (modelErr) {
         console.warn(`Model ${mName} failed, trying next candidate...`, modelErr);
       }
     }
 
-    // If all models failed or threw 503, provide RAG facts stream fallback
+    // If all models failed or threw 503, provide graceful fallback
     if (!result) {
       const fallbackStream = new ReadableStream({
         start(controller) {
           const encoder = new TextEncoder();
-          const fallbackText =
-            `*(Catatan: Server AI sedang mengalami antrean padat sementara. Berikut data resmi dari portofolio Arinal terkait pertanyaan Anda:)*\n\n` +
-            relevantChunks
-              .map(
-                (r) =>
-                  `### ${r.chunk.title}\n${r.chunk.content}\n${
-                    r.chunk.url ? `[Buka Halaman Portofolio: ${r.chunk.url}](${r.chunk.url})\n` : ""
-                  }`
-              )
-              .join("\n---\n\n");
+          const fallbackText = isGreeting
+            ? "Halo! Selamat datang di portofolio Muhammad Arinal Haq. Ada yang bisa saya bantu seputar proyek, keahlian, atau peluang kolaborasi kerja dengan Arinal?"
+            : `*(Catatan: Server AI sedang mengalami antrean padat sementara. Berikut data resmi dari portofolio Arinal terkait pertanyaan Anda:)*\n\n` +
+              relevantChunks
+                .map(
+                  (r) =>
+                    `### ${r.chunk.title}\n${r.chunk.content}\n${
+                      r.chunk.url ? `[Buka Halaman Portofolio: ${r.chunk.url}](${r.chunk.url})\n` : ""
+                    }`
+                )
+                .join("\n---\n\n");
 
           controller.enqueue(encoder.encode(fallbackText));
           controller.close();

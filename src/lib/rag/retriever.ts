@@ -5,6 +5,34 @@ export interface RetrievedResult {
   score: number;
 }
 
+const GREETING_WORDS = new Set([
+  "halo", "haloo", "halooo", "hello", "hai", "hi", "hey", "hei", 
+  "pagi", "siang", "sore", "malam", "assalamualaikum", "ping", "p", 
+  "tes", "test", "permisi", "oi", "bro", "bray", "kawan"
+]);
+
+/**
+ * Checks if the user message is purely a greeting or small talk.
+ */
+export function isGreetingQuery(query: string): boolean {
+  const clean = query.toLowerCase().replace(/[^\w\s]/g, "").trim();
+  const tokens = clean.split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return true;
+  
+  // If query is short (1-3 words) and consists solely of greeting words / honorifics
+  const allGreetings = tokens.every(
+    (t) =>
+      GREETING_WORDS.has(t) ||
+      t === "selamat" ||
+      t === "arinal" ||
+      t === "bot" ||
+      t === "ai" ||
+      t === "min" ||
+      t === "admin"
+  );
+  return allGreetings && tokens.length <= 3;
+}
+
 /**
  * Normalizes input string into lowercase alphanumeric tokens.
  */
@@ -23,12 +51,16 @@ export function retrieveRelevantChunks(
   query: string,
   maxResults: number = 4
 ): RetrievedResult[] {
+  // If query is just a greeting, do not retrieve heavy chunks
+  if (isGreetingQuery(query)) {
+    return [];
+  }
+
   const queryTokens = tokenize(query);
 
   if (queryTokens.length === 0) {
-    // Default fallback to profile and skills
     const defaults = KNOWLEDGE_BASE.filter(
-      (c) => c.id === "profile_summary" || c.id === "technical_and_soft_skills"
+      (c) => c.id === "profile_summary"
     );
     return defaults.map((chunk) => ({ chunk, score: 1 }));
   }
