@@ -18,7 +18,7 @@ import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resou
 
 import type { Viewport } from "next";
 
-const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-CR24ENKSQ4";
+const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-CR24ENK5Q4";
 
 export const viewport: Viewport = {
   width: "device-width",
