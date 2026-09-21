@@ -17,7 +17,6 @@ import { Footer, Header, RouteGuard, Providers, ChatWidget } from "@/components"
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
 import type { Viewport } from "next";
-import Script from "next/script";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-CR24ENKSQ4";
 
@@ -145,21 +144,18 @@ export default async function RootLayout({
         {/* Google Analytics (gtag.js) */}
         {gaId && (
           <>
-            <Script
-              strategy="afterInteractive"
+            <script
+              async
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
             />
-            <Script
+            <script
               id="google-analytics"
-              strategy="afterInteractive"
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag('js', new Date());
-                  gtag('config', '${gaId}', {
-                    page_path: window.location.pathname,
-                  });
+                  gtag('config', '${gaId}');
                 `,
               }}
             />
