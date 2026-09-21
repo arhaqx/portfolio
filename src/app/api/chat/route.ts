@@ -106,7 +106,13 @@ export async function POST(req: NextRequest) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const primaryModel = process.env.GEMINI_MODEL || "gemini-3.5-flash";
     const candidateModels = Array.from(
-      new Set([primaryModel, "gemini-3.5-flash-lite", "gemini-3.6-flash"])
+      new Set([
+        primaryModel,
+        "gemini-3.5-flash-lite",
+        "gemini-2.5-flash",
+        "gemini-3.6-flash",
+        "gemini-flash-latest",
+      ])
     );
 
     // 3. Build contents with history and injected RAG context
