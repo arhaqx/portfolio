@@ -17,6 +17,9 @@ import { Footer, Header, RouteGuard, Providers, ChatWidget } from "@/components"
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
 import type { Viewport } from "next";
+import Script from "next/script";
+
+const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-CR24ENKSQ4";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -139,6 +142,29 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/images/logo.png" />
+        {/* Google Analytics (gtag.js) */}
+        {gaId && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <Providers>
         <Column
