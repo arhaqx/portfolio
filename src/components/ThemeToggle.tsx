@@ -1,53 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ToggleButton, useTheme } from "@once-ui-system/core";
+import { ToggleButton } from "@once-ui-system/core";
+import { useAppTheme } from "./Providers";
 
 export const ThemeToggle: React.FC = () => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, toggleTheme } = useAppTheme();
   const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     setMounted(true);
-    let initial: string | null = null;
-    try {
-      initial = localStorage.getItem("data-theme");
-    } catch {}
-
-    if (initial !== "dark" && initial !== "light") {
-      initial = "light";
-      try {
-        localStorage.setItem("data-theme", "light");
-      } catch {}
-    }
-
-    document.documentElement.setAttribute("data-theme", initial);
-    setCurrentTheme(initial as "light" | "dark");
   }, []);
-
-  useEffect(() => {
-    const active =
-      document.documentElement.getAttribute("data-theme") ||
-      resolvedTheme ||
-      theme ||
-      "light";
-    if (active === "dark" || active === "light") {
-      setCurrentTheme(active as "light" | "dark");
-    }
-  }, [theme, resolvedTheme]);
-
-  const handleToggle = () => {
-    const nextTheme = currentTheme === "light" ? "dark" : "light";
-    setCurrentTheme(nextTheme);
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    try {
-      localStorage.setItem("data-theme", nextTheme);
-    } catch {}
-    try {
-      setTheme(nextTheme);
-    } catch {}
-  };
 
   if (!mounted) {
     return (
@@ -59,13 +22,15 @@ export const ThemeToggle: React.FC = () => {
     );
   }
 
-  const icon = currentTheme === "dark" ? "light" : "dark";
-  const nextTheme = currentTheme === "light" ? "dark" : "light";
+  // When in light mode, show moon icon ("dark") to prompt switching to dark mode
+  // When in dark mode, show sun icon ("light") to prompt switching to light mode
+  const icon = theme === "dark" ? "light" : "dark";
+  const nextTheme = theme === "light" ? "dark" : "light";
 
   return (
     <ToggleButton
       prefixIcon={icon}
-      onClick={handleToggle}
+      onClick={toggleTheme}
       aria-label={`Switch to ${nextTheme} mode`}
     />
   );
