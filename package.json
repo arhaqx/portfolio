@@ -7,7 +7,8 @@
     "build": "next build",
     "biome-write": "npx @biomejs/biome format --write .",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:features": "node scripts/test-all-features.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
