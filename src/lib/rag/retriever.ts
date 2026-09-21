@@ -11,6 +11,14 @@ const GREETING_WORDS = new Set([
   "tes", "test", "permisi", "oi", "bro", "bray", "kawan"
 ]);
 
+const STOP_WORDS = new Set([
+  "siapa", "siapakah", "apa", "apakah", "kenapa", "mengapa", "bagaimana", "gimana", 
+  "kapan", "dimana", "mana", "ke", "dari", "dan", "atau", "yang", "itu", "ini", 
+  "ada", "adalah", "ia", "dia", "mereka", "kita", "kamu", "anda", "si", "sang", 
+  "nya", "pun", "deh", "dong", "sih", "kan", "kok",
+  "the", "is", "are", "at", "which", "on", "who", "what", "where", "why", "how"
+]);
+
 /**
  * Checks if the user message is purely a greeting or small talk.
  */
@@ -59,10 +67,7 @@ export function retrieveRelevantChunks(
   const queryTokens = tokenize(query);
 
   if (queryTokens.length === 0) {
-    const defaults = KNOWLEDGE_BASE.filter(
-      (c) => c.id === "profile_summary"
-    );
-    return defaults.map((chunk) => ({ chunk, score: 1 }));
+    return [];
   }
 
   const scored: RetrievedResult[] = KNOWLEDGE_BASE.map((chunk) => {
@@ -71,12 +76,13 @@ export function retrieveRelevantChunks(
     const lowerTitle = chunk.title.toLowerCase();
     const lowerContent = chunk.content.toLowerCase();
 
-    // 1. Direct keyword array matching (high priority)
+    // 1. Direct keyword array matching (high priority, skip generic stop words)
     for (const token of queryTokens) {
+      if (STOP_WORDS.has(token)) continue;
       for (const kw of chunk.keywords) {
         if (kw === token) {
           score += 6;
-        } else if (kw.includes(token) || token.includes(kw)) {
+        } else if (kw.length > 2 && token.length > 2 && (kw.includes(token) || token.includes(kw))) {
           score += 3;
         }
       }
@@ -84,6 +90,7 @@ export function retrieveRelevantChunks(
 
     // 2. Title matching
     for (const token of queryTokens) {
+      if (STOP_WORDS.has(token)) continue;
       if (lowerTitle.includes(token)) {
         score += 4;
       }
@@ -91,16 +98,31 @@ export function retrieveRelevantChunks(
 
     // 3. Content matching
     for (const token of queryTokens) {
+      if (STOP_WORDS.has(token)) continue;
       const matches = (lowerContent.match(new RegExp(`\\b${token}`, "g")) || []).length;
       score += Math.min(matches, 4) * 1.5;
     }
 
-    // 4. Exact phrase matching bonus
-    if (lowerContent.includes(lowerQuery)) {
+    // 4. Exact phrase matching bonus (only if query contains non-stop words)
+    const contentSearchableTokens = queryTokens.filter((t) => !STOP_WORDS.has(t));
+    if (contentSearchableTokens.length > 0 && lowerContent.includes(lowerQuery)) {
       score += 8;
     }
 
     // 5. Category intent boosts
+    if (
+      (lowerQuery.includes("siapa kamu") ||
+        lowerQuery.includes("kamu siapa") ||
+        lowerQuery.includes("tentang arinal") ||
+        lowerQuery.includes("profil arinal") ||
+        lowerQuery.includes("siapa arinal") ||
+        lowerQuery.includes("arinal itu siapa") ||
+        lowerQuery.includes("tentang kamu") ||
+        lowerQuery.includes("bisa apa saja")) &&
+      chunk.id === "profile_summary"
+    ) {
+      score += 10;
+    }
     if (
       (lowerQuery.includes("project") || lowerQuery.includes("proyek") || lowerQuery.includes("karya") || lowerQuery.includes("bikin apa") || lowerQuery.includes("portfolio")) &&
       chunk.category === "projects"
@@ -144,18 +166,13 @@ export function retrieveRelevantChunks(
   // Sort by score descending
   scored.sort((a, b) => b.score - a.score);
 
-  // If top score is 0 or very low, ensure profile_summary is included
-  const topResults = scored.slice(0, maxResults);
-  const hasProfile = topResults.some((r) => r.chunk.id === "profile_summary");
-
-  if (!hasProfile && (topResults[0]?.score ?? 0) < 4) {
-    const profileChunk = KNOWLEDGE_BASE.find((c) => c.id === "profile_summary");
-    if (profileChunk) {
-      topResults.unshift({ chunk: profileChunk, score: 2 });
-    }
+  // If no chunks scored or top score is 0, query is completely out-of-scope for the knowledge base
+  if (scored.length === 0 || scored[0].score <= 0) {
+    return [];
   }
 
-  return topResults.slice(0, maxResults);
+  const positiveScored = scored.filter((r) => r.score > 0);
+  return positiveScored.slice(0, maxResults);
 }
 
 /**

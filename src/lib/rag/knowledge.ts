@@ -14,9 +14,10 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     category: "profile",
     url: "/about",
     keywords: [
-      "nama", "profil", "biodata", "siapa", "arinal", "haq", "arhaq", "about", 
+      "nama", "profil", "biodata", "arinal", "haq", "arhaq", "about", 
       "lokasi", "domisili", "semarang", "role", "ipk", "kuliah", "ambisi", "filosofi",
-      "fresh graduate", "mbti", "entj", "karakter", "kepribadian", "musisi"
+      "fresh graduate", "mbti", "entj", "karakter", "kepribadian", "musisi",
+      "asisten", "ai", "bot", "tentang arinal", "arinal ai", "portofolio", "portfolio"
     ],
     content: `Profil Resmi Muhammad Arinal Haq:
 - Nama Lengkap: Muhammad Arinal Haq (biasa dipanggil Arinal, username github: arhaqx).
