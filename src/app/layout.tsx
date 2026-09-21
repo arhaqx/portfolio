@@ -47,6 +47,16 @@ export default async function RootLayout({
       as="html"
       lang={person.locale ?? "en"}
       fillWidth
+      data-theme={style.theme || "light"}
+      data-neutral={style.neutral}
+      data-brand={style.brand}
+      data-accent={style.accent}
+      data-solid={style.solid}
+      data-solid-style={style.solidStyle}
+      data-border={style.border}
+      data-surface={style.surface}
+      data-transition={style.transition}
+      data-scaling={style.scaling}
       className={classNames(
         fonts.heading.variable,
         fonts.body.variable,
@@ -84,11 +94,13 @@ export default async function RootLayout({
                     root.setAttribute('data-' + key, value);
                   });
                   
-                  // Ensure default theme is strictly 'light' for new visitors
+                  // Ensure default theme is strictly 'light' for new visitors unless user explicitly customized
                   let savedTheme = null;
                   try {
-                    savedTheme = localStorage.getItem('data-theme');
-                    if (!savedTheme || savedTheme === 'system') {
+                    const isCustom = localStorage.getItem('data-theme-custom') === 'true';
+                    if (isCustom) {
+                      savedTheme = localStorage.getItem('data-theme');
+                    } else {
                       savedTheme = defaultTheme || 'light';
                       localStorage.setItem('data-theme', savedTheme);
                     }
@@ -107,9 +119,10 @@ export default async function RootLayout({
                   const resolvedTheme = resolveTheme(savedTheme);
                   root.setAttribute('data-theme', resolvedTheme);
                   
-                  // Apply any saved style overrides
+                  // Apply any saved style overrides (excluding theme which is handled above)
                   const styleKeys = Object.keys(config);
                   styleKeys.forEach(key => {
+                    if (key === 'theme') return;
                     const value = localStorage.getItem('data-' + key);
                     if (value) {
                       root.setAttribute('data-' + key, value);

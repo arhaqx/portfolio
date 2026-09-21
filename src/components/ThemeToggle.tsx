@@ -12,7 +12,10 @@ export const ThemeToggle: React.FC = () => {
     setMounted(true);
     let initial = null;
     try {
-      initial = localStorage.getItem("data-theme");
+      const isCustom = localStorage.getItem("data-theme-custom") === "true";
+      if (isCustom) {
+        initial = localStorage.getItem("data-theme");
+      }
     } catch {}
 
     if (!initial || initial === "system") {
@@ -39,7 +42,10 @@ export const ThemeToggle: React.FC = () => {
     const nextTheme = currentTheme === "light" ? "dark" : "light";
     setCurrentTheme(nextTheme);
     document.documentElement.setAttribute("data-theme", nextTheme);
-    localStorage.setItem("data-theme", nextTheme);
+    try {
+      localStorage.setItem("data-theme", nextTheme);
+      localStorage.setItem("data-theme-custom", "true");
+    } catch {}
     try {
       setTheme(nextTheme);
     } catch {
