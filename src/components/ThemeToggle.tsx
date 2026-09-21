@@ -4,39 +4,38 @@ import React, { useEffect, useState } from "react";
 import { ToggleButton, useTheme } from "@once-ui-system/core";
 
 export const ThemeToggle: React.FC = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState("light");
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     setMounted(true);
-    let initial = null;
+    let initial: string | null = null;
     try {
-      const isCustom = localStorage.getItem("data-theme-custom") === "true";
-      if (isCustom) {
-        initial = localStorage.getItem("data-theme");
-      }
+      initial = localStorage.getItem("data-theme");
     } catch {}
 
-    if (!initial || initial === "system") {
+    if (initial !== "dark" && initial !== "light") {
       initial = "light";
       try {
         localStorage.setItem("data-theme", "light");
       } catch {}
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.setAttribute("data-theme", initial);
     }
-    setCurrentTheme(initial);
+
+    document.documentElement.setAttribute("data-theme", initial);
+    setCurrentTheme(initial as "light" | "dark");
   }, []);
 
   useEffect(() => {
     const active =
-      document.documentElement.getAttribute("data-theme") || theme || "light";
+      document.documentElement.getAttribute("data-theme") ||
+      resolvedTheme ||
+      theme ||
+      "light";
     if (active === "dark" || active === "light") {
-      setCurrentTheme(active);
+      setCurrentTheme(active as "light" | "dark");
     }
-  }, [theme]);
+  }, [theme, resolvedTheme]);
 
   const handleToggle = () => {
     const nextTheme = currentTheme === "light" ? "dark" : "light";
@@ -44,13 +43,10 @@ export const ThemeToggle: React.FC = () => {
     document.documentElement.setAttribute("data-theme", nextTheme);
     try {
       localStorage.setItem("data-theme", nextTheme);
-      localStorage.setItem("data-theme-custom", "true");
     } catch {}
     try {
       setTheme(nextTheme);
-    } catch {
-      // Safe fallback
-    }
+    } catch {}
   };
 
   if (!mounted) {

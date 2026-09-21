@@ -96,30 +96,20 @@ export default async function RootLayout({
                     root.setAttribute('data-' + key, value);
                   });
                   
-                  // Ensure default theme is strictly 'light' for new visitors unless user explicitly customized
+                  // Default theme is strictly 'light' for new visitors
                   let savedTheme = null;
                   try {
-                    const isCustom = localStorage.getItem('data-theme-custom') === 'true';
-                    if (isCustom) {
-                      savedTheme = localStorage.getItem('data-theme');
-                    } else {
-                      savedTheme = defaultTheme || 'light';
-                      localStorage.setItem('data-theme', savedTheme);
-                    }
-                  } catch (e) {
-                    savedTheme = defaultTheme || 'light';
+                    savedTheme = localStorage.getItem('data-theme');
+                  } catch (e) {}
+
+                  if (savedTheme !== 'dark' && savedTheme !== 'light') {
+                    savedTheme = 'light';
+                    try {
+                      localStorage.setItem('data-theme', 'light');
+                    } catch (e) {}
                   }
 
-                  // Resolve theme
-                  const resolveTheme = (themeValue) => {
-                    if (themeValue === 'dark' || themeValue === 'light') {
-                      return themeValue;
-                    }
-                    return 'light';
-                  };
-                  
-                  const resolvedTheme = resolveTheme(savedTheme);
-                  root.setAttribute('data-theme', resolvedTheme);
+                  root.setAttribute('data-theme', savedTheme);
                   
                   // Apply any saved style overrides (excluding theme which is handled above)
                   const styleKeys = Object.keys(config);

@@ -25,7 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <LayoutProvider>
       <ThemeProvider
-        theme={(style.theme || "light") as Theme}
+        theme="system"
         brand={style.brand as Schemes}
         accent={style.accent as Schemes}
         neutral={style.neutral as NeutralColor}
