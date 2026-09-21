@@ -24,7 +24,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
 - Target Karir Utama: Memprioritaskan posisi sebagai Full Stack Developer yang sesuai dengan minat dan keahlian mendalamnya.
 - Lokasi & Domisili: Semarang, Jawa Tengah, Indonesia (Sangat bersedia bekerja On-site di Semarang, Jakarta, maupun kota lainnya, serta terbuka untuk opsi Remote/Hybrid).
 - Kontak Resmi Utama: Email: arxhaq@gmail.com | WhatsApp: +62 821-4165-8305.
-- Profil LinkedIn: https://linkedin.com/in/muhammad-arinal-2451a63a5 | GitHub: https://github.com/arhaqx | Website: https://arhaq.dev.
+- Profil LinkedIn: https://linkedin.com/in/arxhaq | GitHub: https://github.com/arhaqx | Website: https://arhaq.dev.
 - Karakter Pribadi & MBTI: ENTJ (The Commander) — Tipe kepribadian yang visioner, berorientasi pada target (goal-oriented), terstruktur, logis, dan memiliki jiwa kepemimpinan alami.
 - Filosofi & Etos Kerja: Arinal adalah tipe pembelajar yang belajar langsung dari lingkungan dan pengalaman nyata (experiential learner). Memiliki integritas tinggi: jika diberi kepercayaan dan tanggung jawab, Arinal akan bersungguh-sungguh memegang amanah dan menuntaskannya dengan standar terbaik.
 - Sisi Kreatif: Selain berkecimpung di dunia software engineering, Arinal adalah seorang musisi (mahir piano & gitar), sound engineer, dan memiliki latar belakang desain grafis yang kuat.`
@@ -72,7 +72,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
 - Cara Menghubungi:
   * Email Prioritas: arxhaq@gmail.com (sangat responsif untuk undangan interview / penawaran kerja)
   * WhatsApp: +62 821-4165-8305
-  * LinkedIn: https://linkedin.com/in/muhammad-arinal-2451a63a5`
+  * LinkedIn: https://linkedin.com/in/arxhaq`
   },
   {
     id: "creative_and_music_talents",

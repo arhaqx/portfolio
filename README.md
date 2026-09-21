@@ -186,7 +186,7 @@ This project is configured with continuous deployment via **Vercel**:
 ## 📬 Connect With Me
 
 - **Website:** [arhaq.dev](https://arhaq.dev)
-- **LinkedIn:** [Muhammad Arinal Haq](https://www.linkedin.com/in/muhammad-arinal-2451a63a5)
+- **LinkedIn:** [Muhammad Arinal Haq](https://linkedin.com/in/arxhaq)
 - **GitHub:** [@arhaqx](https://github.com/arhaqx)
 - **Email:** [arxhaq@gmail.com](mailto:arxhaq@gmail.com)
 - **WhatsApp:** [+62 821-4165-8305](https://wa.me/6282141658305)

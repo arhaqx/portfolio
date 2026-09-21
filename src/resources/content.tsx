@@ -32,7 +32,7 @@ const social: Social = [
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/in/muhammad-arinal-2451a63a5",
+    link: "https://linkedin.com/in/arxhaq",
     essential: true,
   },
   {
