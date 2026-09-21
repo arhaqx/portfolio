@@ -231,6 +231,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     keywords: [
       "hard skill", "soft skill", "keahlian", "teknologi", "stack", "bahasa", 
       "react", "nextjs", "laravel", "python", "typescript", "azure", "docker", 
+      "google analytics", "ga4", "analytics", "utm", "telemetri",
       "sound engineering", "desain grafis", "mbti", "entj"
     ],
     content: `Daftar Lengkap Keahlian Muhammad Arinal Haq:
@@ -239,7 +240,8 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
    - Front-End: React 19, Next.js 16 (App Router, Server Components, SSR/SSG), Blade.
    - Back-End: Node.js, Express.js, Django, Django REST Framework, Laravel.
    - Database: PostgreSQL, MySQL.
-   - Cloud & DevOps: Microsoft Azure VM, Vercel, Linux Ubuntu 24.04 LTS, Bash, Systemd, Git/GitHub.
+   - Cloud, DevOps & Tools: Microsoft Azure VM, Vercel, Linux Ubuntu 24.04 LTS, Bash, Systemd, Git/GitHub.
+   - Web Analytics & Telemetri: Google Analytics 4 (GA4), UTM Campaign Tracking, Real-Time Visitor Metrics.
    - AI & Data Science: Autonomous AI Agents, RAG Architecture, NLP (IndoBERT, Text Classification, KNN), 9Router Proxy.
 2. Keahlian Kreatif & Multimedia:
    - Desain Grafis: Desain visual branding, poster acara, tipografi, dan komposisi UI (3 tahun di Sie Kreatif).

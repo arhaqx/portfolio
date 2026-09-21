@@ -372,6 +372,28 @@ const about: About = {
         images: [],
       },
       {
+        title: "Web Analytics, DevOps & Tools",
+        description: (
+          <>Pengukuran metrik dan traffic pengguna dengan Google Analytics 4 (GA4), pelacakan campaign UTM, version control Git/GitHub, dan deployment platform.</>
+        ),
+        tags: [
+          {
+            name: "Google Analytics 4",
+          },
+          {
+            name: "UTM Campaign Tracking",
+          },
+          {
+            name: "Git / GitHub",
+            icon: "github",
+          },
+          {
+            name: "Vercel",
+          },
+        ],
+        images: [],
+      },
+      {
         title: "Soft Skills & Kolaborasi",
         description: (
           <>Terbiasa memecahkan masalah teknis kompleks, bekerja sama dalam tim, komunikatif, dan memiliki manajemen waktu yang baik.</>

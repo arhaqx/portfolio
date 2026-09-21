@@ -11,6 +11,7 @@
   [![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
   [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
   [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+  [![Google Analytics](https://img.shields.io/badge/Google_Analytics_4-E37400?style=for-the-badge&logo=googleanalytics&logoColor=white)](https://analytics.google.com/)
   [![Google Gemini](https://img.shields.io/badge/Google_Gemini-RAG_AI-8E75FF?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
   [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
 
@@ -59,6 +60,7 @@ Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases
   - **AWS AI Academy 2026** (AI Systems & Cloud Architecture — Active progress).
 - 📱 **Mobile-First & Fully Responsive:** Optimized for mobile screens, tablets, and ultrawide monitors.
 - 🔍 **Production SEO & OpenGraph:** Auto-generated dynamic sitemap (`/sitemap.xml`), robots rules (`/robots.txt`), schema.org JSON-LD, and dynamic social preview cards.
+- 📈 **Web Analytics & Campaign Tracking:** Telemetri **Google Analytics 4 (GA4)** via `@next/third-parties/google` dengan pelacakan otomatis pageview, atribusi campaign UTM custom, dan analitik pengunjung real-time.
 
 ---
 
@@ -84,6 +86,7 @@ flowchart LR
 | **Library** | [React 19](https://react.dev) |
 | **Language** | [TypeScript 5](https://www.typescriptlang.org) |
 | **AI & RAG Engine** | [Google Generative AI SDK](https://ai.google.dev/) (`@google/generative-ai`), Custom In-Memory Tokenized Retriever, Server-Sent Events (SSE) Streaming |
+| **Analytics & Telemetry** | [Google Analytics 4 (GA4)](https://analytics.google.com/) (`@next/third-parties/google`) |
 | **Design & UI** | [Once UI Core](https://once-ui.com), SCSS Modules, CSS Variables |
 | **Content Engine** | MDX (`@next/mdx`, `next-mdx-remote`, `gray-matter`) |
 | **Deployment** | [Vercel](https://vercel.com) (Global Edge Anycast Network) |
@@ -149,13 +152,14 @@ Create a `.env.local` file by copying `.env.example`:
 cp .env.example .env.local
 ```
 
-Fill in your Google AI Studio API key:
+Fill in your API keys and configuration:
 ```env
 GEMINI_API_KEY=your_google_gemini_api_key_here
 GEMINI_MODEL=gemini-3.5-flash
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
-> **Note:** Obtain a free API key directly from [Google AI Studio](https://aistudio.google.com/).
+> **Note:** Obtain a free Gemini API key from [Google AI Studio](https://aistudio.google.com/) and Google Analytics 4 Measurement ID from [Google Analytics](https://analytics.google.com/).
 
 ### 4. Run the Development Server
 ```bash
@@ -179,6 +183,7 @@ This project is configured with continuous deployment via **Vercel**:
 - **Environment Variables Required in Vercel:**
   - `GEMINI_API_KEY`: Google Gemini API Key for server-side RAG streaming.
   - `GEMINI_MODEL`: (Optional) `gemini-3.5-flash`.
+  - `NEXT_PUBLIC_GA_ID`: Google Analytics 4 Measurement ID (e.g. `G-CR24ENK5Q4`).
 - **Edge Anycast Routing:** Subdomain `www.arhaq.dev` automatically redirects to `https://arhaq.dev` with end-to-end SSL/TLS encryption.
 
 ---
