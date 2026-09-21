@@ -136,25 +136,7 @@ async function run() {
   fs.writeFileSync(path.join(publicDir, 'favicon.svg'), svgContent, 'utf8');
   console.log('Saved: logo.svg & favicon.svg');
 
-  console.log('--- 3. Processing Profile Avatar (arinal-crop.jpg & avatar.jpg) ---');
-  // Crop centered on the blue circle so that Once UI <Avatar size="xl" /> clips perfectly
-  // Circle center is approx (512, 473), diameter 864
-  const cropSize = 880;
-  const left = Math.round(512 - cropSize / 2);
-  const top = Math.round(473 - cropSize / 2);
 
-  await sharp(sourceImage)
-    .extract({ left, top, width: cropSize, height: cropSize })
-    .resize(1024, 1024)
-    .jpeg({ quality: 95, chromaSubsampling: '4:4:4' })
-    .toFile(path.join(imagesDir, 'arinal-crop.jpg'));
-
-  await sharp(sourceImage)
-    .extract({ left, top, width: cropSize, height: cropSize })
-    .resize(1024, 1024)
-    .jpeg({ quality: 95, chromaSubsampling: '4:4:4' })
-    .toFile(path.join(imagesDir, 'avatar.jpg'));
-  console.log('Saved: arinal-crop.jpg & avatar.jpg');
 
   console.log('--- 4. Generating Favicons & App Icons ---');
   // 32x32 for icon.png
