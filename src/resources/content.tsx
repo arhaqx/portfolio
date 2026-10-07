@@ -251,6 +251,10 @@ const about: About = {
     title: "Pendidikan & Sertifikasi",
     institutions: [
       {
+        name: "Universitas Dian Nuswantoro (UDINUS)",
+        description: <>S1 Teknik Informatika</>,
+      },
+      {
         name: "IBM Skills Network & Coursera",
         description: (
           <>
@@ -265,10 +269,6 @@ const about: About = {
             </a>
           </>
         ),
-      },
-      {
-        name: "Universitas Dian Nuswantoro (UDINUS)",
-        description: <>S1 Teknik Informatika</>,
       },
       {
         name: "Dicoding Academy",

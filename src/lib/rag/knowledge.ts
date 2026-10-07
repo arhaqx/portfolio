@@ -218,12 +218,12 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
       "ibm", "coursera", "ibm full-stack", "javascript developer", "mongodb", "docker", "kubernetes", "microservices", "openshift", "serverless", "capstone"
     ],
     content: `Riwayat Pendidikan & Sertifikasi Resmi Muhammad Arinal Haq:
-1. IBM Full-Stack JavaScript Developer Professional Certificate (IBM Skills Network & Coursera, Oktober 2026):
-   - Sertifikasi profesional komprehensif terdiri dari 12 spesialisasi kursus: Software Engineering, HTML/CSS/JS, Git/GitHub, JavaScript Essentials, React Front-End, Node.js & Express Back-End, Cloud Native & DevOps & NoSQL, Containers (Docker, Kubernetes & OpenShift), Microservices & Serverless, Node.js & MongoDB Database, Full Stack Capstone Project, dan Software Developer Career Guide.
-   - Verifikasi Kredensial Resmi: https://coursera.org/verify/professional-cert/WIG8NPYN363B (Credential ID: WIG8NPYN363B).
-2. Universitas Dian Nuswantoro (UDINUS) Semarang (2021 – 2026):
+1. Universitas Dian Nuswantoro (UDINUS) Semarang (2021 – 2026):
    - Sarjana Komputer (S1 Teknik Informatika), IPK: 3.2 / 4.0
    - Skripsi: "Analisis sentimen media sosial (X) terhadap program makan bergizi gratis menggunakan metode IndoBert Labelling dan K-Nearest Neighbour"
+2. IBM Full-Stack JavaScript Developer Professional Certificate (IBM Skills Network & Coursera, Oktober 2026):
+   - Sertifikasi profesional komprehensif terdiri dari 12 spesialisasi kursus: Software Engineering, HTML/CSS/JS, Git/GitHub, JavaScript Essentials, React Front-End, Node.js & Express Back-End, Cloud Native & DevOps & NoSQL, Containers (Docker, Kubernetes & OpenShift), Microservices & Serverless, Node.js & MongoDB Database, Full Stack Capstone Project, dan Software Developer Career Guide.
+   - Verifikasi Kredensial Resmi: https://coursera.org/verify/professional-cert/WIG8NPYN363B (Credential ID: WIG8NPYN363B).
 3. Dicoding Fullstack Web Developer Bootcamp (2026): Sertifikat kelulusan resmi arsitektur front-end & back-end modern.
 4. Sertifikat Kompetensi LSP (Lembaga Sertifikasi Profesi) (2024): Standar kompetensi industri rekayasa perangkat lunak.
 5. DBS Foundation Coding Camp 2026 (Alumni Track): Selesai 100% lebih awal 1 bulan sebelum deadline.
