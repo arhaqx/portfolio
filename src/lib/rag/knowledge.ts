@@ -15,13 +15,14 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     url: "/about",
     keywords: [
       "nama", "profil", "biodata", "arinal", "haq", "arhaq", "about", 
-      "lokasi", "domisili", "semarang", "role", "ipk", "kuliah", "ambisi", "filosofi",
       "fresh graduate", "mbti", "entj", "karakter", "kepribadian", "musisi",
-      "asisten", "ai", "bot", "tentang arinal", "arinal ai", "portofolio", "portfolio"
+      "asisten", "ai", "bot", "tentang arinal", "arinal ai", "portofolio", "portfolio",
+      "ibm", "coursera", "sertifikasi"
     ],
     content: `Profil Resmi Muhammad Arinal Haq:
 - Nama Lengkap: Muhammad Arinal Haq (biasa dipanggil Arinal, username github: arhaqx).
 - Status Saat Ini: Fresh Graduate S1 Teknik Informatika UDINUS yang sedang aktif mencari pekerjaan (Open to Work).
+- Sertifikasi Profesional: Pemegang sertifikasi profesional IBM Full-Stack JavaScript Developer (12 spesialisasi kursus via IBM Skills Network & Coursera, Oktober 2026).
 - Target Karir Utama: Memprioritaskan posisi sebagai Full Stack Developer yang sesuai dengan minat dan keahlian mendalamnya.
 - Lokasi & Domisili: Semarang, Jawa Tengah, Indonesia (Sangat bersedia bekerja On-site di Semarang, Jakarta, maupun kota lainnya, serta terbuka untuk opsi Remote/Hybrid).
 - Kontak Resmi Utama: Email: arxhaq@gmail.com | WhatsApp: +62 821-4165-8305.
@@ -213,16 +214,20 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     url: "/learning",
     keywords: [
       "pendidikan", "kuliah", "kampus", "udinus", "ipk", "skripsi", "dicoding", 
-      "dbs", "aws", "sertifikat", "lsp", "kompetensi", "bootcamp"
+      "dbs", "aws", "sertifikat", "lsp", "kompetensi", "bootcamp",
+      "ibm", "coursera", "ibm full-stack", "javascript developer", "mongodb", "docker", "kubernetes", "microservices", "openshift", "serverless", "capstone"
     ],
     content: `Riwayat Pendidikan & Sertifikasi Resmi Muhammad Arinal Haq:
-1. Universitas Dian Nuswantoro (UDINUS) Semarang (2021 – 2026):
+1. IBM Full-Stack JavaScript Developer Professional Certificate (IBM Skills Network & Coursera, Oktober 2026):
+   - Sertifikasi profesional komprehensif terdiri dari 12 spesialisasi kursus: Software Engineering, HTML/CSS/JS, Git/GitHub, JavaScript Essentials, React Front-End, Node.js & Express Back-End, Cloud Native & DevOps & NoSQL, Containers (Docker, Kubernetes & OpenShift), Microservices & Serverless, Node.js & MongoDB Database, Full Stack Capstone Project, dan Software Developer Career Guide.
+   - Verifikasi Kredensial Resmi: https://coursera.org/verify/professional-cert/WIG8NPYN363B (Credential ID: WIG8NPYN363B).
+2. Universitas Dian Nuswantoro (UDINUS) Semarang (2021 – 2026):
    - Sarjana Komputer (S1 Teknik Informatika), IPK: 3.2 / 4.0
    - Skripsi: "Analisis sentimen media sosial (X) terhadap program makan bergizi gratis menggunakan metode IndoBert Labelling dan K-Nearest Neighbour"
-2. Dicoding Fullstack Web Developer Bootcamp (2026): Sertifikat kelulusan resmi arsitektur front-end & back-end modern.
-3. Sertifikat Kompetensi LSP (Lembaga Sertifikasi Profesi) (2024): Standar kompetensi industri rekayasa perangkat lunak.
-4. DBS Foundation Coding Camp 2026 (Alumni Track): Selesai 100% lebih awal 1 bulan sebelum deadline.
-5. AWS AI Academy 2026: Cloud architecture, machine learning, dan Generative AI.`
+3. Dicoding Fullstack Web Developer Bootcamp (2026): Sertifikat kelulusan resmi arsitektur front-end & back-end modern.
+4. Sertifikat Kompetensi LSP (Lembaga Sertifikasi Profesi) (2024): Standar kompetensi industri rekayasa perangkat lunak.
+5. DBS Foundation Coding Camp 2026 (Alumni Track): Selesai 100% lebih awal 1 bulan sebelum deadline.
+6. AWS AI Academy 2026: Cloud architecture, machine learning, dan Generative AI.`
   },
   {
     id: "technical_and_soft_skills",
@@ -231,7 +236,8 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     url: "/about",
     keywords: [
       "hard skill", "soft skill", "keahlian", "teknologi", "stack", "bahasa", 
-      "react", "nextjs", "laravel", "python", "typescript", "azure", "docker", 
+      "react", "nextjs", "express", "laravel", "python", "typescript", "azure", "docker", 
+      "kubernetes", "mongodb", "nosql", "microservices", "openshift", "serverless",
       "google analytics", "ga4", "analytics", "utm", "telemetri",
       "sound engineering", "desain grafis", "mbti", "entj"
     ],
@@ -240,8 +246,8 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
    - Bahasa: TypeScript, JavaScript (ES6+), Python, PHP.
    - Front-End: React 19, Next.js 16 (App Router, Server Components, SSR/SSG), Blade.
    - Back-End: Node.js, Express.js, Django, Django REST Framework, Laravel.
-   - Database: PostgreSQL, MySQL.
-   - Cloud, DevOps & Tools: Microsoft Azure VM, Vercel, Linux Ubuntu 24.04 LTS, Bash, Systemd, Git/GitHub.
+   - Database: MongoDB / NoSQL, PostgreSQL, MySQL.
+   - Cloud, Containers, DevOps & Tools: Docker, Kubernetes, Red Hat OpenShift, Microservices, Serverless Computing, CI/CD Pipeline, Microsoft Azure VM, Vercel, Linux Ubuntu 24.04 LTS, Bash, Systemd, Git/GitHub.
    - Web Analytics & Telemetri: Google Analytics 4 (GA4), UTM Campaign Tracking, Real-Time Visitor Metrics.
    - AI & Data Science: Autonomous AI Agents, RAG Architecture, NLP (IndoBERT, Text Classification, KNN), 9Router Proxy.
 2. Keahlian Kreatif & Multimedia:

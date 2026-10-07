@@ -38,6 +38,7 @@ interface Message {
 }
 
 const QUICK_PROMPTS = [
+  "📜 Sertifikasi IBM Full-Stack JavaScript",
   "🚀 Ceritakan proyek Hermes di Azure",
   "🛠️ Apa tech stack utama Arinal?",
   "🎓 Status DBS Coding Camp 2026",
@@ -48,7 +49,7 @@ const INITIAL_MESSAGE: Message = {
   id: "welcome",
   role: "assistant",
   content:
-    "Halo! 👋 Saya **Arinal AI Assistant**, asisten cerdas yang didukung teknologi **RAG (Retrieval-Augmented Generation)** dan Google Gemini.\n\nSaya siap menjawab pertanyaan seputar portofolio, proyek (seperti Hermes AI di Azure, Healspace, Parkir), pendidikan (UDINUS, Dicoding, DBS Camp), maupun opsi kolaborasi kerja dengan Muhammad Arinal Haq.\n\nApa yang ingin Anda ketahui hari ini?",
+    "Halo! 👋 Saya **Arinal AI Assistant**, asisten cerdas yang didukung teknologi **RAG (Retrieval-Augmented Generation)** dan Google Gemini.\n\nSaya siap menjawab pertanyaan seputar portofolio, proyek (seperti Hermes AI di Azure, Healspace, Parkir), sertifikasi profesional (IBM Full-Stack JavaScript, Dicoding, DBS Camp), pendidikan, maupun opsi kolaborasi kerja dengan Muhammad Arinal Haq.\n\nApa yang ingin Anda ketahui hari ini?",
   timestamp: "",
 };
 

@@ -151,10 +151,10 @@ export default function LearningTracker() {
                 gap="4"
               >
                 <Text variant="body-default-xs" onBackground="neutral-weak">
-                  Milestone Penting
+                  Pencapaian Terbaru
                 </Text>
                 <Text variant="body-strong-s">
-                  30 Sept 2026
+                  IBM Certified (Okt 2026)
                 </Text>
               </Column>
             </Grid>
@@ -213,6 +213,24 @@ export default function LearningTracker() {
                         {track.provider}
                       </Tag>
                       <Tag size="s">{track.level}</Tag>
+                      {track.link && (
+                        <a
+                          href={track.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "4px",
+                            fontSize: "0.75rem",
+                            color: "var(--brand-strong)",
+                            textDecoration: "underline",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Verifikasi Kredensial ↗
+                        </a>
+                      )}
                     </Row>
                     <Heading as="h3" variant="heading-strong-m" wrap="balance">
                       {track.program}

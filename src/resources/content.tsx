@@ -97,7 +97,7 @@ const about: About = {
     title: "Ringkasan Profil",
     description: (
       <>
-        Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro dan Dicoding Fullstack Web Developer Bootcamp yang berdedikasi membangun aplikasi web responsif dan berskala tinggi. Memiliki pengalaman praktis mengembangkan sisi front-end dan back-end menggunakan React, Next.js, Node.js, Django, dan Laravel.
+        Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro, pemegang sertifikasi profesional <strong>IBM Full-Stack JavaScript Developer</strong>, dan alumni Dicoding Fullstack Web Developer Bootcamp. Berdedikasi membangun aplikasi web modern, cloud-native, responsif, dan berskala tinggi menggunakan React, Next.js, Node.js, Express, MongoDB, Django, dan Laravel.
         <br /><br />
         Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek dan terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang efisien.
       </>
@@ -251,6 +251,22 @@ const about: About = {
     title: "Pendidikan & Sertifikasi",
     institutions: [
       {
+        name: "IBM Skills Network & Coursera",
+        description: (
+          <>
+            IBM Full-Stack JavaScript Developer Professional Certificate (12 Spesialisasi Kursus, 2026) •{" "}
+            <a
+              href="https://coursera.org/verify/professional-cert/WIG8NPYN363B"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "underline" }}
+            >
+              Verifikasi Kredensial
+            </a>
+          </>
+        ),
+      },
+      {
         name: "Universitas Dian Nuswantoro (UDINUS)",
         description: <>S1 Teknik Informatika</>,
       },
@@ -307,12 +323,22 @@ const about: About = {
       {
         title: "Backend Development",
         description: (
-          <>Perancangan RESTful API, arsitektur server, manajemen database, dan integrasi logika bisnis.</>
+          <>Perancangan RESTful API, arsitektur server, manajemen database SQL & NoSQL, serta integrasi logika bisnis.</>
         ),
         tags: [
           {
             name: "Node.js",
             icon: "nodejs",
+          },
+          {
+            name: "Express.js",
+          },
+          {
+            name: "MongoDB / NoSQL",
+          },
+          {
+            name: "PostgreSQL",
+            icon: "postgresql",
           },
           {
             name: "Laravel",
@@ -331,10 +357,6 @@ const about: About = {
             icon: "python",
           },
           {
-            name: "PostgreSQL",
-            icon: "postgresql",
-          },
-          {
             name: "Cloudinary",
             icon: "cloudinary",
           },
@@ -342,11 +364,20 @@ const about: About = {
         images: [],
       },
       {
-        title: "Cloud & Autonomous AI Agents",
+        title: "Cloud, Containers & AI Agents",
         description: (
-          <>Pengembangan autonomous AI agent, integrasi AI gateway (9Router Proxy), cloud deployment di Microsoft Azure VM, dan automasi cron / Linux.</>
+          <>Pengembangan autonomous AI agent, kontainerisasi aplikasi dengan Docker & Kubernetes, integrasi AI gateway (9Router Proxy), cloud deployment di Microsoft Azure VM, dan automasi cron / Linux.</>
         ),
         tags: [
+          {
+            name: "Docker",
+          },
+          {
+            name: "Kubernetes",
+          },
+          {
+            name: "Microservices",
+          },
           {
             name: "Azure",
             icon: "azure",
@@ -372,9 +403,9 @@ const about: About = {
         images: [],
       },
       {
-        title: "Web Analytics, DevOps & Tools",
+        title: "Web Analytics, DevOps & CI/CD",
         description: (
-          <>Pengukuran metrik dan traffic pengguna dengan Google Analytics 4 (GA4), pelacakan campaign UTM, version control Git/GitHub, dan deployment platform.</>
+          <>Pengukuran metrik dan traffic pengguna dengan Google Analytics 4 (GA4), pelacakan campaign UTM, CI/CD pipeline, OpenShift, version control Git/GitHub, dan deployment platform.</>
         ),
         tags: [
           {
@@ -386,6 +417,12 @@ const about: About = {
           {
             name: "Git / GitHub",
             icon: "github",
+          },
+          {
+            name: "CI/CD & DevOps",
+          },
+          {
+            name: "Red Hat OpenShift",
           },
           {
             name: "Vercel",
@@ -496,6 +533,104 @@ const learning: Learning = {
     </>
   ),
   tracks: [
+    {
+      id: "ibm-fullstack-javascript",
+      program: "IBM Full-Stack JavaScript Developer Professional Certificate",
+      provider: "IBM Skills Network & Coursera",
+      trackName: "Full-Stack JavaScript & Cloud-Native Developer",
+      level: "Professional Certificate (Advanced)",
+      status: "completed",
+      statusLabel: "100% Selesai • Bersertifikat Resmi",
+      progress: 100,
+      deadline: "6 Oktober 2026",
+      deadlineLabel: "Diselesaikan pada 6 Oktober 2026 • Credential ID: WIG8NPYN363B",
+      announcement: {
+        type: "success",
+        title: "Sertifikasi Profesional Resmi Diraih! 🎓",
+        message:
+          "Berhasil menyelesaikan 12 spesialisasi kursus intensif dari IBM Skills Network yang mencakup React, Node.js, Express, MongoDB, Docker, Kubernetes, Microservices, OpenShift, Cloud Native, dan Serverless Computing.",
+      },
+      modules: [
+        {
+          title: "Introduction to Software Engineering",
+          status: "completed",
+          tags: ["Software Engineering", "SDLC", "Architecture", "Methodologies"],
+          note: "Prinsip rekayasa perangkat lunak, siklus hidup pengembangan (SDLC), dan metodologi modern.",
+        },
+        {
+          title: "Introduction to HTML, CSS, & JavaScript",
+          status: "completed",
+          tags: ["HTML5", "CSS3", "JavaScript", "Web Basics"],
+          note: "Fondasi markup web, styling responsif, dan scripting interaktif.",
+        },
+        {
+          title: "Getting Started with Git and GitHub",
+          status: "completed",
+          tags: ["Git", "GitHub", "Version Control", "Collaboration"],
+          note: "Branching, merging, pull requests, dan alur kerja kolaboratif open-source.",
+        },
+        {
+          title: "JavaScript Programming Essentials",
+          status: "completed",
+          tags: ["JavaScript", "ES6+", "OOP", "Async/Await"],
+          note: "Sintaks esensial JavaScript modern, pemrograman fungsional & berorientasi objek.",
+        },
+        {
+          title: "Developing Front-End Apps with React",
+          status: "completed",
+          tags: ["React", "Hooks", "Component Lifecycle", "State Management"],
+          note: "Pengembangan antarmuka modular, reusable components, hooks, dan state management.",
+        },
+        {
+          title: "Developing Back-End Apps with Node.js and Express",
+          status: "completed",
+          tags: ["Node.js", "Express.js", "REST API", "Routing"],
+          note: "Perancangan RESTful API, penanganan routing, middleware, dan arsitektur server.",
+        },
+        {
+          title: "Get Started with Cloud Native, DevOps, Agile, and NoSQL",
+          status: "completed",
+          tags: ["Cloud Native", "DevOps", "Agile", "NoSQL", "CI/CD"],
+          note: "Konsep cloud-native, budaya DevOps, integrasi CI/CD, metodologi Agile, dan database NoSQL.",
+        },
+        {
+          title: "Introduction to Containers w/ Docker, Kubernetes & OpenShift",
+          status: "completed",
+          tags: ["Docker", "Kubernetes", "Red Hat OpenShift", "Containers"],
+          note: "Kontainerisasi aplikasi, container orchestration, deployment pod, dan manajemen cluster OpenShift.",
+        },
+        {
+          title: "Application Development using Microservices and Serverless",
+          status: "completed",
+          tags: ["Microservices", "Serverless", "Event-Driven", "Cloud Functions"],
+          note: "Arsitektur microservices terdistribusi, event-driven computing, dan fungsi serverless.",
+        },
+        {
+          title: "Node.js & MongoDB: Developing Back-end Database Applications",
+          status: "completed",
+          tags: ["MongoDB", "Mongoose", "NoSQL", "CRUD Operations", "Database Design"],
+          note: "Model data dokumen, query MongoDB, agregasi, dan integrasi driver Mongoose pada Node.js.",
+        },
+        {
+          title: "JavaScript Full Stack Capstone Project",
+          status: "completed",
+          tags: ["Capstone Project", "Full Stack", "React", "Node.js", "Express", "MongoDB", "Cloud Native"],
+          note: "Pengembangan dan deployment aplikasi full-stack berskala produksi dari perancangan hingga rilis.",
+        },
+        {
+          title: "Software Developer Career Guide and Interview Preparation",
+          status: "completed",
+          tags: ["Career Guide", "Technical Interview", "Best Practices"],
+          note: "Strategi kesiapan karier profesional, portfolio review, dan persiapan wawancara teknis.",
+        },
+      ],
+      nextTarget: {
+        title: "Penerapan Arsitektur Cloud-Native pada Proyek Skala Produksi",
+        description: "Mengimplementasikan microservices, kontainerisasi Docker/K8s, dan database NoSQL pada proyek portofolio baru dan solusi enterprise.",
+        status: "Implementasi Aktif",
+      },
+      link: "https://coursera.org/verify/professional-cert/WIG8NPYN363B",
+    },
     {
       id: "dbs-coding-camp-2026",
       program: "Coding Camp 3.0 powered by DBS Foundation",

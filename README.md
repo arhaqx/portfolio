@@ -28,21 +28,18 @@
   </p>
 
 </div>
+## 🌟 Overview
 
----
+**`arhaq.dev`** is the personal portfolio and digital playground of **Muhammad Arinal Haq**, an Informatics Engineering graduate from Universitas Dian Nuswantoro (UDINUS), holder of the **IBM Full-Stack JavaScript Developer Professional Certificate**, and Dicoding Bootcamp Alumni. 
 
-## 🌟 Overview
-
-**`arhaq.dev`** is the personal portfolio and digital playground of **Muhammad Arinal Haq**, an Informatics Engineering graduate from Universitas Dian Nuswantoro (UDINUS) and Dicoding Bootcamp Alumni. 
-
-Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases full-stack web applications, autonomous AI agent architectures, an in-browser **RAG Chatbot assistant**, interactive case studies, and a Notion-style live bootcamp progress tracker.
+Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases cloud-native full-stack web applications, autonomous AI agent architectures, an in-browser **RAG Chatbot assistant**, interactive case studies, and a Notion-style live curriculum progress tracker.
 
 ---
 
 ## ✨ Key Features
 
 - 🤖 **Interactive RAG AI Chatbot:** An intelligent portfolio assistant powered by **Google Gemini** and an in-memory Retrieval-Augmented Generation (RAG) engine:
-  - Answers recruiter queries regarding tech stack, on-site job readiness, S1 thesis (*IndoBERT sentiment analysis on Makan Bergizi Gratis program*), leadership, and musical talents.
+  - Answers recruiter queries regarding tech stack, on-site job readiness, S1 thesis (*IndoBERT sentiment analysis on Makan Bergizi Gratis program*), official certifications (IBM Full-Stack JavaScript, Dicoding, DBS Camp), leadership, and musical talents.
   - Natural greeting handling and intent-proportional responses.
   - Real-time Server-Sent Events (SSE) streaming with multi-model automatic failover.
   - Interactive quick-prompt chips, Markdown parsing, and mobile-friendly floating widget.
@@ -55,7 +52,8 @@ Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases
   - **HealSpace Platform:** Mental health self-check & consultation web platform (React + Django REST + DASS-21).
   - **Poliklinik Kampus UDINUS:** Clinical registration & medical records system (Laravel & MySQL).
   - **Sistem Informasi Parkir PT Worthfind:** Real-time parking management platform (Next.js + Django).
-- 📚 **Notion-Style Learning Tracker (`/learning`):** Real-time interactive progress tracker for ongoing technical programs:
+- 📚 **Notion-Style Learning Tracker (`/learning`):** Real-time interactive progress tracker for certified programs and ongoing technical curricula:
+  - **IBM Full-Stack JavaScript Developer Professional Certificate** (12 Spesialisasi Kursus via IBM Skills Network & Coursera — 100% Selesai & Terverifikasi).
   - **DBS Foundation Coding Camp 2026** (Alumni Track — 100% Completed ahead of schedule).
   - **AWS AI Academy 2026** (AI Systems & Cloud Architecture — Active progress).
 - 📱 **Mobile-First & Fully Responsive:** Optimized for mobile screens, tablets, and ultrawide monitors.
