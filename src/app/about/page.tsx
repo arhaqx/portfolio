@@ -207,19 +207,37 @@ export default function About() {
 
           {about.work.display && (
             <>
-              <Heading data-split="lines" as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
-                {about.work.title}
-              </Heading>
+              <Column data-reveal fillWidth gap="8" marginBottom="32">
+                <Row vertical="center" gap="8">
+                  <Tag size="s" variant="neutral">
+                    {about.work.tag || "EXPERIENCE"}
+                  </Tag>
+                </Row>
+                <Heading data-split="lines" as="h2" id={about.work.title} variant="display-strong-s">
+                  {about.work.headline || about.work.title}
+                </Heading>
+                {about.work.description && (
+                  <Text variant="body-default-l" onBackground="neutral-weak">
+                    {about.work.description}
+                  </Text>
+                )}
+              </Column>
               <Column data-stagger fillWidth gap="l" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth gap="4">
-                    <Row
-                      fillWidth
-                      horizontal="between"
-                      vertical="end"
-                      marginBottom="4"
-                      s={{ direction: "column", horizontal: "start", gap: "2" }}
-                    >
+                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth gap="8">
+                    <Row fillWidth horizontal="between" vertical="center" wrap gap="8">
+                      <Row vertical="center" gap="8">
+                        <Text variant="body-strong-s" onBackground="neutral-weak">
+                          {experience.timeframe}
+                        </Text>
+                        {experience.tag && (
+                          <Tag size="s" variant="neutral">
+                            {experience.tag}
+                          </Tag>
+                        )}
+                      </Row>
+                    </Row>
+                    <Column fillWidth gap="2">
                       <Text
                         id={experience.company}
                         variant="heading-strong-l"
@@ -227,31 +245,11 @@ export default function About() {
                       >
                         {experience.company}
                       </Text>
-                      <Row s={{ hide: true }}>
-                        <Text variant="heading-default-xs" onBackground="neutral-weak">
-                          {experience.timeframe}
-                        </Text>
-                      </Row>
-                    </Row>
-                    <Row
-                      fillWidth
-                      horizontal="between"
-                      vertical="center"
-                      marginBottom="m"
-                      wrap
-                      gap="8"
-                      s={{ marginBottom: "12" }}
-                    >
-                      <Text variant="body-default-s" onBackground="brand-weak">
+                      <Text variant="body-default-s" onBackground="brand-medium">
                         {experience.role}
                       </Text>
-                      <Row hide s={{ hide: false }}>
-                        <Text variant="body-default-xs" onBackground="neutral-weak">
-                          {experience.timeframe}
-                        </Text>
-                      </Row>
-                    </Row>
-                    <Column as="ul" gap="16" s={{ gap: "10", paddingLeft: "16" }}>
+                    </Column>
+                    <Column as="ul" gap="12" s={{ gap: "10", paddingLeft: "16" }}>
                       {experience.achievements.map(
                         (achievement: React.ReactNode, achIndex: number) => (
                           <Text
@@ -259,6 +257,7 @@ export default function About() {
                             variant="body-default-m"
                             key={`${experience.company}-${achIndex}`}
                             className={styles.achievementText}
+                            style={{ lineHeight: "1.65" }}
                           >
                             {achievement}
                           </Text>
@@ -266,21 +265,19 @@ export default function About() {
                       )}
                     </Column>
                     {experience.images && experience.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" paddingLeft="40" s={{ paddingLeft: "0", paddingTop: "12" }} gap="12" wrap>
+                      <Row fillWidth paddingTop="m" s={{ paddingTop: "12" }} gap="12" wrap>
                         {experience.images.map((image, imgIndex) => (
                           <Row
                             key={imgIndex}
                             border="neutral-medium"
-                            radius="m"
+                            radius="l"
                             fillWidth
-                            minWidth={image.width}
-                            height={image.height}
-                            s={{ minWidth: "100%", height: "auto" }}
                             style={{ overflow: "hidden" }}
+                            s={{ minWidth: "100%", height: "auto" }}
                           >
                             <Media
                               enlarge
-                              radius="m"
+                              radius="l"
                               sizes="(max-width: 768px) 100vw, 600px"
                               alt={image.alt}
                               src={image.src}

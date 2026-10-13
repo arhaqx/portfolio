@@ -148,6 +148,12 @@ export interface About extends BasePageConfig {
     display: boolean;
     /** Title for the work experience section */
     title: string;
+    /** Section category pill / tag (e.g. EXPERIENCE) */
+    tag?: string;
+    /** Editorial headline with custom styling/serif italic */
+    headline?: React.ReactNode;
+    /** Narrative subtitle intro */
+    description?: React.ReactNode;
     /** List of work experiences */
     experiences: Array<{
       /** Company name */
@@ -156,6 +162,8 @@ export interface About extends BasePageConfig {
       timeframe: string;
       /** Role or job title */
       role: string;
+      /** Category badge/tag (e.g. INDEPENDENT SYSTEM, INTERNSHIP, TRAINING) */
+      tag?: string;
       /** Achievements at the company */
       achievements: React.ReactNode[];
       /** Images related to the experience */

@@ -106,17 +106,39 @@ const about: About = {
   work: {
     display: true, // set to false to hide this section
     title: "Pengalaman Kerja & Proyek",
+    tag: "EXPERIENCE",
+    headline: (
+      <>
+        Roles that shaped the{" "}
+        <Text
+          as="span"
+          style={{
+            fontStyle: "italic",
+            fontFamily: 'var(--font-serif, "Playfair Display", Georgia, "Times New Roman", serif)',
+            fontWeight: 400,
+          }}
+        >
+          work
+        </Text>
+      </>
+    ),
+    description: (
+      <>
+        Autonomous AI systems, cloud infrastructure, and full-stack engineering — in the order they happened.
+      </>
+    ),
     experiences: [
       {
         company: "Hermes Autonomous Agent & Cloud Automation",
-        timeframe: "2026",
-        role: "AI Systems & Cloud Engineer (Independent Project)",
+        timeframe: "2026 – Sekarang",
+        tag: "INDEPENDENT SYSTEM",
+        role: "AI Systems & Cloud Engineer",
         achievements: [
           <>
-            Merancang dan men-deploy autonomous AI agent 24/7 di Microsoft Azure Ubuntu VM dengan integrasi Telegram Bot multi-thread dan background cron scheduler.
+            Mengarsiteki dan mengoperasikan autonomous AI agent 24/7 di atas infrastruktur Microsoft Azure (Ubuntu VM) — terintegrasi dengan Telegram multi-topic message broker untuk continuous remote execution dan orkestrasi scheduled cronjobs.
           </>,
           <>
-            Mengintegrasikan 9Router Proxy AI Gateway untuk multi-model routing dan prompt caching yang berhasil menghemat ~85% token (2,4M+ input tokens ter-cache).
+            Mengintegrasikan 9Router Proxy AI Gateway dengan smart prompt caching — sukses memangkas konsumsi token hingga 85% (~2,4M+ cached input tokens) dan routing dinamis multi-LLM (Gemini Flash, OpenCode, MiMo).
           </>,
         ],
         images: [
@@ -131,27 +153,29 @@ const about: About = {
       {
         company: "Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Semarang",
         timeframe: "Maret 2024 – Oktober 2024",
-        role: "Full Stack Web Developer (Internship)",
+        tag: "INTERNSHIP",
+        role: "Full Stack Web Developer Intern",
         achievements: [
           <>
-            Mengembangkan fitur baru serta melakukan pemeliharaan sistem, termasuk bug fixing dan optimasi performa, pada berbagai portal web sekolah di lingkup Kota Semarang untuk memastikan kelancaran operasional website.
+            Bertanggung jawab atas pemeliharaan rutin, refactoring basis data, dan pengembangan modul fitur baru pada jaringan portal web kedinasan serta sekolah negeri di lingkup Pemerintah Kota Semarang berbasis PHP/Laravel.
           </>,
           <>
-            Memastikan kelancaran operasional, keamanan data, dan keandalan sistem informasi pelayanan publik.
+            Melakukan bug fixing intensif, audit keamanan sistem, dan optimasi performa backend — menjamin ketersediaan tinggi (high availability) serta integritas data layanan publik.
           </>,
         ],
         images: [],
       },
       {
-        company: "PT Worthfind Travel Goods Jepara (Project)",
+        company: "PT Worthfind Travel Goods Jepara",
         timeframe: "Juli 2026 – Agustus 2026",
-        role: "Full Stack Developer (Project)",
+        tag: "CLIENT WORK",
+        role: "Full Stack Developer (Contract)",
         achievements: [
           <>
-            Mengembangkan sistem manajemen parkir dan kalkulasi pemasukan harian menggunakan React Native, Node.js, dan database PostgreSQL di server VPS.
+            Membangun sistem manajemen lahan parkir pabrik terintegrasi berbasis Next.js, Node.js REST API, dan PostgreSQL — mendigitalisasi kalkulasi retribusi dan pemantauan kapasitas slot kendaraan secara real-time.
           </>,
           <>
-            Mengintegrasikan Cloudinary untuk foto bukti lapangan dengan algoritma deteksi keaslian/duplikasi foto, serta dashboard analitik okupansi dengan fitur export Excel.
+            Mengimplementasikan verifikasi foto bukti fisik via Cloudinary dengan algoritma deteksi duplikasi otomatis, serta dashboard analitik okupansi kendaraan berfitur export laporan spreadsheet.
           </>,
         ],
         images: [
@@ -164,15 +188,16 @@ const about: About = {
         ],
       },
       {
-        company: "HealSpace – Dicoding Bootcamp (Capstone Project)",
+        company: "HealSpace – Mental Health Self-Check Platform",
         timeframe: "April 2026 – Mei 2026",
-        role: "Full Stack Web Developer (Proyek Akhir)",
+        tag: "CAPSTONE PROJECT",
+        role: "Lead Full Stack Developer",
         achievements: [
           <>
-            Mengembangkan platform kesehatan mental terpadu "HealSpace" (healspace.my.id) menggunakan React dan Django REST Framework dengan integrasi AI konseling interaktif 24/7 berbasis Google Gemini API.
+            Memimpin rekayasa platform kesehatan mental terpadu (healspace.my.id) sebagai proyek akhir kolaboratif Dicoding Bootcamp — dibangun dengan React, Tailwind CSS, Django REST Framework, dan PostgreSQL.
           </>,
           <>
-            Mengimplementasikan skrining kuesioner PHQ-9 dengan visualisasi grafik tren skor kesehatan emosional, latihan pernapasan interaktif Box Breathing, serta integrasi tombol krisis darurat (SOS).
+            Mengintegrasikan asisten AI konseling interaktif 24/7 berbasis Google Gemini API, instrumen skrining klinis DASS-21 & PHQ-9 dengan visualisasi tren emosional, serta emergency crisis trigger hotline 119.
           </>,
         ],
         images: [
@@ -185,15 +210,16 @@ const about: About = {
         ],
       },
       {
-        company: "Denah Master (Property Developer Project)",
-        timeframe: "Maret – April 2026",
-        role: "3D Front-End Developer (Freelance)",
+        company: "Denah Master (Property Developer Visualizer)",
+        timeframe: "Maret 2026 – April 2026",
+        tag: "FREELANCE",
+        role: "3D Front-End Developer",
         achievements: [
           <>
-            Membangun aplikasi WebGL 3D interaktif untuk visualisasi dan simulasi pembagian tanah kapling seluas 9.910 m² menggunakan Three.js dan React Three Fiber.
+            Mengembangkan aplikasi visualisasi 3D WebGL interaktif untuk simulasi pembagian lahan kavling seluas 9.910 m² menggunakan Three.js dan React Three Fiber.
           </>,
           <>
-            Mengembangkan fitur Dual Scene (Sketsa Kasar makro & Master Plan mikro), ekstrusi poligon lahan custom, serta tooltip interaktif valuasi tanah komersial.
+            Mengimplementasikan arsitektur Dual Scene (masterplan makro & kavling mikro), ekstrusi poligon parametrik custom, serta kalkulator valuasi tanah dinamis secara interaktif.
           </>,
         ],
         images: [
@@ -208,10 +234,11 @@ const about: About = {
       {
         company: "Vinty Coffee & Space Jepara",
         timeframe: "Februari 2026",
+        tag: "CLIENT WORK",
         role: "Frontend Web Developer",
         achievements: [
           <>
-            Merancang dan mengembangkan antarmuka landing page yang responsif untuk menampilkan profil bisnis serta katalog menu digital guna meningkatkan presensi online kafe.
+            Merancang dan mendeploy landing page responsif berorientasi visual modern dengan katalog menu digital terintegrasi — memperkuat presensi digital dan konversi pengunjung kafe.
           </>,
         ],
         images: [
@@ -224,15 +251,16 @@ const about: About = {
         ],
       },
       {
-        company: "Sistem Manajemen Poliklinik Terpadu – Bimbingan Karir UDINUS",
+        company: "Sistem Manajemen Poliklinik Terpadu – UDINUS",
         timeframe: "Februari 2024",
-        role: "Full Stack Web Developer (Laravel)",
+        tag: "ACADEMIC PROJECT",
+        role: "Full Stack Web Developer & UI/UX",
         achievements: [
           <>
-            Mengembangkan aplikasi web "Sistem Manajemen Poliklinik Terpadu" berbasis framework Laravel untuk mendigitalisasi alur pelayanan kesehatan kampus.
+            Mendigitalisasi alur operasional layanan kesehatan kampus melalui aplikasi web terpadu berbasis framework Laravel dan database MySQL.
           </>,
           <>
-            Membangun modul pendaftaran pemeriksaan pasien online, pemilihan jadwal poli & dokter, pencatatan keluhan awal, serta penerbitan nomor antrean digital secara otomatis.
+            Membangun modul registrasi pemeriksaan pasien online, pemilihan jadwal dinamis dokter spesialis, pencatatan rekam keluhan awal, serta penerbitan nomor antrean digital otomatis.
           </>,
         ],
         images: [
