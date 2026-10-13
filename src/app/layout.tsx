@@ -14,6 +14,7 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers, ChatWidget } from "@/components";
+import { PageAnimations, ScrollProgress, SmoothScroll } from "@/components/motion";
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
 import type { Viewport } from "next";
@@ -153,6 +154,7 @@ export default async function RootLayout({
         )}
       </head>
       <Providers>
+        <SmoothScroll>
         <Column
           as="body"
           background="page"
@@ -205,15 +207,19 @@ export default async function RootLayout({
             />
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
+          <ScrollProgress />
           <Header />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
-              <RouteGuard>{children}</RouteGuard>
+              <RouteGuard>
+                <PageAnimations>{children}</PageAnimations>
+              </RouteGuard>
             </Flex>
           </Flex>
           <Footer />
           <ChatWidget />
         </Column>
+        </SmoothScroll>
       </Providers>
     </Flex>
   );

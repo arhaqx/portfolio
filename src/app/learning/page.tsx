@@ -1,4 +1,4 @@
-import { Column, Heading, Meta, RevealFx, Row, Schema, Text } from "@once-ui-system/core";
+import { Column, Heading, Meta, Row, Schema, Text } from "@once-ui-system/core";
 import LearningTracker from "@/components/learning/LearningTracker";
 import { baseURL, learning, person } from "@/resources";
 
@@ -30,25 +30,23 @@ export default function Learning() {
       />
 
       {/* Header Section */}
-      <RevealFx translateY="8">
-        <Column fillWidth gap="12" marginBottom="16">
-          <Row vertical="center" gap="8">
-            <Text
-              variant="body-strong-s"
-              onBackground="brand-strong"
-              style={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
-            >
-              Continuous Learning & Upskilling
-            </Text>
-          </Row>
-          <Heading as="h1" variant="display-strong-s">
-            {learning.headline}
-          </Heading>
-          <Text variant="body-default-l" onBackground="neutral-weak" style={{ maxWidth: "48rem" }}>
-            {learning.subline}
+      <Column fillWidth gap="12" marginBottom="16" data-reveal>
+        <Row vertical="center" gap="8">
+          <Text
+            variant="body-strong-s"
+            onBackground="brand-strong"
+            style={{ textTransform: "uppercase", letterSpacing: "0.08em" }}
+          >
+            Continuous Learning & Upskilling
           </Text>
-        </Column>
-      </RevealFx>
+        </Row>
+        <Heading as="h1" variant="display-strong-s" data-split="lines">
+          {learning.headline}
+        </Heading>
+        <Text variant="body-default-l" onBackground="neutral-weak" style={{ maxWidth: "48rem" }}>
+          {learning.subline}
+        </Text>
+      </Column>
 
       {/* Main Notion-Style Tracker Component */}
       <LearningTracker />

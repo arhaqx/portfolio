@@ -425,7 +425,7 @@ export const ChatWidget: React.FC = () => {
           </div>
 
           {/* Quick Prompts */}
-          <div className={styles.quickPrompts}>
+          <div className={styles.quickPrompts} data-lenis-prevent>
             {QUICK_PROMPTS.map((prompt, idx) => (
               <button
                 key={idx}
@@ -439,7 +439,7 @@ export const ChatWidget: React.FC = () => {
           </div>
 
           {/* Messages Container */}
-          <div className={styles.messagesList} role="log" aria-live="polite">
+          <div className={styles.messagesList} role="log" aria-live="polite" data-lenis-prevent>
             {messages.map((msg) => {
               const isWaiting = msg.role === "assistant" && msg.content === "";
 

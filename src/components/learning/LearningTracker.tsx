@@ -11,7 +11,6 @@ import {
   Icon,
   Line,
   ProgressBar,
-  RevealFx,
   Row,
   Tag,
   Text,
@@ -46,15 +45,15 @@ export default function LearningTracker() {
   return (
     <Column fillWidth gap="24">
       {/* Notion-Style Quick Stats / KPI Metrics */}
-      <RevealFx translateY="8" delay={0.1}>
-        <Card
-          fillWidth
-          padding="24"
-          s={{ padding: "16" }}
-          radius="l"
-          border="neutral-medium"
-          background="surface"
-        >
+      <Card
+        data-reveal
+        fillWidth
+        padding="24"
+        s={{ padding: "16" }}
+        radius="l"
+        border="neutral-medium"
+        background="surface"
+      >
           <Column fillWidth gap="20">
             <Row fillWidth horizontal="between" vertical="center" wrap gap="12">
               <Row vertical="center" gap="12">
@@ -160,43 +159,40 @@ export default function LearningTracker() {
             </Grid>
           </Column>
         </Card>
-      </RevealFx>
 
       {/* Filter Navigation Tabs */}
-      <RevealFx translateY="8" delay={0.2}>
-        <Row fillWidth horizontal="between" vertical="center" wrap gap="12">
-          <Row gap="8" wrap fillWidth s={{ gap: "4" }}>
-            <ToggleButton
-              selected={filter === "all"}
-              onClick={() => setFilter("all")}
-              label={`Semua (${tracks.length})`}
-            />
-            <ToggleButton
-              selected={filter === "in-progress"}
-              onClick={() => setFilter("in-progress")}
-              label={`Sedang Berjalan (${tracks.filter((t) => t.status === "in-progress").length})`}
-            />
-            <ToggleButton
-              selected={filter === "completed"}
-              onClick={() => setFilter("completed")}
-              label={`Selesai 100% (${tracks.filter((t) => t.status === "completed").length})`}
-            />
-          </Row>
+      <Row data-reveal fillWidth horizontal="between" vertical="center" wrap gap="12">
+        <Row gap="8" wrap fillWidth s={{ gap: "4" }}>
+          <ToggleButton
+            selected={filter === "all"}
+            onClick={() => setFilter("all")}
+            label={`Semua (${tracks.length})`}
+          />
+          <ToggleButton
+            selected={filter === "in-progress"}
+            onClick={() => setFilter("in-progress")}
+            label={`Sedang Berjalan (${tracks.filter((t) => t.status === "in-progress").length})`}
+          />
+          <ToggleButton
+            selected={filter === "completed"}
+            onClick={() => setFilter("completed")}
+            label={`Selesai 100% (${tracks.filter((t) => t.status === "completed").length})`}
+          />
         </Row>
-      </RevealFx>
+      </Row>
 
       {/* Notion-Style Program Tracks List */}
-      <Column fillWidth gap="24">
-        {filteredTracks.map((track, trackIndex) => (
-          <RevealFx key={track.id} translateY="12" delay={0.25 + trackIndex * 0.1}>
-            <Card
-              fillWidth
-              radius="l"
-              border="neutral-medium"
-              background="surface"
-              padding="24"
-              s={{ padding: "16" }}
-            >
+      <Column fillWidth gap="24" data-stagger>
+        {filteredTracks.map((track) => (
+          <Card
+            key={track.id}
+            fillWidth
+            radius="l"
+            border="neutral-medium"
+            background="surface"
+            padding="24"
+            s={{ padding: "16" }}
+          >
               <Column fillWidth gap="20">
                 {/* Track Header - Responsive Column on Mobile */}
                 <Row
@@ -557,7 +553,6 @@ export default function LearningTracker() {
                 )}
               </Column>
             </Card>
-          </RevealFx>
         ))}
       </Column>
     </Column>

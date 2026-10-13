@@ -3,7 +3,6 @@ import {
   Text,
   Button,
   Avatar,
-  RevealFx,
   Column,
   Badge,
   Row,
@@ -47,7 +46,8 @@ export default function Home() {
       <Column fillWidth horizontal="center" gap="m">
         <Column maxWidth="s" horizontal="center" align="center">
           {home.featured.display && (
-            <RevealFx
+            <Row
+              data-hero-item
               fillWidth
               horizontal="center"
               paddingTop="16"
@@ -65,19 +65,19 @@ export default function Home() {
               >
                 <Row paddingY="2">{home.featured.title}</Row>
               </Badge>
-            </RevealFx>
+            </Row>
           )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
+          <Row data-hero-item fillWidth horizontal="center" paddingBottom="16">
+            <Heading data-split="lines" wrap="balance" variant="display-strong-l">
               {home.headline}
             </Heading>
-          </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
+          </Row>
+          <Row data-hero-item fillWidth horizontal="center" paddingBottom="32">
             <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
               {home.subline}
             </Text>
-          </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
+          </Row>
+          <Row data-hero-item paddingTop="12" horizontal="center" paddingLeft="12">
             <Button
               id="about"
               data-border="rounded"
@@ -99,21 +99,21 @@ export default function Home() {
                 {about.title}
               </Row>
             </Button>
-          </RevealFx>
+          </Row>
         </Column>
       </Column>
-      <RevealFx translateY="16" delay={0.6}>
+      <Row data-reveal fillWidth>
         <Projects range={[1, 1]} />
-      </RevealFx>
+      </Row>
       {routes["/learning"] && (
         <Column fillWidth gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">
             <Line maxWidth={48} />
           </Row>
           <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
+            <Row flex={1} paddingLeft="l" paddingTop="24" data-reveal>
               <Column gap="8">
-                <Heading as="h2" variant="display-strong-xs" wrap="balance">
+                <Heading as="h2" variant="display-strong-xs" wrap="balance" data-split="lines">
                   Active Learning & Roadmap
                 </Heading>
                 <Text variant="body-default-xs" onBackground="neutral-weak">
@@ -127,7 +127,7 @@ export default function Home() {
               </Column>
             </Row>
             <Row flex={3} paddingX="20" s={{ paddingX: "0" }}>
-              <Column fillWidth gap="12">
+              <Column fillWidth gap="12" data-stagger>
                 {learning.tracks.map((track) => (
                   <Card
                     key={track.id}
@@ -195,12 +195,12 @@ export default function Home() {
             <Line maxWidth={48} />
           </Row>
           <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
+            <Row flex={1} paddingLeft="l" paddingTop="24" data-reveal>
+              <Heading as="h2" variant="display-strong-xs" wrap="balance" data-split="lines">
                 Latest from the blog
               </Heading>
             </Row>
-            <Row flex={3} paddingX="20">
+            <Row flex={3} paddingX="20" data-reveal>
               <Posts range={[1, 2]} columns="2" />
             </Row>
           </Row>
@@ -209,8 +209,12 @@ export default function Home() {
           </Row>
         </Column>
       )}
-      <Projects range={[2]} />
-      <Mailchimp />
+      <Row data-reveal fillWidth>
+        <Projects range={[2]} />
+      </Row>
+      <Row data-reveal fillWidth>
+        <Mailchimp />
+      </Row>
     </Column>
   );
 }

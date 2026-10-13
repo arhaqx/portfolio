@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Column, Flex, Text } from "@once-ui-system/core";
+import { useSmoothScroll } from "@/components/motion/SmoothScroll";
 import styles from "./about.module.scss";
 
 interface TableOfContentsProps {
@@ -19,16 +20,13 @@ interface TableOfContentsProps {
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) => {
+  const { scrollTo: smoothScrollTo } = useSmoothScroll();
+
   const scrollTo = (id: string, offset: number) => {
     const element = document.getElementById(id);
     if (element) {
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      // Negative offset leaves room for the floating header
+      smoothScrollTo(element, -offset);
     }
   };
 

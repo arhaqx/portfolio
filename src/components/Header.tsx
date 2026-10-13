@@ -47,7 +47,7 @@ export const Header = () => {
 
   return (
     <>
-      <Fade s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade data-nav-autohide s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
       <Fade
         hide
         s={{ hide: false }}
@@ -59,6 +59,7 @@ export const Header = () => {
         zIndex={9}
       />
       <Row
+        data-nav-autohide
         fitHeight
         className={styles.position}
         position="sticky"
