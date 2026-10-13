@@ -5,6 +5,7 @@ import {
   Heading,
   Icon,
   IconButton,
+  Line,
   Media,
   Tag,
   Text,
@@ -51,7 +52,7 @@ export default function About() {
     },
   ];
   return (
-    <Column maxWidth="m">
+    <Column maxWidth="m" paddingBottom="128" s={{ paddingBottom: "160" }}>
       <Schema
         as="webPage"
         baseURL={baseURL}
@@ -211,25 +212,53 @@ export default function About() {
               </Heading>
               <Column data-stagger fillWidth gap="l" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
-                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} variant="heading-strong-l">
+                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth gap="4">
+                    <Row
+                      fillWidth
+                      horizontal="between"
+                      vertical="end"
+                      marginBottom="4"
+                      s={{ direction: "column", horizontal: "start", gap: "2" }}
+                    >
+                      <Text
+                        id={experience.company}
+                        variant="heading-strong-l"
+                        className={styles.itemTitle}
+                      >
                         {experience.company}
                       </Text>
-                      <Text variant="heading-default-xs" onBackground="neutral-weak">
-                        {experience.timeframe}
-                      </Text>
+                      <Row s={{ hide: true }}>
+                        <Text variant="heading-default-xs" onBackground="neutral-weak">
+                          {experience.timeframe}
+                        </Text>
+                      </Row>
                     </Row>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
-                      {experience.role}
-                    </Text>
-                    <Column as="ul" gap="16">
+                    <Row
+                      fillWidth
+                      horizontal="between"
+                      vertical="center"
+                      marginBottom="m"
+                      wrap
+                      gap="8"
+                      s={{ marginBottom: "12" }}
+                    >
+                      <Text variant="body-default-s" onBackground="brand-weak">
+                        {experience.role}
+                      </Text>
+                      <Row hide s={{ hide: false }}>
+                        <Text variant="body-default-xs" onBackground="neutral-weak">
+                          {experience.timeframe}
+                        </Text>
+                      </Row>
+                    </Row>
+                    <Column as="ul" gap="16" s={{ gap: "10", paddingLeft: "16" }}>
                       {experience.achievements.map(
-                        (achievement: React.ReactNode, index: number) => (
+                        (achievement: React.ReactNode, achIndex: number) => (
                           <Text
                             as="li"
                             variant="body-default-m"
-                            key={`${experience.company}-${index}`}
+                            key={`${experience.company}-${achIndex}`}
+                            className={styles.achievementText}
                           >
                             {achievement}
                           </Text>
@@ -237,25 +266,31 @@ export default function About() {
                       )}
                     </Column>
                     {experience.images && experience.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
-                        {experience.images.map((image, index) => (
+                      <Row fillWidth paddingTop="m" paddingLeft="40" s={{ paddingLeft: "0", paddingTop: "12" }} gap="12" wrap>
+                        {experience.images.map((image, imgIndex) => (
                           <Row
-                            key={index}
+                            key={imgIndex}
                             border="neutral-medium"
                             radius="m"
+                            fillWidth
                             minWidth={image.width}
                             height={image.height}
+                            s={{ minWidth: "100%", height: "auto" }}
+                            style={{ overflow: "hidden" }}
                           >
                             <Media
                               enlarge
                               radius="m"
-                              sizes={image.width.toString()}
+                              sizes="(max-width: 768px) 100vw, 600px"
                               alt={image.alt}
                               src={image.src}
                             />
                           </Row>
                         ))}
                       </Row>
+                    )}
+                    {index < about.work.experiences.length - 1 && (
+                      <Line background="neutral-alpha-weak" marginY="24" s={{ marginY: "16" }} />
                     )}
                   </Column>
                 ))}
@@ -271,12 +306,19 @@ export default function About() {
               <Column data-stagger fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} variant="heading-strong-l">
+                    <Text
+                      id={institution.name}
+                      variant="heading-strong-l"
+                      className={styles.itemTitle}
+                    >
                       {institution.name}
                     </Text>
                     <Text variant="heading-default-xs" onBackground="neutral-weak">
                       {institution.description}
                     </Text>
+                    {index < about.studies.institutions.length - 1 && (
+                      <Line background="neutral-alpha-weak" marginY="16" />
+                    )}
                   </Column>
                 ))}
               </Column>
@@ -297,7 +339,11 @@ export default function About() {
               <Column data-stagger fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text id={skill.title} variant="heading-strong-l">
+                    <Text
+                      id={skill.title}
+                      variant="heading-strong-l"
+                      className={styles.itemTitle}
+                    >
                       {skill.title}
                     </Text>
                     <Text variant="body-default-m" onBackground="neutral-weak">
@@ -313,25 +359,31 @@ export default function About() {
                       </Row>
                     )}
                     {skill.images && skill.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" gap="12" wrap>
-                        {skill.images.map((image, index) => (
+                      <Row fillWidth paddingTop="m" gap="12" wrap s={{ paddingTop: "12" }}>
+                        {skill.images.map((image, imgIndex) => (
                           <Row
-                            key={index}
+                            key={imgIndex}
                             border="neutral-medium"
                             radius="m"
+                            fillWidth
                             minWidth={image.width}
                             height={image.height}
+                            s={{ minWidth: "100%", height: "auto" }}
+                            style={{ overflow: "hidden" }}
                           >
                             <Media
                               enlarge
                               radius="m"
-                              sizes={image.width.toString()}
+                              sizes="(max-width: 768px) 100vw, 600px"
                               alt={image.alt}
                               src={image.src}
                             />
                           </Row>
                         ))}
                       </Row>
+                    )}
+                    {index < about.technical.skills.length - 1 && (
+                      <Line background="neutral-alpha-weak" marginY="16" />
                     )}
                   </Column>
                 ))}
