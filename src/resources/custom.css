@@ -1,69 +1,111 @@
-/* :root {
-  /*
-  /* Override default variables here */
-  /*
-  --font-size-display-multiplier:   1;
-  --font-size-heading-multiplier:   1;
-  --font-size-body-multiplier:      1;
-  --font-size-label-multiplier:     1;
+body {
+  min-height: 100vh;
+}
 
-  --line-height-display-multiplier: 1;
-  --line-height-heading-multiplier: 1;
-  --line-height-body-multiplier:    1;
-  --line-height-label-multiplier:   1;
+/* ==========================================================================
+   Typography Contrast Enhancement against 3D Cloud Backgrounds (Vanta.js)
+   ========================================================================== */
 
-  --default-border:        var(--neutral-border-medium);
+/* Dark Mode Tokens & Contrast */
+[data-theme="dark"] {
+  --neutral-on-background-weak: #e2e8f0;   /* Slate 200 (replaces dim #b2b2b2) */
+  --neutral-on-background-medium: #f1f5f9; /* Slate 100 */
+  --neutral-on-background-strong: #ffffff; /* Pure crisp white */
+  --brand-on-background-weak: #a5f3fc;
+  --brand-on-background-medium: #38bdf8;
+  --brand-on-background-strong: #00f0ff;
+  --accent-on-background-weak: #fecdd3;
+  --accent-on-background-medium: #fb7185;
 
-  /*
-  /* Example setup for custom colors */
-  /* Generate at: https://once-ui.com/customize */
-  /*
-  --scheme-brand-100: #08002f;
-  --scheme-brand-200:  #04025c;
-  --scheme-brand-300:  #1f398e;
-  --scheme-brand-400:  #3856ae;
-  --scheme-brand-500:  #5071cc;
-  --scheme-brand-600:  #6f94f1;
-  --scheme-brand-700:  #8db3ff;
-  --scheme-brand-800:  #b2dbff;
-  --scheme-brand-900:  #bfe8ff;
-  --scheme-brand-1000: #ccf6ff;
-  --scheme-brand-1100: #d2fcff;
-  --scheme-brand-1200: #d2fcff;
-  --scheme-brand-600-10: rgba(111,148,241,0.1);
-  --scheme-brand-600-30: rgba(111,148,241,0.3);
-  --scheme-brand-600-50: rgba(111,148,241,0.5);
+  --surface-background: rgba(10, 21, 27, 0.65);
+}
 
-  --scheme-accent-100:  #030b10;
-  --scheme-accent-200:  #0d181d;
-  --scheme-accent-300:  #364248;
-  --scheme-accent-400:  #505d64;
-  --scheme-accent-500:  #69777e;
-  --scheme-accent-600:  #8a989f;
-  --scheme-accent-700:  #a8b7bf;
-  --scheme-accent-800:  #c8d7df;
-  --scheme-accent-900:  #d5e4ec;
-  --scheme-accent-1000: #e2f1f9;
-  --scheme-accent-1100: #e9f8ff;
-  --scheme-accent-1200: #efffff;
-  --scheme-accent-600-10: rgba(138,152,159,0.1);
-  --scheme-accent-600-30: rgba(138,152,159,0.3);
-  --scheme-accent-600-50: rgba(138,152,159,0.5);
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] [class*="font-display"],
+[data-theme="dark"] [class*="font-heading"] {
+  color: var(--neutral-on-background-strong);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 4px 20px rgba(0, 0, 0, 0.55);
+}
 
-  --scheme-neutral-100:  #020b10;
-  --scheme-neutral-200:  #0b181d;
-  --scheme-neutral-300:  #344248;
-  --scheme-neutral-400:  #4f5d64;
-  --scheme-neutral-500:  #68777e;
-  --scheme-neutral-600:  #89989f;
-  --scheme-neutral-700:  #a7b7be;
-  --scheme-neutral-800:  #c7d7df;
-  --scheme-neutral-900:  #d4e4ec;
-  --scheme-neutral-1000: #e1f2f9;
-  --scheme-neutral-1100: #e7f8ff;
-  --scheme-neutral-1200: #eeffff;
-  --scheme-neutral-600-10: rgba(137,152,159,0.1);
-  --scheme-neutral-600-30: rgba(137,152,159,0.3);
-  --scheme-neutral-600-50: rgba(137,152,159,0.5);
-  /*
-}*/
+[data-theme="dark"] .neutral-on-background-weak {
+  color: var(--neutral-on-background-weak) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+
+[data-theme="dark"] .neutral-on-background-medium {
+  color: var(--neutral-on-background-medium) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+
+[data-theme="dark"] .neutral-on-background-strong {
+  color: var(--neutral-on-background-strong) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85), 0 3px 14px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] a:not([class*="Button"]) {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+/* Light Mode Tokens & Contrast */
+[data-theme="light"] {
+  --neutral-on-background-weak: #1e293b;   /* Slate 800: sharp, crisp, high contrast */
+  --neutral-on-background-medium: #0f172a; /* Slate 900 */
+  --neutral-on-background-strong: #020617; /* Deep Slate */
+  --brand-on-background-weak: #0284c7;
+  --brand-on-background-medium: #0369a1;
+  --brand-on-background-strong: #075985;
+
+  --surface-background: rgba(255, 255, 255, 0.85);
+}
+
+/* In light mode, text must be clean and razor-sharp without any blurry white glow */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] [class*="font-display"],
+[data-theme="light"] [class*="font-heading"] {
+  color: var(--neutral-on-background-strong) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .neutral-on-background-weak {
+  color: var(--neutral-on-background-weak) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .neutral-on-background-medium {
+  color: var(--neutral-on-background-medium) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .neutral-on-background-strong {
+  color: var(--neutral-on-background-strong) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] a:not([class*="Button"]) {
+  text-shadow: none !important;
+}
+
+/* Surface cards (e.g. Learning track cards, info boxes) */
+[data-theme="light"] [class*="surface-background"],
+[data-theme="light"] [class*="Card"] {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: rgba(0, 0, 0, 0.09) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] [class*="surface-background"],
+[data-theme="dark"] [class*="Card"] {
+  background-color: rgba(10, 21, 27, 0.65) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}

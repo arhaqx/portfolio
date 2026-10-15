@@ -98,11 +98,10 @@ const about: About = {
     description: (
       <>
         <Text as="p" variant="body-default-l" onBackground="neutral-weak" style={{ lineHeight: "1.75" }}>
-          Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro, pemegang sertifikasi profesional{" "}
-          <strong style={{ color: "var(--neutral-on-background-strong)" }}>IBM Full-Stack JavaScript Developer</strong>, serta alumni Dicoding Fullstack Web Developer Bootcamp. Berdedikasi membangun aplikasi web modern yang responsif, terukur, dan aman menggunakan ekosistem React, Next.js, Node.js, Express, MongoDB, Django, dan Laravel.
+          Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro, pemegang sertifikasi profesional IBM Full-Stack JavaScript Developer, dan alumni Dicoding Fullstack Web Developer Bootcamp. Berdedikasi membangun aplikasi web modern, cloud-native, responsif, dan berskala tinggi menggunakan React, Next.js, Node.js, Express, MongoDB, Django, dan Laravel.
         </Text>
         <Text as="p" variant="body-default-l" onBackground="neutral-weak" style={{ lineHeight: "1.75" }}>
-          Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam pemeliharaan dan optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek perangkat lunak. Terbiasa memecahkan tantangan teknis kompleks guna menciptakan solusi digital yang andal dan efisien.
+          Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam pemeliharaan dan optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek dan terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang andal dan efisien.
         </Text>
       </>
     ),

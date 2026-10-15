@@ -1,0 +1,28 @@
+.details {
+  position: relative;
+  background: rgba(10, 21, 27, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1.25rem 1.5rem !important;
+  margin-top: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+  :global([data-theme="light"]) & {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  &:hover {
+    border-color: rgba(0, 229, 255, 0.35);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.42);
+
+    :global([data-theme="light"]) & {
+      border-color: rgba(3, 105, 161, 0.3);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

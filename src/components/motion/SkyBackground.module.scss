@@ -1,0 +1,32 @@
+/**
+ * Fixed full-viewport sky behind the whole site using Vanta.js CLOUDS2.
+ */
+.sky {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: #98e3a5;
+  opacity: 0;
+  transition: opacity 0.8s ease, background-color 0.4s ease;
+
+  :global([data-theme="dark"]) & {
+    background-color: #0a151b;
+  }
+
+  &.ready {
+    opacity: 1;
+  }
+
+  :global(canvas) {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    pointer-events: none !important;
+  }
+}

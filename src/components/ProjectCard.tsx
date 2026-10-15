@@ -10,6 +10,8 @@ import {
   Text,
 } from "@once-ui-system/core";
 
+import styles from "./ProjectCard.module.scss";
+
 interface ProjectCardProps {
   href: string;
   priority?: boolean;
@@ -42,6 +44,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         />
       </div>
       <Flex
+        className={styles.details}
         s={{ direction: "column" }}
         fillWidth
         paddingX="s"
@@ -60,7 +63,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <Column flex={7} gap="16">
             {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
             {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-weak">
+              <Text wrap="balance" variant="body-default-s" onBackground="neutral-strong">
                 {description}
               </Text>
             )}

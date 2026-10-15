@@ -14,7 +14,7 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers, ChatWidget } from "@/components";
-import { PageAnimations, ScrollProgress, SmoothScroll } from "@/components/motion";
+import { PageAnimations, ScrollProgress, SkyBackground, SmoothScroll } from "@/components/motion";
 import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
 import type { Viewport } from "next";
@@ -156,14 +156,15 @@ export default async function RootLayout({
       <Providers>
         <SmoothScroll>
         <Column
+          suppressHydrationWarning
           as="body"
           background="page"
           fillWidth
-          style={{ minHeight: "100vh" }}
           margin="0"
           padding="0"
           horizontal="center"
         >
+          <SkyBackground />
           <RevealFx fill position="absolute">
             <Background
               mask={{

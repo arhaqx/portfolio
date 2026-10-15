@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, learning, work, gallery } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
@@ -47,17 +47,6 @@ export const Header = () => {
 
   return (
     <>
-      <Fade data-nav-autohide s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
-      <Fade
-        hide
-        s={{ hide: false }}
-        fillWidth
-        position="fixed"
-        bottom="0"
-        to="top"
-        height="80"
-        zIndex={9}
-      />
       <Row
         data-nav-autohide
         fitHeight
