@@ -117,22 +117,50 @@ export function SkyBackground() {
         const currentTheme = getTheme();
         const currentConfig = getConfig(currentTheme);
 
-        // Patch Vanta.js prototype resize for high-DPI / mobile retina displays:
-        // Vanta's internal _shaderBase computes iResolution using width / scale without
-        // factoring in devicePixelRatio. On high-DPI screens (mobile retina DPR=2 or 3),
-        // gl_FragCoord.y / iResolution.y exceeds 1.0, causing the zenith shader formula
-        // (skyColor - d.w) to go negative and turn the upper half of the screen pitch black.
-        // Syncing iResolution with renderer.getDrawingBufferSize guarantees pixel-perfect screen mapping.
-        if (CLOUDS2.prototype && !(CLOUDS2.prototype as unknown as { _resolutionPatched?: boolean })._resolutionPatched) {
-          const origProtoResize = CLOUDS2.prototype.resize;
-          CLOUDS2.prototype.resize = function () {
-            if (origProtoResize) origProtoResize.call(this);
-            if (this.renderer && this.uniforms?.iResolution?.value) {
-              const bufferSize = this.renderer.getDrawingBufferSize(new THREE.Vector2());
-              this.uniforms.iResolution.value.copy(bufferSize);
+        // Replace Vanta's `sin(dot(coord,coord))` raymarch jitter with bounded Interleaved
+        // Gradient Noise (IGN) so Windows/D3D11 GPUs don't overflow float32 sin() range reduction
+        // and produce concentric curved Moiré rings radiating from (0,0).
+        const patchShaderString = (shader: string) =>
+          shader.replace(
+            "sin(dot(coord,coord))",
+            "(2.0 * fract(52.9829189 * fract(dot(mod(coord, 256.0), vec2(0.06711056, 0.00583715)))))",
+          );
+
+        // Vanta's `CLOUDS2` export is a factory arrow function `(opts) => new Effect(opts)`,
+        // so `CLOUDS2.prototype` is undefined. Hook `VantaBase.prototype.init` (which runs inside
+        // `super.init()` right before `initBasicShader()` compiles the ShaderMaterial) to patch
+        // the Effect prototype's `fragmentShader` and `resize` before the first WebGL compilation.
+        const vantaGlobal = (window as unknown as {
+          VANTA?: { VantaBase?: { prototype?: { init?: () => void; _clouds2Patched?: boolean } } };
+        }).VANTA;
+        const vantaBaseProto = vantaGlobal?.VantaBase?.prototype;
+        if (vantaBaseProto && !vantaBaseProto._clouds2Patched) {
+          const origBaseInit = vantaBaseProto.init;
+          vantaBaseProto.init = function (this: {
+            fragmentShader?: string;
+            resize?: () => void;
+            renderer?: THREE.WebGLRenderer;
+            uniforms?: { iResolution?: { value: THREE.Vector2 } };
+          }) {
+            const effectProto = Object.getPrototypeOf(this);
+            if (effectProto && typeof effectProto.fragmentShader === "string" && !effectProto._shaderPatched) {
+              effectProto.fragmentShader = patchShaderString(effectProto.fragmentShader);
+              const origResize = effectProto.resize;
+              effectProto.resize = function () {
+                if (origResize) origResize.call(this);
+                if (this.renderer && this.uniforms?.iResolution?.value) {
+                  const bufferSize = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+                  this.uniforms.iResolution.value.copy(bufferSize);
+                }
+              };
+              effectProto._shaderPatched = true;
             }
+            if (typeof this.fragmentShader === "string") {
+              this.fragmentShader = patchShaderString(this.fragmentShader);
+            }
+            if (origBaseInit) origBaseInit.call(this);
           };
-          (CLOUDS2.prototype as unknown as { _resolutionPatched?: boolean })._resolutionPatched = true;
+          vantaBaseProto._clouds2Patched = true;
         }
 
         vantaEffect = CLOUDS2({
@@ -145,8 +173,22 @@ export function SkyBackground() {
           const effect = vantaEffect as unknown as {
             onUpdate?: () => void;
             renderer?: THREE.WebGLRenderer;
+            scene?: THREE.Scene;
             uniforms?: { iResolution?: { value: THREE.Vector2 } };
           };
+
+          // Safety fallback: ensure compiled ShaderMaterial uses the patched fragmentShader
+          const mesh = effect.scene?.children?.[0] as
+            | THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>
+            | undefined;
+          if (
+            mesh?.material &&
+            typeof mesh.material.fragmentShader === "string" &&
+            mesh.material.fragmentShader.includes("sin(dot(coord,coord))")
+          ) {
+            mesh.material.fragmentShader = patchShaderString(mesh.material.fragmentShader);
+            mesh.material.needsUpdate = true;
+          }
 
           const syncResolution = () => {
             if (effect.renderer && effect.uniforms?.iResolution?.value) {
