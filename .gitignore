@@ -37,3 +37,8 @@ next-env.d.ts
 
 # local backup files
 *.backup.*
+
+# secrets & credentials
+*credential*.json
+*-key.json
+*.service-account.json
