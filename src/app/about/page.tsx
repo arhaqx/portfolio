@@ -96,8 +96,8 @@ export default function About() {
           >
             <Avatar src={person.avatar} size="xl" />
             <Row gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
-              {person.location}
+              <Icon onBackground="brand-weak" name="globe" />
+              Semarang, Indonesia
             </Row>
             {person.languages && person.languages.length > 0 && (
               <Row wrap gap="8">
@@ -134,7 +134,7 @@ export default function About() {
                 }}
               >
                 <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
+                <Row paddingX="8">Jadwalkan diskusi</Row>
                 <IconButton
                   href={about.calendar.link}
                   data-border="rounded"
@@ -210,7 +210,7 @@ export default function About() {
               <Column data-reveal fillWidth gap="8" marginBottom="32">
                 <Row vertical="center" gap="8">
                   <Tag size="s" variant="neutral">
-                    {about.work.tag || "EXPERIENCE"}
+                    {about.work.tag || "PENGALAMAN & PROYEK"}
                   </Tag>
                 </Row>
                 <Heading data-split="lines" as="h2" id={about.work.title} variant="display-strong-s">

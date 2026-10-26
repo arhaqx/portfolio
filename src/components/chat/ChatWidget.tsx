@@ -1,34 +1,18 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
-  FiMessageSquare,
   FiX,
-  FiSend,
+  FiArrowUp,
   FiRotateCcw,
-  FiCpu,
+  FiCopy,
+  FiCheck,
+  FiRefreshCw,
+  FiMinimize2,
+  FiCornerDownLeft,
 } from "react-icons/fi";
 import styles from "./ChatWidget.module.scss";
-
-const SparklesIcon = () => (
-  <svg
-    width="17"
-    height="17"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-    <path d="M5 3v4" />
-    <path d="M19 17v4" />
-    <path d="M3 5h4" />
-    <path d="M17 19h4" />
-  </svg>
-);
 
 interface Message {
   id: string;
@@ -37,26 +21,76 @@ interface Message {
   timestamp: string;
 }
 
-const QUICK_PROMPTS = [
-  "📜 Sertifikasi IBM Full-Stack JavaScript",
-  "🚀 Ceritakan proyek Hermes di Azure",
-  "🛠️ Apa tech stack utama Arinal?",
-  "🎓 Status DBS Coding Camp 2026",
-  "📬 Kontak & Rekrut Arinal",
-];
+interface WelcomeSuggestion {
+  title: string;
+  label: string;
+  prompt: string;
+}
 
-const INITIAL_MESSAGE: Message = {
-  id: "welcome",
-  role: "assistant",
-  content:
-    "Halo! 👋 Saya **Arinal AI Assistant**, asisten cerdas yang didukung teknologi **RAG (Retrieval-Augmented Generation)** dan Google Gemini.\n\nSaya siap menjawab pertanyaan seputar portofolio, proyek (seperti Hermes AI di Azure, Healspace, Parkir), sertifikasi profesional (IBM Full-Stack JavaScript, Dicoding, DBS Camp), pendidikan, maupun opsi kolaborasi kerja dengan Muhammad Arinal Haq.\n\nApa yang ingin Anda ketahui hari ini?",
-  timestamp: "",
-};
+const THREAD_SUGGESTIONS: WelcomeSuggestion[] = [
+  {
+    title: "Proyek Hermes AI",
+    label: "Arsitektur agent di Azure",
+    prompt: "Ceritakan proyek Hermes Autonomous Agent di Azure",
+  },
+  {
+    title: "Tech Stack Utama",
+    label: "Next.js, TypeScript & Cloud",
+    prompt: "Apa tech stack utama dan keahlian Arinal?",
+  },
+  {
+    title: "Sertifikasi & Studi",
+    label: "IBM Full-Stack & DBS Camp",
+    prompt: "Jelaskan sertifikasi IBM Full-Stack JavaScript dan status DBS Coding Camp 2026",
+  },
+  {
+    title: "Kontak & Kolaborasi",
+    label: "Rekrutmen remote / on-site",
+    prompt: "Bagaimana cara menghubungi dan merekrut Arinal?",
+  },
+];
 
 function formatCurrentTime(): string {
   const now = new Date();
   return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
+
+/**
+ * Minimalist geometric bot/terminal mark (no cheesy AI sparkles)
+ */
+const AssistantGlyph = () => (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="4" />
+    <line x1="8" y1="10" x2="10" y2="12" />
+    <line x1="8" y1="14" x2="10" y2="12" />
+    <line x1="13" y1="14" x2="16" y2="14" />
+  </svg>
+);
+
+/**
+ * Dynamic Island animated waveform indicator
+ */
+const IslandWaveform: React.FC<{ active?: boolean }> = ({ active = false }) => (
+  <span
+    className={`${styles.waveform} ${active ? styles.waveformActive : ""}`}
+    aria-hidden="true"
+  >
+    <span className={styles.waveBar} />
+    <span className={styles.waveBar} />
+    <span className={styles.waveBar} />
+    <span className={styles.waveBar} />
+  </span>
+);
 
 /**
  * Lightweight inline markdown renderer for formatting bold, code, lists, and links.
@@ -65,11 +99,9 @@ function renderFormattedContent(text: string) {
   const lines = text.split("\n");
 
   return lines.map((line, lineIdx) => {
-    // Check if line is a bullet point
     const isBullet = line.startsWith("- ") || line.startsWith("* ");
     const cleanLine = isBullet ? line.substring(2) : line;
 
-    // Split line into tokens for bold (**text**), code (`code`), and markdown links [text](url)
     const tokens: React.ReactNode[] = [];
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)|(\*\*[^*]+\*\*)|(`[^`]+`)/g;
     let lastIndex = 0;
@@ -81,10 +113,12 @@ function renderFormattedContent(text: string) {
       }
 
       if (match[1] && match[2]) {
-        // [text](url)
         const label = match[1];
         const url = match[2];
-        const isExternal = url.startsWith("http") || url.startsWith("mailto") || url.startsWith("tel");
+        const isExternal =
+          url.startsWith("http") ||
+          url.startsWith("mailto") ||
+          url.startsWith("tel");
 
         if (isExternal) {
           tokens.push(
@@ -105,13 +139,11 @@ function renderFormattedContent(text: string) {
           );
         }
       } else if (match[3]) {
-        // **bold**
         const boldText = match[3].slice(2, -2);
         tokens.push(
           <strong key={`b-${lineIdx}-${match.index}`}>{boldText}</strong>
         );
       } else if (match[4]) {
-        // `code`
         const codeText = match[4].slice(1, -1);
         tokens.push(
           <code key={`c-${lineIdx}-${match.index}`}>{codeText}</code>
@@ -133,9 +165,8 @@ function renderFormattedContent(text: string) {
       );
     }
 
-    // Empty line treated as spacer
     if (cleanLine.trim() === "") {
-      return <div key={`empty-${lineIdx}`} style={{ height: "6px" }} />;
+      return <div key={`empty-${lineIdx}`} className={styles.paragraphSpacer} />;
     }
 
     return (
@@ -148,38 +179,51 @@ function renderFormattedContent(text: string) {
 
 export const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAnimatingMorph, setIsAnimatingMorph] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [hasUnreadReply, setHasUnreadReply] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const chatWindowRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const islandRef = useRef<HTMLDivElement | null>(null);
   const [viewportStyle, setViewportStyle] = useState<React.CSSProperties>({});
   const [isMac, setIsMac] = useState(false);
 
-  // Initialize with initial message on client mount
   useEffect(() => {
     setMounted(true);
-    setMessages([{ ...INITIAL_MESSAGE, timestamp: formatCurrentTime() }]);
     setIsMac(
       typeof navigator !== "undefined" &&
         /Mac|iPhone|iPod|iPad/i.test(navigator.userAgent)
     );
   }, []);
 
-  // Global hotkey: Ctrl+K or Cmd+K to toggle chat widget
+  const triggerIslandMorph = useCallback((nextOpen: boolean) => {
+    setIsAnimatingMorph(true);
+    setIsOpen(nextOpen);
+    if (nextOpen) {
+      setHasUnreadReply(false);
+    }
+    const timer = setTimeout(() => {
+      setIsAnimatingMorph(false);
+    }, 520);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Global hotkey: Ctrl+K or Cmd+K to toggle AssistantModal
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        triggerIslandMorph(!isOpen);
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, []);
+  }, [isOpen, triggerIslandMorph]);
 
   // Lock mobile body scroll and adapt dynamically to iPhone virtual keyboard
   useEffect(() => {
@@ -217,49 +261,70 @@ export const ChatWidget: React.FC = () => {
     return () => {
       document.body.style.overflow = originalOverflow;
       if (window.visualViewport) {
-        window.visualViewport.removeEventListener("resize", handleViewportChange);
-        window.visualViewport.removeEventListener("scroll", handleViewportChange);
+        window.visualViewport.removeEventListener(
+          "resize",
+          handleViewportChange
+        );
+        window.visualViewport.removeEventListener(
+          "scroll",
+          handleViewportChange
+        );
       }
     };
   }, [isOpen]);
 
-  // Auto scroll to bottom
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
-      // Only autofocus on desktop to prevent iOS keyboard from jumping on open
       if (window.innerWidth > 768) {
-        setTimeout(() => inputRef.current?.focus(), 150);
+        const focusTimer = setTimeout(() => inputRef.current?.focus(), 220);
+        return () => clearTimeout(focusTimer);
       }
     }
-  }, [isOpen, messages, isLoading]);
+  }, [isOpen, messages.length, isLoading, scrollToBottom]);
 
-  const handleInputFocus = () => {
-    setTimeout(() => {
-      scrollToBottom();
-    }, 250);
-  };
+  // Auto-resize textarea height
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 110)}px`;
+  }, [input]);
 
-  // Handle ESC key to close modal
+  // Handle ESC key to collapse back to Dynamic Island pill
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
+        triggerIslandMorph(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, triggerIslandMorph]);
 
-  const handleSend = async (userText?: string) => {
-    const query = (userText || input).trim();
+  const handleCopy = async (id: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1800);
+    } catch {
+      // ignore clipboard errors
+    }
+  };
+
+  const handleSend = async (userText?: string, customHistory?: Message[]) => {
+    const query = (userText ?? input).trim();
     if (!query || isLoading) return;
 
-    setInput("");
+    if (!userText) {
+      setInput("");
+    }
+
+    const baseMessages = customHistory ?? messages;
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
@@ -268,8 +333,8 @@ export const ChatWidget: React.FC = () => {
       timestamp: formatCurrentTime(),
     };
 
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    const updatedMessages = [...baseMessages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
 
     const assistantMsgId = `assistant-${Date.now()}`;
@@ -280,16 +345,13 @@ export const ChatWidget: React.FC = () => {
       timestamp: formatCurrentTime(),
     };
 
-    setMessages([...newMessages, assistantPlaceholder]);
+    setMessages([...updatedMessages, assistantPlaceholder]);
 
     try {
-      // Build history payload (role & content)
-      const historyPayload = newMessages
-        .filter((m) => m.id !== "welcome")
-        .map((m) => ({
-          role: m.role,
-          content: m.content,
-        }));
+      const historyPayload = updatedMessages.map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
 
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -325,6 +387,10 @@ export const ChatWidget: React.FC = () => {
           )
         );
       }
+
+      if (!isOpen) {
+        setHasUnreadReply(true);
+      }
     } catch (err: unknown) {
       console.error("Chat error:", err);
       const errText =
@@ -340,175 +406,323 @@ export const ChatWidget: React.FC = () => {
     }
   };
 
+  const handleRegenerate = () => {
+    if (isLoading || messages.length < 2) return;
+    // Find the last user message
+    const lastUserIndex = [...messages]
+      .map((m) => m.role)
+      .lastIndexOf("user");
+    if (lastUserIndex === -1) return;
+
+    const lastUserMessage = messages[lastUserIndex];
+    const historyBeforeLastTurn = messages.slice(0, lastUserIndex);
+    handleSend(lastUserMessage.content, historyBeforeLastTurn);
+  };
+
   const handleReset = () => {
-    setMessages([{ ...INITIAL_MESSAGE, timestamp: formatCurrentTime() }]);
+    if (isLoading) return;
+    setMessages([]);
+    setInput("");
+  };
+
+  const handleComposerKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   if (!mounted) return null;
 
+  const isEmptyThread = messages.length === 0;
+
   return (
     <div
-      className={`${styles.chatWidgetContainer} ${
-        isOpen ? styles.open : ""
+      className={`${styles.assistantModalRoot} ${
+        isOpen ? styles.rootOpen : styles.rootCollapsed
       }`}
     >
-      {/* Background Backdrop for Mobile */}
-      {isOpen && (
-        <div
-          className={styles.chatBackdrop}
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      {/* Mobile Backdrop */}
+      <div
+        className={`${styles.modalBackdrop} ${
+          isOpen ? styles.backdropVisible : ""
+        }`}
+        onClick={() => triggerIslandMorph(false)}
+        aria-hidden="true"
+      />
 
-      {/* Floating Trigger Button */}
-      {!isOpen && (
+      {/* Unified Dynamic Island Morphing Surface */}
+      <div
+        ref={islandRef}
+        style={isOpen ? viewportStyle : undefined}
+        className={[
+          styles.dynamicIsland,
+          isOpen ? styles.islandExpanded : styles.islandCollapsed,
+          isAnimatingMorph ? styles.islandMorphing : "",
+          isLoading && !isOpen ? styles.islandStreaming : "",
+          hasUnreadReply && !isOpen ? styles.islandUnread : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        role={isOpen ? "dialog" : undefined}
+        aria-modal={isOpen ? "true" : undefined}
+        aria-label="Arinal AI Assistant"
+      >
+        {/* ============================================================
+            COLLAPSED STATE: DYNAMIC ISLAND PILL TRIGGER
+            ============================================================ */}
         <button
-          className={styles.floatingTrigger}
-          onClick={() => setIsOpen(true)}
-          aria-label={`Tanya Arinal AI Assistant (${isMac ? "Cmd+K" : "Ctrl+K"})`}
-          aria-haspopup="dialog"
+          type="button"
+          className={styles.islandPillTrigger}
+          onClick={() => triggerIslandMorph(true)}
+          aria-label={`Buka Arinal AI Assistant (${isMac ? "Cmd+K" : "Ctrl+K"})`}
           aria-expanded={isOpen}
+          tabIndex={isOpen ? -1 : 0}
         >
-          <div className={styles.triggerIconWrap}>
-            <SparklesIcon />
-          </div>
-          <span className={styles.triggerLabel}>Tanya Arinal AI</span>
-          <kbd className={styles.shortcutKbd}>{isMac ? "⌘K" : "Ctrl K"}</kbd>
-          <span className={styles.badgeOnline} />
+          <span className={styles.islandLeading}>
+            {isLoading ? (
+              <IslandWaveform active />
+            ) : (
+              <span className={styles.islandOrb}>
+                <AssistantGlyph />
+              </span>
+            )}
+          </span>
+
+          <span className={styles.islandPillText}>
+            {isLoading
+              ? "Sedang menjawab..."
+              : hasUnreadReply
+              ? "Balasan baru tersedia"
+              : "Tanya Arinal"}
+          </span>
+
+          <kbd className={styles.islandKbd}>{isMac ? "⌘K" : "Ctrl K"}</kbd>
         </button>
-      )}
 
-      {/* Expandable Chat Window */}
-      {isOpen && (
+        {/* ============================================================
+            EXPANDED STATE: ASSISTANT-UI MODAL + THREAD + COMPOSER
+            ============================================================ */}
         <div
-          ref={chatWindowRef}
-          style={viewportStyle}
-          className={styles.chatWindow}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Arinal AI Assistant Chat Window"
+          className={styles.assistantModalContent}
+          aria-hidden={!isOpen}
         >
-          {/* Header */}
-          <div className={styles.chatHeader}>
-            <div className={styles.headerInfo}>
-              <div className={styles.avatar}>
-                <FiCpu />
+          {/* Dynamic Island Top Notch / Modal Header */}
+          <header className={styles.modalHeader}>
+            <div className={styles.headerIdentity}>
+              <div className={styles.islandHeaderCapsule}>
+                <IslandWaveform active={isLoading} />
+                <span className={styles.capsuleStatusText}>
+                  {isLoading ? "Thinking..." : "RAG Active"}
+                </span>
               </div>
-              <div>
-                <h3 className={styles.headerTitle}>
-                  Arinal AI Assistant
-                  <span className={styles.badgeOnline} />
-                </h3>
-                <p className={styles.headerSubtitle}>RAG Active • arhaq.dev</p>
+              <div className={styles.headerTitles}>
+                <h2 className={styles.headerTitle}>Arinal AI</h2>
+                <span className={styles.headerDomain}>arhaq.dev</span>
               </div>
             </div>
 
-            <div className={styles.headerActions}>
-              <button
-                className={styles.iconButton}
-                onClick={handleReset}
-                title="Reset Percakapan"
-                aria-label="Reset Percakapan"
-              >
-                <FiRotateCcw size={15} />
-              </button>
-              <button
-                className={styles.iconButton}
-                onClick={() => setIsOpen(false)}
-                title="Tutup Chat"
-                aria-label="Tutup Chat"
-              >
-                <FiX size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Quick Prompts */}
-          <div className={styles.quickPrompts} data-lenis-prevent>
-            {QUICK_PROMPTS.map((prompt, idx) => (
-              <button
-                key={idx}
-                className={styles.promptChip}
-                onClick={() => handleSend(prompt)}
-                disabled={isLoading}
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
-
-          {/* Messages Container */}
-          <div className={styles.messagesList} role="log" aria-live="polite" data-lenis-prevent>
-            {messages.map((msg) => {
-              const isWaiting = msg.role === "assistant" && msg.content === "";
-
-              return (
-                <div
-                  key={msg.id}
-                  className={`${styles.messageRow} ${
-                    msg.role === "user" ? styles.messageUser : styles.messageAssistant
-                  }`}
+            <div className={styles.headerControls}>
+              {!isEmptyThread && (
+                <button
+                  type="button"
+                  className={styles.headerIconBtn}
+                  onClick={handleReset}
+                  disabled={isLoading}
+                  title="Thread Baru"
+                  aria-label="Mulai percakapan baru"
                 >
-                  <div className={styles.bubble}>
-                    {isWaiting ? (
-                      <div className={styles.typingDots}>
-                        <span />
-                        <span />
-                        <span />
-                      </div>
-                    ) : (
-                      renderFormattedContent(msg.content)
-                    )}
-                  </div>
-                  {!isWaiting && msg.timestamp && (
-                    <span
-                      className={`${styles.timestamp} ${
-                        msg.role === "user" ? styles.userTime : ""
-                      }`}
-                    >
-                      {msg.timestamp}
-                    </span>
-                  )}
-                </div>
-              );
-            })}
+                  <FiRotateCcw size={14} />
+                </button>
+              )}
+              <button
+                type="button"
+                className={styles.headerIconBtn}
+                onClick={() => triggerIslandMorph(false)}
+                title="Minimize ke Dynamic Island (Esc)"
+                aria-label="Tutup jendela chat"
+              >
+                <FiMinimize2 size={14} className={styles.desktopMinimizeIcon} />
+                <FiX size={17} className={styles.mobileCloseIcon} />
+              </button>
+            </div>
+          </header>
 
-            <div ref={messagesEndRef} />
+          {/* ThreadPrimitive.Viewport */}
+          <div
+            className={styles.threadViewport}
+            role="log"
+            aria-live="polite"
+            data-lenis-prevent
+          >
+            {isEmptyThread ? (
+              /* ThreadPrimitive.Empty -> ThreadWelcome */
+              <div className={styles.threadWelcome}>
+                <div className={styles.welcomeHero}>
+                  <div className={styles.welcomeAvatar}>
+                    <AssistantGlyph />
+                  </div>
+                  <h3 className={styles.welcomeHeading}>
+                    Ada yang ingin ditanyakan?
+                  </h3>
+                  <p className={styles.welcomeSubtext}>
+                    Eksplorasi proyek, arsitektur sistem, sertifikasi, atau
+                    kolaborasi dengan Muhammad Arinal Haq.
+                  </p>
+                </div>
+
+                {/* ThreadWelcome.Suggestions (2x2 Grid like assistant-ui) */}
+                <div className={styles.welcomeSuggestions}>
+                  {THREAD_SUGGESTIONS.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={styles.suggestionCard}
+                      onClick={() => handleSend(item.prompt)}
+                      disabled={isLoading}
+                    >
+                      <span className={styles.suggestionTitle}>
+                        {item.title}
+                      </span>
+                      <span className={styles.suggestionLabel}>
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              /* ThreadPrimitive.Messages */
+              <div className={styles.threadMessages}>
+                {messages.map((msg, index) => {
+                  const isWaiting =
+                    msg.role === "assistant" && msg.content === "";
+                  const isLastAssistant =
+                    msg.role === "assistant" && index === messages.length - 1;
+
+                  if (msg.role === "user") {
+                    return (
+                      <div key={msg.id} className={styles.userMessageRow}>
+                        <div className={styles.userBubble}>
+                          {renderFormattedContent(msg.content)}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={msg.id} className={styles.assistantMessageRow}>
+                      <div className={styles.assistantAvatarCol}>
+                        <div className={styles.assistantAvatar}>
+                          <AssistantGlyph />
+                        </div>
+                      </div>
+
+                      <div className={styles.assistantBodyCol}>
+                        <div className={styles.assistantContent}>
+                          {isWaiting ? (
+                            <div className={styles.thinkingRow}>
+                              <IslandWaveform active />
+                              <span>Menyusun jawaban dari portofolio...</span>
+                            </div>
+                          ) : (
+                            renderFormattedContent(msg.content)
+                          )}
+                        </div>
+
+                        {/* AssistantActionBar */}
+                        {!isWaiting && msg.content && (
+                          <div className={styles.assistantActionBar}>
+                            <button
+                              type="button"
+                              className={styles.actionBarBtn}
+                              onClick={() => handleCopy(msg.id, msg.content)}
+                              title="Salin jawaban"
+                              aria-label="Salin jawaban"
+                            >
+                              {copiedId === msg.id ? (
+                                <>
+                                  <FiCheck size={12} />
+                                  <span>Tersalin</span>
+                                </>
+                              ) : (
+                                <>
+                                  <FiCopy size={12} />
+                                  <span>Salin</span>
+                                </>
+                              )}
+                            </button>
+
+                            {isLastAssistant && !isLoading && (
+                              <button
+                                type="button"
+                                className={styles.actionBarBtn}
+                                onClick={handleRegenerate}
+                                title="Ulangi jawaban"
+                                aria-label="Ulangi jawaban"
+                              >
+                                <FiRefreshCw size={12} />
+                                <span>Ulangi</span>
+                              </button>
+                            )}
+
+                            {msg.timestamp && (
+                              <span className={styles.messageTimestamp}>
+                                {msg.timestamp}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
           </div>
 
-          {/* Input Box */}
-          <form
-            className={styles.inputForm}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend();
-            }}
-          >
-            <input
-              ref={inputRef}
-              type="text"
-              className={styles.textInput}
-              placeholder="Ketik pertanyaan atau klik topik..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onFocus={handleInputFocus}
-              disabled={isLoading}
-            />
-            <button
-              type="submit"
-              className={styles.sendButton}
-              disabled={!input.trim() || isLoading}
-              aria-label="Kirim Pesan"
+          {/* ComposerPrimitive.Root */}
+          <div className={styles.composerWrapper}>
+            <form
+              className={styles.composerRoot}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
             >
-              <FiSend size={15} />
-            </button>
-          </form>
-          <p className={styles.disclaimer}>
-            Didukung oleh Google Gemini & Semantic RAG Portfolio
-          </p>
+              <textarea
+                ref={inputRef}
+                rows={1}
+                className={styles.composerInput}
+                placeholder="Tanyakan sesuatu tentang Arinal..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleComposerKeyDown}
+                disabled={isLoading}
+              />
+
+              <div className={styles.composerFooter}>
+                <span className={styles.composerHint}>
+                  <FiCornerDownLeft size={11} />
+                  <span>Enter untuk kirim</span>
+                </span>
+
+                <button
+                  type="submit"
+                  className={styles.composerSendBtn}
+                  disabled={!input.trim() || isLoading}
+                  aria-label="Kirim pesan"
+                >
+                  <FiArrowUp size={16} strokeWidth={2.5} />
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

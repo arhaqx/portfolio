@@ -54,8 +54,8 @@ const home: Home = {
   image: "/images/og/home.jpg?v=2",
   label: "Home",
   title: `${person.name} – Full Stack Web Developer`,
-  description: `Portofolio website ${person.name}, seorang Full Stack Web Developer berdedikasi membangun aplikasi web responsif dan berskala tinggi.`,
-  headline: <>Membangun Aplikasi Web Responsif, Modern, dan Berskala Tinggi</>,
+  description: `Portofolio resmi ${person.name}, Full Stack Web Developer yang berfokus pada rekayasa aplikasi web full-stack, infrastruktur cloud, dan sistem AI otonom.`,
+  headline: <>Rekayasa Aplikasi Web Full-Stack, Infrastruktur Cloud & Sistem AI Otonom</>,
   featured: {
     display: true,
     title: (
@@ -63,7 +63,7 @@ const home: Home = {
         <strong className="ml-4">Hermes Agent</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          Featured Project
+          Proyek Unggulan
         </Text>
       </Row>
     ),
@@ -71,7 +71,7 @@ const home: Home = {
   },
   subline: (
     <>
-      Halo! Saya {person.firstName}, seorang {person.role.toLowerCase()} berbasis di Semarang, Indonesia. Berpengalaman mengembangkan aplikasi web modern dan autonomous AI agent menggunakan <Text as="span" size="xl" weight="strong">React, Next.js, Azure, Node.js, & Laravel</Text>.
+      Halo, saya {person.firstName}. Full-Stack Web Developer berbasis di Semarang yang membangun aplikasi web skala produksi, infrastruktur cloud, dan autonomous AI agent menggunakan <Text as="span" size="xl" weight="strong">React, Next.js, Node.js, Laravel, & Microsoft Azure</Text>.
     </>
   ),
 };
@@ -98,10 +98,10 @@ const about: About = {
     description: (
       <>
         <Text as="p" variant="body-default-l" onBackground="neutral-weak" style={{ lineHeight: "1.75" }}>
-          Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro, pemegang sertifikasi profesional IBM Full-Stack JavaScript Developer, dan alumni Dicoding Fullstack Web Developer Bootcamp. Berdedikasi membangun aplikasi web modern, cloud-native, responsif, dan berskala tinggi menggunakan React, Next.js, Node.js, Express, MongoDB, Django, dan Laravel.
+          Lulusan S1 Teknik Informatika Universitas Dian Nuswantoro (UDINUS) dengan fokus pada rekayasa perangkat lunak full-stack dan arsitektur cloud-native. Pemegang sertifikasi profesional IBM Full-Stack JavaScript Developer (Coursera) dan alumni Dicoding Fullstack Web Developer Bootcamp, dengan pengalaman membangun sistem berbasis React, Next.js, TypeScript, Node.js, Express, MongoDB, Django, dan Laravel.
         </Text>
         <Text as="p" variant="body-default-l" onBackground="neutral-weak" style={{ lineHeight: "1.75" }}>
-          Membawa pengalaman magang selama 6 bulan di Diskominfo Kota Semarang dalam pemeliharaan dan optimasi portal web, serta rekam jejak kolaborasi tim yang solid dalam merilis berbagai proyek dan terbiasa memecahkan masalah teknis kompleks guna menciptakan solusi perangkat lunak yang andal dan efisien.
+          Berpengalaman menangani sistem produksi melalui magang 6 bulan di Diskominfo Kota Semarang serta merilis berbagai proyek industri dan independen, mulai dari pemeliharaan portal layanan publik, sistem informasi manufaktur, visualisasi lahan 3D WebGL, hingga operasional autonomous AI agent 24/7 di atas infrastruktur Microsoft Azure.
         </Text>
       </>
     ),
@@ -109,25 +109,11 @@ const about: About = {
   work: {
     display: true, // set to false to hide this section
     title: "Pengalaman Kerja & Proyek",
-    tag: "EXPERIENCE",
-    headline: (
-      <>
-        Roles that shaped the{" "}
-        <Text
-          as="span"
-          style={{
-            fontStyle: "italic",
-            fontFamily: 'var(--font-serif, "Playfair Display", Georgia, "Times New Roman", serif)',
-            fontWeight: 400,
-          }}
-        >
-          work
-        </Text>
-      </>
-    ),
+    tag: "PENGALAMAN & PROYEK",
+    headline: <>Jejak Rekayasa & Pengalaman Produksi</>,
     description: (
       <>
-        Autonomous AI systems, cloud infrastructure, and full-stack engineering — in the order they happened.
+        Implementasi sistem AI otonom, infrastruktur cloud, dan pengembangan aplikasi web full-stack pada instansi pemerintah maupun sektor industri.
       </>
     ),
     experiences: [
@@ -138,10 +124,10 @@ const about: About = {
         role: "AI Systems & Cloud Engineer",
         achievements: [
           <>
-            Mengarsiteki dan mengoperasikan autonomous AI agent 24/7 di atas infrastruktur Microsoft Azure (Ubuntu VM) — terintegrasi dengan Telegram multi-topic message broker untuk continuous remote execution dan orkestrasi scheduled cronjobs.
+            Merancang dan mengoperasikan autonomous AI agent 24/7 di atas infrastruktur Microsoft Azure (Ubuntu 24.04 LTS VM) yang terintegrasi dengan Telegram multi-topic message broker untuk eksekusi tugas jarak jauh dan penjadwalan cronjob otomatis.
           </>,
           <>
-            Mengintegrasikan 9Router Proxy AI Gateway dengan smart prompt caching — sukses memangkas konsumsi token hingga 85% (~2,4M+ cached input tokens) dan routing dinamis multi-LLM (Gemini Flash, OpenCode, MiMo).
+            Mengonfigurasi 9Router Proxy sebagai AI Gateway dengan mekanisme smart prompt caching yang menghemat konsumsi token hingga 85% (~2,46 juta cached input tokens) serta mendukung routing dinamis lintas model (Gemini Flash, OpenCode, MiMo).
           </>,
         ],
         images: [
@@ -160,10 +146,10 @@ const about: About = {
         role: "Full Stack Web Developer Intern",
         achievements: [
           <>
-            Bertanggung jawab atas pemeliharaan rutin, refactoring basis data, dan pengembangan modul fitur baru pada jaringan portal web kedinasan serta sekolah negeri di lingkup Pemerintah Kota Semarang berbasis PHP/Laravel.
+            Menangani pemeliharaan rutin, refactoring skema basis data, dan pengembangan modul fitur baru pada jaringan portal web kedinasan serta sekolah negeri di lingkup Pemerintah Kota Semarang berbasis PHP dan Laravel.
           </>,
           <>
-            Melakukan bug fixing intensif, audit keamanan sistem, dan optimasi performa backend — menjamin ketersediaan tinggi (high availability) serta integritas data layanan publik.
+            Melakukan debugging sistem produksi, audit keamanan aplikasi, dan optimasi performa query backend untuk menjaga ketersediaan tinggi serta integritas data layanan publik.
           </>,
         ],
         images: [],
@@ -175,10 +161,10 @@ const about: About = {
         role: "Full Stack Developer (Contract)",
         achievements: [
           <>
-            Membangun sistem manajemen lahan parkir pabrik terintegrasi berbasis Next.js, Node.js REST API, dan PostgreSQL — mendigitalisasi kalkulasi retribusi dan pemantauan kapasitas slot kendaraan secara real-time.
+            Membangun sistem manajemen lahan parkir pabrik terintegrasi berbasis Next.js, Node.js REST API, dan PostgreSQL untuk mendigitalisasi kalkulasi retribusi dan pemantauan kapasitas slot kendaraan secara real-time.
           </>,
           <>
-            Mengimplementasikan verifikasi foto bukti fisik via Cloudinary dengan algoritma deteksi duplikasi otomatis, serta dashboard analitik okupansi kendaraan berfitur export laporan spreadsheet.
+            Mengimplementasikan verifikasi foto bukti fisik melalui Cloudinary dengan algoritma deteksi duplikasi otomatis, dilengkapi dashboard analitik okupansi kendaraan dengan fitur ekspor laporan spreadsheet.
           </>,
         ],
         images: [
@@ -197,10 +183,10 @@ const about: About = {
         role: "Lead Full Stack Developer",
         achievements: [
           <>
-            Memimpin rekayasa platform kesehatan mental terpadu (healspace.my.id) sebagai proyek akhir kolaboratif Dicoding Bootcamp — dibangun dengan React, Tailwind CSS, Django REST Framework, dan PostgreSQL.
+            Memimpin pengembangan platform kesehatan mental terpadu (healspace.my.id) pada proyek akhir kolaboratif Dicoding Bootcamp menggunakan React, Tailwind CSS, Django REST Framework, dan PostgreSQL.
           </>,
           <>
-            Mengintegrasikan asisten AI konseling interaktif 24/7 berbasis Google Gemini API, instrumen skrining klinis DASS-21 & PHQ-9 dengan visualisasi tren emosional, serta emergency crisis trigger hotline 119.
+            Mengintegrasikan asisten AI konseling interaktif 24/7 berbasis Google Gemini API, instrumen skrining klinis DASS-21 & PHQ-9 dengan visualisasi tren emosional, serta pintasan darurat hotline 119.
           </>,
         ],
         images: [
@@ -222,7 +208,7 @@ const about: About = {
             Mengembangkan aplikasi visualisasi 3D WebGL interaktif untuk simulasi pembagian lahan kavling seluas 9.910 m² menggunakan Three.js dan React Three Fiber.
           </>,
           <>
-            Mengimplementasikan arsitektur Dual Scene (masterplan makro & kavling mikro), ekstrusi poligon parametrik custom, serta kalkulator valuasi tanah dinamis secara interaktif.
+            Mengimplementasikan arsitektur Dual Scene (masterplan makro dan kavling mikro), ekstrusi poligon parametrik custom, serta kalkulator valuasi tanah dinamis secara real-time.
           </>,
         ],
         images: [
@@ -241,7 +227,7 @@ const about: About = {
         role: "Frontend Web Developer",
         achievements: [
           <>
-            Merancang dan mendeploy landing page responsif berorientasi visual modern dengan katalog menu digital terintegrasi — memperkuat presensi digital dan konversi pengunjung kafe.
+            Merancang dan merilis landing page responsif dengan katalog menu digital terintegrasi untuk memudahkan eksplorasi produk dan memperkuat presensi digital kafe.
           </>,
         ],
         images: [
@@ -462,25 +448,28 @@ const about: About = {
         images: [],
       },
       {
-        title: "Soft Skills & Kolaborasi",
+        title: "System Architecture & Engineering Practices",
         description: (
-          <>Terbiasa memecahkan masalah teknis kompleks, bekerja sama dalam tim, komunikatif, dan memiliki manajemen waktu yang baik.</>
+          <>Perancangan sistem terdistribusi, integrasi RAG & LLM pada aplikasi web, dokumentasi spesifikasi teknis, serta kepemimpinan tim teknis dan kreatif.</>
         ),
         tags: [
           {
-            name: "Problem Solving",
+            name: "System Design",
           },
           {
-            name: "Teamwork",
+            name: "RESTful API Architecture",
           },
           {
-            name: "Komunikatif",
+            name: "RAG & LLM Integration",
           },
           {
-            name: "Kemauan Belajar Tinggi",
+            name: "Agile / Scrum",
           },
           {
-            name: "Manajemen Waktu",
+            name: "Technical Documentation",
+          },
+          {
+            name: "Team Leadership",
           },
         ],
         images: [],
@@ -557,10 +546,10 @@ const learning: Learning = {
   label: "Learning",
   title: `Learning & Progress Tracker – ${person.name}`,
   description: `Roadmap, kelas aktif, dan progres pembelajaran berkelanjutan oleh ${person.name} dalam bidang Cloud, Generative AI, dan Full-Stack Web Development.`,
-  headline: <>Learning Journey & Skill Tracker</>,
+  headline: <>Kurikulum & Progres Sertifikasi Teknis</>,
   subline: (
     <>
-      Dokumentasi kelas, program sertifikasi, dan kurikulum intensif yang sedang ditempuh maupun telah selesai. Menjaga komitmen transparansi belajar berkelanjutan (<em>learn in public</em>).
+      Dokumentasi program sertifikasi profesional, beasiswa teknologi, dan modul teknis yang sedang ditempuh maupun telah diselesaikan.
     </>
   ),
   tracks: [
@@ -577,9 +566,9 @@ const learning: Learning = {
       deadlineLabel: "Diselesaikan pada 6 Oktober 2026 • Credential ID: WIG8NPYN363B",
       announcement: {
         type: "success",
-        title: "Sertifikasi Profesional Resmi Diraih! 🎓",
+        title: "Sertifikasi Profesional Selesai (12/12 Kursus)",
         message:
-          "Berhasil menyelesaikan 12 spesialisasi kursus intensif dari IBM Skills Network yang mencakup React, Node.js, Express, MongoDB, Docker, Kubernetes, Microservices, OpenShift, Cloud Native, dan Serverless Computing.",
+          "Menyelesaikan seluruh 12 spesialisasi kursus dari IBM Skills Network yang mencakup React, Node.js, Express, MongoDB, Docker, Kubernetes, Microservices, OpenShift, Cloud Native, dan Serverless Computing.",
       },
       modules: [
         {
@@ -675,8 +664,8 @@ const learning: Learning = {
       deadlineLabel: "Pengumuman Seleksi Beasiswa Lanjutan (Batch 2): 30 September 2026",
       announcement: {
         type: "success",
-        title: "Langkah 3: Selamat! Anda selangkah lebih dekat menuju Beasiswa Kelas Lanjutan 🎉",
-        message: "Seluruh kelas pada setiap milestone telah diselesaikan 100% sebelum batas waktu resmi. Saat ini menunggu pengumuman hasil seleksi Beasiswa Kelas Lanjutan Batch 2 (30 September 2026).",
+        title: "Milestone Tahap Dasar & Pengenalan Tuntas 100%",
+        message: "Seluruh kelas wajib telah diselesaikan satu bulan sebelum tenggat waktu resmi dan masuk ke tahap evaluasi Beasiswa Kelas Lanjutan Batch 2.",
       },
       modules: [
         {
@@ -731,7 +720,7 @@ const learning: Learning = {
       announcement: {
         type: "info",
         title: "Eksplorasi Cloud Infrastructure & Generative AI",
-        message: "Program akselerasi kecerdasan buatan dari AWS untuk menguasai komputasi awan, generative AI dasar, dan penerapan model machine learning praktis.",
+        message: "Program pelatihan teknis dari AWS untuk penguasaan komputasi awan, layanan Generative AI, dan penerapan model machine learning praktis.",
       },
       modules: [
         {
@@ -744,7 +733,7 @@ const learning: Learning = {
           title: "Belajar Dasar Cloud dan Gen AI di AWS",
           status: "in-progress",
           tags: ["AWS", "Cloud Computing", "Generative AI", "Bedrock"],
-          note: "Sedang dipelajari — konsep infrastruktur AWS Cloud & ekosistem Gen AI.",
+          note: "Sedang dipelajari: konsep infrastruktur AWS Cloud dan ekosistem Generative AI.",
         },
         {
           title: "Memulai Pemrograman dengan Python",
