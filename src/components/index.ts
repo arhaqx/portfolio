@@ -9,3 +9,7 @@ export { ScrollToHash } from "@/components/ScrollToHash";
 export { ThemeToggle } from "@/components/ThemeToggle";
 export { CustomMDX } from "@/components/mdx";
 export { ChatWidget } from "@/components/chat/ChatWidget";
+export { ArLogo } from "@/components/ArLogo";
+export { SplitText } from "@/components/SplitText";
+export { DepthCard, DepthLayer, StarBorder } from "@/components/motion";
+export type { DepthCardProps, DepthCardLayer, DepthLayerProps, StarBorderProps } from "@/components/motion";

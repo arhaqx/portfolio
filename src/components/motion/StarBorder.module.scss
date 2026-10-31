@@ -1,0 +1,168 @@
+/* ==========================================================================
+   React Bits: StarBorder SCSS Module
+   https://reactbits.dev/animations/star-border
+   ========================================================================== */
+
+.starBorderContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--star-thickness, 1.5px);
+  border-radius: var(--star-radius, 9999px);
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  user-select: none;
+  isolation: isolate;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.35);
+
+    .borderGradientBottom,
+    .borderGradientTop {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+.borderGradientBottom,
+.borderGradientTop {
+  position: absolute;
+  width: 320%;
+  height: 60%;
+  opacity: 0.7; /* dimmed at rest, brightens on hover */
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.borderGradientBottom {
+  right: -260%;
+  bottom: -12px;
+  animation: starMovementBottom linear infinite alternate;
+  animation-duration: var(--star-speed, 5s);
+  background: radial-gradient(
+    circle 80px at 50% 50%,
+    var(--star-color, #ffffff),
+    transparent 75%
+  );
+}
+
+.borderGradientTop {
+  left: -260%;
+  top: -12px;
+  animation: starMovementTop linear infinite alternate;
+  animation-duration: var(--star-speed, 5s);
+  background: radial-gradient(
+    circle 80px at 50% 50%,
+    var(--star-color, #ffffff),
+    transparent 75%
+  );
+}
+
+.innerContent {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  z-index: 1;
+  background: var(--liquid-glass-bg);
+  backdrop-filter: var(--liquid-blur-strong);
+  -webkit-backdrop-filter: var(--liquid-blur-strong);
+  border: 1px solid var(--liquid-glass-border);
+  box-shadow: var(--liquid-glass-shadow);
+  padding: 0.8rem 1.6rem;
+  color: var(--neutral-on-background-strong);
+  font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+
+  .starBorderContainer:hover & {
+    background: var(--liquid-glass-bg-hover);
+    border-color: var(--liquid-glass-border-hover);
+  }
+}
+
+:global([data-theme="light"]) {
+  .starBorderContainer {
+    --star-color-default: #0284c7;
+  }
+
+  /* More transparent glass + white specular rim (no grey border) so the star trail stays visible */
+  .innerContent {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow:
+      0 6px 20px -6px rgba(15, 23, 42, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    color: #0f172a !important;
+  }
+
+  .starBorderContainer:hover .innerContent {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+:global([data-theme="dark"]) {
+  .starBorderContainer {
+    --star-color-default: #ffffff;
+  }
+
+  .innerContent {
+    color: #ffffff !important;
+  }
+}
+
+@keyframes starMovementBottom {
+  0% {
+    transform: translate(0%, 0%);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-100%, 0%);
+    opacity: 0.2;
+  }
+}
+
+@keyframes starMovementTop {
+  0% {
+    transform: translate(0%, 0%);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(100%, 0%);
+    opacity: 0.2;
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .borderGradientBottom,
+  .borderGradientTop {
+    animation: none !important;
+    opacity: 0.6;
+  }
+}

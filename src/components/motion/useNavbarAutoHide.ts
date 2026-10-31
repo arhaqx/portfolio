@@ -39,7 +39,7 @@ export function useNavbarAutoHide(lenis: Lenis | null) {
       const onScroll = (instance: Lenis) => {
         const y = instance.scroll;
 
-        if (y < ALWAYS_VISIBLE_UNTIL) return setHidden(false);
+        if (y < ALWAYS_VISIBLE_UNTIL || document.getElementById("home-fixed-stage")) return setHidden(false);
 
         // Don't hide the nav out from under a keyboard user.
         const header = document.querySelector("header[data-nav-autohide]");

@@ -4,8 +4,10 @@
 .sky {
   position: fixed;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  /* Large viewport height: the sky no longer resizes/jumps as mobile browser bars show/hide. */
+  height: 100lvh;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;

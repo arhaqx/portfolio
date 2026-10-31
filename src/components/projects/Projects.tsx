@@ -1,13 +1,14 @@
 import { getPosts } from "@/utils/utils";
-import { Column } from "@once-ui-system/core";
+import { Grid } from "@once-ui-system/core";
 import { ProjectCard } from "@/components";
 
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
+  columns?: 1 | 2 | 3;
 }
 
-export function Projects({ range, exclude }: ProjectsProps) {
+export function Projects({ range, exclude, columns = 2 }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "projects", "projects"]);
 
   // Exclude by slug (exact match)
@@ -24,7 +25,15 @@ export function Projects({ range, exclude }: ProjectsProps) {
     : sortedProjects;
 
   return (
-    <Column fillWidth gap="xl" marginBottom="40" paddingX="l" data-stagger>
+    <Grid
+      columns={columns}
+      s={{ columns: 1 }}
+      gap="24"
+      fillWidth
+      marginBottom="40"
+      paddingX="l"
+      data-stagger
+    >
       {displayedProjects.map((post, index) => (
         <ProjectCard
           priority={index < 2}
@@ -38,6 +47,6 @@ export function Projects({ range, exclude }: ProjectsProps) {
           link={post.metadata.link || ""}
         />
       ))}
-    </Column>
+    </Grid>
   );
 }

@@ -41,4 +41,9 @@ next-env.d.ts
 # secrets & credentials
 *credential*.json
 *-key.json
-*.service-account.json
+*.service-account.json
+
+
+# root temp screenshots & loose assets
+/*.jpg
+/AR.svg

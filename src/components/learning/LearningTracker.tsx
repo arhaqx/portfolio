@@ -21,6 +21,8 @@ type FilterType = "all" | "in-progress" | "completed";
 
 export default function LearningTracker() {
   const [filter, setFilter] = useState<FilterType>("all");
+  // Manage accordion dropdown state: trackId -> boolean (default: collapsed)
+  const [expandedTracks, setExpandedTracks] = useState<Record<string, boolean>>({});
 
   const tracks = learning.tracks;
 
@@ -28,6 +30,28 @@ export default function LearningTracker() {
     if (filter === "all") return true;
     return track.status === filter;
   });
+
+  const toggleTrack = (trackId: string) => {
+    setExpandedTracks((prev) => ({
+      ...prev,
+      [trackId]: !prev[trackId],
+    }));
+  };
+
+  const areAllExpanded =
+    filteredTracks.length > 0 && filteredTracks.every((t) => !!expandedTracks[t.id]);
+
+  const toggleAllTracks = () => {
+    if (areAllExpanded) {
+      setExpandedTracks({});
+    } else {
+      const allOpen: Record<string, boolean> = {};
+      filteredTracks.forEach((t) => {
+        allOpen[t.id] = true;
+      });
+      setExpandedTracks(allOpen);
+    }
+  };
 
   // Calculate overall statistics
   const totalModules = tracks.reduce((acc, t) => acc + t.modules.length, 0);
@@ -59,12 +83,12 @@ export default function LearningTracker() {
               <Row
                 padding="8"
                 radius="m"
-                background="brand-alpha-weak"
-                border="brand-alpha-medium"
+                background="neutral-alpha-weak"
+                border="neutral-alpha-medium"
                 vertical="center"
                 horizontal="center"
               >
-                <Icon name="graduationCap" onBackground="brand-strong" size="m" />
+                <Icon name="graduationCap" onBackground="neutral-strong" size="m" />
               </Row>
               <Column gap="2">
                 <Text variant="heading-strong-s">Statistik & Progres Belajar</Text>
@@ -76,7 +100,7 @@ export default function LearningTracker() {
 
             <Badge arrow={false} effect={false}>
               <Row vertical="center" gap="8">
-                <Icon name="checkCircle" size="xs" onBackground="brand-strong" />
+                <Icon name="checkCircle" size="xs" onBackground="neutral-strong" />
                 <Text variant="body-strong-xs">
                   {completedModules}/{totalModules} Modul ({overallPercentage}%)
                 </Text>
@@ -114,28 +138,28 @@ export default function LearningTracker() {
             <Column
               padding="12"
               radius="m"
-              background="accent-alpha-weak"
-              border="accent-alpha-medium"
+              background="neutral-alpha-weak"
+              border="neutral-alpha-medium"
               gap="4"
             >
-              <Text variant="body-default-xs" onBackground="accent-strong">
+              <Text variant="body-default-xs" onBackground="neutral-weak">
                 Modul Tuntas (100%)
               </Text>
-              <Text variant="heading-strong-m" onBackground="accent-strong">
+              <Text variant="heading-strong-m" onBackground="neutral-strong">
                 {completedModules} Kelas
               </Text>
             </Column>
             <Column
               padding="12"
               radius="m"
-              background="brand-alpha-weak"
-              border="brand-alpha-medium"
+              background="neutral-alpha-weak"
+              border="neutral-alpha-medium"
               gap="4"
             >
-              <Text variant="body-default-xs" onBackground="brand-strong">
+              <Text variant="body-default-xs" onBackground="neutral-weak">
                 Sedang Berjalan
               </Text>
-              <Text variant="heading-strong-m" onBackground="brand-strong">
+              <Text variant="heading-strong-m" onBackground="neutral-strong">
                 {inProgressModules} Modul
               </Text>
             </Column>
@@ -157,7 +181,7 @@ export default function LearningTracker() {
 
       {/* Filter Navigation Tabs */}
       <Row data-reveal fillWidth horizontal="between" vertical="center" wrap gap="12">
-        <Row gap="8" wrap fillWidth s={{ gap: "4" }}>
+        <Row gap="8" wrap s={{ gap: "4" }}>
           <ToggleButton
             selected={filter === "all"}
             onClick={() => setFilter("all")}
@@ -174,13 +198,39 @@ export default function LearningTracker() {
             label={`Selesai 100% (${tracks.filter((t) => t.status === "completed").length})`}
           />
         </Row>
+
+        <button
+          type="button"
+          onClick={toggleAllTracks}
+          style={{
+            background: "transparent",
+            border: "1px solid var(--neutral-alpha-medium)",
+            borderRadius: "999px",
+            padding: "0.4rem 0.85rem",
+            color: "var(--neutral-on-background-weak)",
+            cursor: "pointer",
+            fontSize: "0.75rem",
+            fontWeight: 500,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <Icon name={areAllExpanded ? "chevronUp" : "chevronDown"} size="xs" />
+          <span>{areAllExpanded ? "Tutup Semua Materi" : "Buka Semua Materi"}</span>
+        </button>
       </Row>
 
       {/* Program Tracks List */}
       <Column fillWidth gap="24" data-stagger>
-        {filteredTracks.map((track) => (
-          <Card
-            key={track.id}
+        {filteredTracks.map((track) => {
+          const isExpanded = !!expandedTracks[track.id];
+          const completedCount = track.modules.filter((m) => m.status === "completed").length;
+
+          return (
+            <Card
+              key={track.id}
             fillWidth
             radius="l"
             border="neutral-medium"
@@ -226,7 +276,7 @@ export default function LearningTracker() {
                   <Heading as="h3" variant="heading-strong-m" wrap="balance">
                     {track.program}
                   </Heading>
-                  <Text variant="body-strong-m" onBackground="brand-strong">
+                  <Text variant="body-strong-m" onBackground="neutral-strong">
                     {track.trackName}
                   </Text>
                 </Column>
@@ -244,13 +294,13 @@ export default function LearningTracker() {
                       padding="4"
                       paddingX="12"
                       radius="full"
-                      background="accent-alpha-weak"
-                      border="accent-alpha-strong"
+                      background="neutral-alpha-weak"
+                      border="neutral-alpha-strong"
                       vertical="center"
                       gap="4"
                     >
-                      <Icon name="checkCircle" size="xs" onBackground="accent-strong" />
-                      <Text variant="body-strong-xs" onBackground="accent-strong">
+                      <Icon name="checkCircle" size="xs" onBackground="neutral-strong" />
+                      <Text variant="body-strong-xs" onBackground="neutral-strong">
                         {track.statusLabel}
                       </Text>
                     </Row>
@@ -259,13 +309,13 @@ export default function LearningTracker() {
                       padding="4"
                       paddingX="12"
                       radius="full"
-                      background="brand-alpha-weak"
-                      border="brand-alpha-strong"
+                      background="neutral-alpha-weak"
+                      border="neutral-alpha-medium"
                       vertical="center"
                       gap="4"
                     >
-                      <Icon name="clock" size="xs" onBackground="brand-strong" />
-                      <Text variant="body-strong-xs" onBackground="brand-strong">
+                      <Icon name="clock" size="xs" onBackground="neutral-weak" />
+                      <Text variant="body-strong-xs" onBackground="neutral-weak">
                         {track.statusLabel}
                       </Text>
                     </Row>
@@ -300,29 +350,17 @@ export default function LearningTracker() {
                   radius="m"
                   gap="12"
                   vertical="start"
-                  background={
-                    track.announcement.type === "success"
-                      ? "accent-alpha-weak"
-                      : "brand-alpha-weak"
-                  }
-                  border={
-                    track.announcement.type === "success"
-                      ? "accent-alpha-medium"
-                      : "brand-alpha-medium"
-                  }
+                  background="neutral-alpha-weak"
+                  border="neutral-alpha-medium"
                 >
                   <Icon
                     name={track.announcement.type === "success" ? "trophy" : "rocket"}
                     size="s"
-                    onBackground={
-                      track.announcement.type === "success"
-                        ? "accent-strong"
-                        : "brand-strong"
-                    }
+                    onBackground="neutral-strong"
                   />
                   <Column gap="4" fillWidth>
                     <Text variant="body-strong-s">{track.announcement.title}</Text>
-                    <Text variant="body-default-xs" onBackground="neutral-medium">
+                    <Text variant="body-default-xs" onBackground="neutral-weak">
                       {track.announcement.message}
                     </Text>
                   </Column>
@@ -331,19 +369,98 @@ export default function LearningTracker() {
 
               <Line background="neutral-alpha-weak" />
 
-              {/* Modules List */}
+              {/* Modules Dropdown Trigger */}
               <Column fillWidth gap="12">
-                <Row fillWidth horizontal="between" vertical="center" marginBottom="4">
-                  <Text variant="heading-strong-xs" onBackground="neutral-weak">
-                    DAFTAR MATERI & KELAS PEMBELAJARAN
-                  </Text>
-                  <Text variant="body-default-xs" onBackground="neutral-weak">
-                    {track.modules.length} Modul
-                  </Text>
+                <Row
+                  fillWidth
+                  horizontal="between"
+                  vertical="center"
+                  wrap
+                  gap="12"
+                  paddingY="12"
+                  paddingX="16"
+                  s={{ paddingX: "12", paddingY: "10" }}
+                  radius="m"
+                  background="neutral-alpha-weak"
+                  border="neutral-alpha-medium"
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isExpanded}
+                  onClick={() => toggleTrack(track.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      toggleTrack(track.id);
+                    }
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    userSelect: "none",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <Row vertical="center" gap="12" style={{ flex: 1, minWidth: "14rem" }}>
+                    <Row
+                      padding="4"
+                      radius="full"
+                      background={isExpanded ? "brand-alpha-medium" : "neutral-alpha-medium"}
+                      vertical="center"
+                      horizontal="center"
+                      style={{
+                        transition: "transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                        transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Icon
+                        name="chevronDown"
+                        size="xs"
+                        onBackground={isExpanded ? "neutral-strong" : "neutral-weak"}
+                      />
+                    </Row>
+                    <Column gap="2" style={{ minWidth: 0 }}>
+                      <Text variant="heading-strong-xs" onBackground="neutral-strong">
+                        DAFTAR MATERI & KELAS PEMBELAJARAN
+                      </Text>
+                      <Text variant="body-default-xs" onBackground="neutral-weak">
+                        {isExpanded
+                          ? "Klik untuk menutup rincian modul"
+                          : "Klik untuk membuka rincian kurikulum & modul"}
+                      </Text>
+                    </Column>
+                  </Row>
+
+                  <Row vertical="center" gap="8">
+                    <Row
+                      paddingY="2"
+                      paddingX="8"
+                      radius="full"
+                      background="neutral-alpha-weak"
+                      border="neutral-alpha-medium"
+                      vertical="center"
+                    >
+                      <Text
+                        variant="body-default-xs"
+                        weight="strong"
+                        onBackground="neutral-strong"
+                      >
+                        {completedCount}/{track.modules.length} Selesai
+                      </Text>
+                    </Row>
+                    <Text
+                      variant="body-strong-xs"
+                      onBackground="neutral-strong"
+                      style={{ minWidth: "2.75rem", textAlign: "right" }}
+                    >
+                      {isExpanded ? "Tutup ↑" : "Buka ↓"}
+                    </Text>
+                  </Row>
                 </Row>
 
-                <Column fillWidth gap="8">
-                  {track.modules.map((module, modIndex) => {
+                {/* Collapsible Modules List */}
+                {isExpanded && (
+                  <Column fillWidth gap="8" paddingTop="4">
+                    {track.modules.map((module, modIndex) => {
                     const isCompleted = module.status === "completed";
                     const isInProgress = module.status === "in-progress";
                     const isLocked = module.status === "locked";
@@ -356,7 +473,13 @@ export default function LearningTracker() {
                         paddingX="16"
                         s={{ paddingX: "12" }}
                         radius="m"
-                        background="surface"
+                        background={
+                          isInProgress
+                            ? "brand-alpha-weak"
+                            : isCompleted
+                            ? "surface"
+                            : "neutral-alpha-weak"
+                        }
                         border={
                           isInProgress
                             ? "brand-alpha-strong"
@@ -367,11 +490,6 @@ export default function LearningTracker() {
                         gap="8"
                         style={{
                           transition: "all 0.2s ease",
-                          backgroundColor: isInProgress
-                            ? "var(--brand-alpha-weak)"
-                            : isCompleted
-                            ? "var(--surface)"
-                            : "var(--neutral-alpha-weak)",
                         }}
                       >
                         {/* Top: Icon + Title & Note */}
@@ -381,14 +499,14 @@ export default function LearningTracker() {
                               <Icon
                                 name="checkCircle"
                                 size="s"
-                                onBackground="accent-strong"
+                                onBackground="neutral-strong"
                               />
                             ) : isInProgress ? (
                               <Row
                                 padding="4"
                                 radius="full"
-                                background="brand-strong"
-                                style={{ width: 16, height: 16, marginTop: 2 }}
+                                background="neutral-strong"
+                                style={{ width: 14, height: 14, marginTop: 3 }}
                               />
                             ) : isLocked ? (
                               <Icon name="lock" size="s" onBackground="neutral-weak" />
@@ -441,12 +559,12 @@ export default function LearningTracker() {
                               padding="4"
                               paddingX="8"
                               radius="full"
-                              background="accent-alpha-weak"
-                              border="accent-alpha-medium"
+                              background="neutral-alpha-weak"
+                              border="neutral-alpha-medium"
                             >
                               <Text
                                 variant="body-strong-xs"
-                                onBackground="accent-strong"
+                                onBackground="neutral-strong"
                               >
                                 Selesai 100%
                               </Text>
@@ -458,11 +576,12 @@ export default function LearningTracker() {
                               padding="4"
                               paddingX="8"
                               radius="full"
-                              background="brand-strong"
+                              background="neutral-alpha-weak"
+                              border="neutral-alpha-strong"
                             >
                               <Text
                                 variant="body-strong-xs"
-                                onBackground="brand-weak"
+                                onBackground="neutral-strong"
                               >
                                 Aktif Berjalan
                               </Text>
@@ -506,7 +625,8 @@ export default function LearningTracker() {
                     );
                   })}
                 </Column>
-              </Column>
+              )}
+            </Column>
 
               {/* Next Target Block */}
               {track.nextTarget && (
@@ -515,7 +635,7 @@ export default function LearningTracker() {
                   padding="16"
                   radius="m"
                   background="neutral-alpha-weak"
-                  border="brand-alpha-medium"
+                  border="neutral-alpha-medium"
                   gap="12"
                 >
                   <Row
@@ -527,8 +647,8 @@ export default function LearningTracker() {
                     s={{ direction: "column", horizontal: "start", gap: "8" }}
                   >
                     <Row vertical="center" gap="8">
-                      <Icon name="trophy" size="xs" onBackground="brand-strong" />
-                      <Text variant="body-strong-xs" onBackground="brand-strong">
+                      <Icon name="trophy" size="xs" onBackground="neutral-strong" />
+                      <Text variant="body-strong-xs" onBackground="neutral-strong">
                         TARGET TAHAP SELANJUTNYA
                       </Text>
                     </Row>
@@ -544,7 +664,8 @@ export default function LearningTracker() {
               )}
             </Column>
           </Card>
-        ))}
+        );
+      })}
       </Column>
     </Column>
   );

@@ -1,21 +1,8 @@
-import {
-  Heading,
-  Text,
-  Button,
-  Avatar,
-  Column,
-  Badge,
-  Row,
-  Schema,
-  Meta,
-  Line,
-  Card,
-  Tag,
-} from "@once-ui-system/core";
-import { home, about, person, baseURL, routes, learning } from "@/resources";
+import { Column, Schema, Meta, Row, Heading, Line } from "@once-ui-system/core";
+import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp } from "@/components";
-import { Projects } from "@/components/projects/Projects";
 import { Posts } from "@/components/blog/Posts";
+import { HomeLayers } from "@/components/home/HomeLayers";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -29,7 +16,7 @@ export async function generateMetadata() {
 
 export default function Home() {
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
+    <Column maxWidth="l" gap="xl" paddingY="0" horizontal="center" fillWidth>
       <Schema
         as="webPage"
         baseURL={baseURL}
@@ -43,160 +30,22 @@ export default function Home() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Column fillWidth horizontal="center" gap="m">
-        <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
-            <Row
-              data-hero-item
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
-            >
-              <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
-              >
-                <Row paddingY="2">{home.featured.title}</Row>
-              </Badge>
-            </Row>
-          )}
-          <Row data-hero-item fillWidth horizontal="center" paddingBottom="16">
-            <Heading data-split="lines" wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
-          </Row>
-          <Row data-hero-item fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </Row>
-          <Row data-hero-item paddingTop="12" horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </Row>
-        </Column>
-      </Column>
-      <Row data-reveal fillWidth>
-        <Projects range={[1, 1]} />
-      </Row>
-      {routes["/learning"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24" data-reveal>
-              <Column gap="8">
-                <Heading as="h2" variant="display-strong-xs" wrap="balance" data-split="lines">
-                  Active Learning & Roadmap
-                </Heading>
-                <Text variant="body-default-xs" onBackground="neutral-weak">
-                  Eksplorasi kurikulum intensif, beasiswa, dan sertifikasi terkini.
-                </Text>
-                <Row marginTop="12">
-                  <Button href="/learning" variant="secondary" size="s">
-                    Buka Tracker
-                  </Button>
-                </Row>
-              </Column>
-            </Row>
-            <Row flex={3} paddingX="20" s={{ paddingX: "0" }}>
-              <Column fillWidth gap="12" data-stagger>
-                {learning.tracks.map((track) => (
-                  <Card
-                    key={track.id}
-                    href="/learning"
-                    padding="16"
-                    radius="m"
-                    border="neutral-medium"
-                    background="surface"
-                    fillWidth
-                  >
-                    <Row fillWidth horizontal="between" vertical="center" wrap gap="12">
-                      <Column gap="4">
-                        <Row vertical="center" gap="8">
-                          <Tag size="s">{track.provider}</Tag>
-                          <Text variant="body-default-xs" onBackground="neutral-weak">
-                            {track.level}
-                          </Text>
-                        </Row>
-                        <Text variant="heading-strong-s">{track.program}</Text>
-                        <Text variant="body-default-xs" onBackground="brand-strong">
-                          {track.trackName}
-                        </Text>
-                      </Column>
-                      <Row
-                        padding="4"
-                        paddingX="8"
-                        radius="full"
-                        background={
-                          track.status === "completed"
-                            ? "accent-alpha-weak"
-                            : "brand-alpha-weak"
-                        }
-                        border={
-                          track.status === "completed"
-                            ? "accent-alpha-strong"
-                            : "brand-alpha-strong"
-                        }
-                      >
-                        <Text
-                          variant="body-default-xs"
-                          weight="strong"
-                          onBackground={
-                            track.status === "completed"
-                              ? "accent-strong"
-                              : "brand-strong"
-                          }
-                        >
-                          {track.statusLabel}
-                        </Text>
-                      </Row>
-                    </Row>
-                  </Card>
-                ))}
-              </Column>
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
-        </Column>
-      )}
+
+      <HomeLayers />
+
       {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
+        <Column fillWidth maxWidth="m" gap="24" marginBottom="l">
           <Row fillWidth paddingRight="64">
             <Line maxWidth={48} />
           </Row>
           <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
             <Row flex={1} paddingLeft="l" paddingTop="24" data-reveal>
-              <Heading as="h2" variant="display-strong-xs" wrap="balance" data-split="lines">
+              <Heading
+                as="h2"
+                variant="display-strong-xs"
+                wrap="balance"
+                data-split="lines"
+              >
                 Latest from the blog
               </Heading>
             </Row>
@@ -209,10 +58,7 @@ export default function Home() {
           </Row>
         </Column>
       )}
-      <Row data-reveal fillWidth>
-        <Projects range={[2]} />
-      </Row>
-      <Row data-reveal fillWidth>
+      <Row data-reveal fillWidth maxWidth="m">
         <Mailchimp />
       </Row>
     </Column>

@@ -5,6 +5,7 @@ import {
   Schema,
   AvatarGroup,
   Button,
+  Carousel,
   Column,
   Flex,
   Heading,
@@ -127,12 +128,75 @@ export default async function Project({
           />
         )}
       </Row>
-      {post.metadata.images.length > 0 && (
-        <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
+
+      {/* Hero Media: Carousel if multiple images, single Media if only one */}
+      {post.metadata.images.length > 1 ? (
+        <Carousel
+          priority
+          aspectRatio="16 / 9"
+          indicator="line"
+          items={post.metadata.images.map((image) => ({
+            slide: image,
+            alt: post.metadata.title,
+          }))}
+        />
+      ) : (
+        post.metadata.images.length === 1 && (
+          <Media
+            priority
+            aspectRatio="16 / 9"
+            radius="m"
+            alt={post.metadata.title}
+            src={post.metadata.images[0]}
+          />
+        )
       )}
+
+      {/* Case Study Content Body */}
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
         <CustomMDX source={post.content} />
       </Column>
+
+      {/* Detail Screenshots Section: Showcasing all remaining images inside the case study */}
+      {post.metadata.images.length > 1 && (
+        <Column fillWidth gap="24" horizontal="center" marginTop="32">
+          <Line maxWidth="40" />
+          <Heading as="h2" variant="heading-strong-xl" align="center">
+            Galeri & Tangkapan Layar Proyek
+          </Heading>
+          <Text
+            variant="body-default-s"
+            onBackground="neutral-weak"
+            align="center"
+            marginBottom="8"
+          >
+            Dokumentasi visual detail arsitektur, antarmuka pengguna, dan alur sistem.
+          </Text>
+          <Column fillWidth gap="24" maxWidth="s">
+            {post.metadata.images.slice(1).map((img, idx) => (
+              <Column
+                key={idx}
+                fillWidth
+                gap="8"
+                radius="l"
+                overflow="hidden"
+                border="neutral-alpha-medium"
+                background="surface"
+              >
+                <Media
+                  src={img}
+                  alt={`${post.metadata.title} - Screenshot ${idx + 2}`}
+                  aspectRatio="16 / 9"
+                  radius="m"
+                  enlarge
+                />
+              </Column>
+            ))}
+          </Column>
+        </Column>
+      )}
+
+      {/* Related Projects */}
       <Column fillWidth gap="40" horizontal="center" marginTop="40">
         <Line maxWidth="40" />
         <Heading as="h2" variant="heading-strong-xl" marginBottom="24">

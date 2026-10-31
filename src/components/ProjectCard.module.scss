@@ -1,28 +1,177 @@
-.details {
-  position: relative;
-  background: rgba(10, 21, 27, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 1.25rem 1.5rem !important;
-  margin-top: 0.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+/* ==========================================================================
+   ProjectCard SCSS Module
+   Styling for DepthCard-powered Project Cards in /projects (3 rows x 2 cols)
+   Single static display image (no carousel / no slide)
+   ========================================================================== */
 
-  :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  }
+.projectCardWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageLink {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 10px 24px -6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  transform-style: preserve-3d;
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 
   &:hover {
-    border-color: rgba(0, 229, 255, 0.35);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.42);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow:
+      0 14px 32px -6px rgba(0, 0, 0, 0.55),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.3);
 
-    :global([data-theme="light"]) & {
-      border-color: rgba(3, 105, 161, 0.3);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+    .coverImage {
+      transform: scale(1.035);
     }
+  }
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+[data-theme="light"] .imageFrame {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 6px 18px -4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.18);
+    box-shadow:
+      0 10px 24px -4px rgba(0, 0, 0, 0.14),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.8);
+  }
+}
+
+.detailsWrapper {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-bottom: 0.25rem;
+  transform-style: preserve-3d;
+}
+
+.titleLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    opacity: 0.92;
+  }
+}
+
+.projectTitle {
+  font-size: 1.25rem !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.projectDescription {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.55;
+  font-size: 0.875rem;
+}
+
+.actionsSpacer {
+  flex-grow: 1;
+  min-height: 1.25rem;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 0.25rem;
+  margin-top: auto;
+  transform-style: preserve-3d;
+}
+
+.actionPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 9999px;
+  background: var(--liquid-pill-bg, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--liquid-pill-border, rgba(255, 255, 255, 0.16));
+  box-shadow: var(--liquid-pill-shadow, 0 4px 12px rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 0.825rem;
+  font-weight: 500;
+  transition:
+    background 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow:
+      0 6px 18px rgba(0, 0, 0, 0.45),
+      0 0 12px rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
+}
+
+[data-theme="light"] .actionPill {
+  color: #111827 !important;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.09);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
   }
 }

@@ -12,7 +12,7 @@
   pointer-events: none;
 
   @media (max-width: breakpoints.$s) {
-    bottom: 22px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     right: 16px;
     z-index: 9999;
 
@@ -34,9 +34,9 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(10, 21, 27, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(5, 5, 7, 0.45);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1);
@@ -50,8 +50,7 @@
 }
 
 /* ==========================================================================
-   Unified Dynamic Island Surface
-   Matches Once UI Translucent Surface + Vanta Sky (Header & ProjectCard DNA)
+   Unified Dynamic Island Surface (Liquid Metal Button -> Liquid Glass Modal)
    ========================================================================== */
 .dynamicIsland {
   position: relative;
@@ -65,117 +64,102 @@
     width 0.5s cubic-bezier(0.22, 1.15, 0.36, 1),
     height 0.5s cubic-bezier(0.22, 1.15, 0.36, 1),
     border-radius 0.48s cubic-bezier(0.32, 0.72, 0, 1),
-    background-color 0.35s ease,
+    background 0.35s ease,
     border-color 0.3s ease,
     box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1),
     transform 0.38s cubic-bezier(0.22, 1.25, 0.36, 1);
-
-  /* Dark Mode Translucent Oceanic Glass (matches ProjectCard & custom.css) */
-  background: rgba(10, 21, 27, 0.76);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-
-  /* Light Mode Translucent Frosted Sky Glass (matches Header dock & Cards) */
-  :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(0, 0, 0, 0.09);
-    box-shadow:
-      0 6px 24px rgba(0, 0, 0, 0.07),
-      0 2px 6px rgba(0, 0, 0, 0.03),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  }
 }
 
-/* Collapsed State (Compact Dynamic Island Dock Pill) */
+/* Collapsed State (Liquid Glass + WebGL Liquid Metal Pill Trigger Button) */
 .islandCollapsed {
-  width: 220px;
-  height: 44px;
+  width: 226px;
+  height: 46px;
   border-radius: 999px;
   cursor: pointer;
+  border: none !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  background: radial-gradient(
+    130% 120% at 50% 0%,
+    rgba(24, 24, 27, 0.72) 0%,
+    rgba(10, 10, 12, 0.84) 55%,
+    rgba(24, 24, 27, 0.76) 100%
+  );
+  backdrop-filter: blur(16px) saturate(140%) contrast(104%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%) contrast(104%);
+  box-shadow:
+    0 16px 34px -8px rgba(0, 0, 0, 0.55),
+    inset 0 2px 5px rgba(255, 255, 255, 0.22),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.08);
 
-  &:hover {
-    width: 230px;
-    transform: translateY(-2px) scale(1.015);
-    border-color: rgba(0, 229, 255, 0.38);
+  :global([data-theme="light"]) & {
+    background: radial-gradient(
+      130% 120% at 50% 0%,
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(255, 255, 255, 0.08) 55%,
+      rgba(186, 230, 253, 0.22) 100%
+    );
     box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.42),
-      0 0 20px rgba(56, 189, 248, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      0 14px 32px -8px rgba(15, 23, 42, 0.14),
+      inset 0 2px 5px rgba(255, 255, 255, 0.5),
+      inset 0 -3px 6px rgba(186, 230, 253, 0.24);
+  }
 
-    :global([data-theme="light"]) & {
-      border-color: rgba(3, 105, 161, 0.32);
-      box-shadow:
-        0 10px 30px rgba(3, 105, 161, 0.12),
-        0 4px 12px rgba(0, 0, 0, 0.05),
-        inset 0 1px 0 #ffffff;
-    }
+  /* Keep width & scale constant on hover so WebGL canvas buffer never reallocates */
+  &:hover {
+    transform: translate3d(0, -2px, 0);
+    background: var(--liquid-glass-bg-hover);
+    box-shadow: var(--liquid-glass-shadow-hover);
   }
 
   &:active {
-    transform: scale(0.96);
+    transform: translate3d(0, 0, 0) scale(0.97);
     transition-duration: 0.15s;
   }
 
   /* Live Activity Wider State when AI is streaming in background */
   &.islandStreaming {
-    width: 246px;
-    border-color: rgba(56, 189, 248, 0.45);
-
-    :global([data-theme="light"]) & {
-      border-color: rgba(2, 132, 199, 0.45);
-    }
+    width: 248px;
   }
 
   &.islandUnread {
-    width: 252px;
-    border-color: rgba(16, 185, 129, 0.45);
+    width: 236px;
   }
 
   @media (max-width: breakpoints.$s) {
-    width: 46px;
+    width: 158px;
     height: 46px;
     border-radius: 999px;
 
     &:hover {
-      width: 46px;
-      transform: scale(1.03);
+      transform: translate3d(0, -1px, 0);
     }
 
     &.islandStreaming,
     &.islandUnread {
-      width: 46px;
+      width: 172px;
     }
   }
 }
 
-/* Expanded State (AssistantModal Window) */
+/* Expanded State (AssistantModal Window — Solid Theme Background) */
 .islandExpanded {
   width: 400px;
   height: 570px;
   max-height: calc(100vh - 104px);
-  border-radius: 22px;
-  background: rgba(10, 21, 27, 0.84);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 26px;
+  background: linear-gradient(180deg, #121215 0%, #09090b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 24px 60px -12px rgba(0, 0, 0, 0.55),
-    0 0 1px 1px rgba(255, 255, 255, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    0 24px 56px -12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    border: 1px solid rgba(0, 0, 0, 0.09);
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    border: 1px solid rgba(15, 23, 42, 0.1);
     box-shadow:
-      0 20px 50px -10px rgba(15, 23, 42, 0.14),
-      0 4px 16px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      0 24px 56px -12px rgba(15, 23, 42, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
   @media (max-width: breakpoints.$s) {
@@ -190,37 +174,35 @@
     border-radius: 0;
     border: none;
     z-index: 9999;
-    background: rgba(10, 21, 27, 0.96);
+    background: linear-gradient(180deg, #121215 0%, #09090b 100%);
+    box-shadow: none;
 
     :global([data-theme="light"]) & {
-      background: rgba(255, 255, 255, 0.96);
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
     }
   }
 }
 
 /* ==========================================================================
-   Collapsed Layer: Dynamic Island Pill Trigger
+   Collapsed Layer: Liquid Metal Pill Trigger
    ========================================================================== */
 .islandPillTrigger {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 0 10px 0 9px;
+  gap: 8px;
+  padding: 0 7px 0 6px;
   background: transparent;
   border: none;
-  color: var(--neutral-on-background-strong, #ffffff);
+  outline: none;
   cursor: pointer;
   user-select: none;
   font-family: inherit;
-
-  :global([data-theme="light"]) & {
-    color: var(--neutral-on-background-strong, #020617);
-  }
 
   /* Optical Blur Crossfade during Island Morph */
   opacity: 1;
@@ -239,110 +221,150 @@
   }
 
   @media (max-width: breakpoints.$s) {
-    padding: 0;
-    justify-content: center;
+    padding: 0 12px 0 5px;
+    gap: 7px;
   }
 }
 
 .islandLeading {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.islandOrb {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(56, 189, 248, 0.14);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  color: #38bdf8;
+.islandSlidingLabel {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  height: 20px;
+  padding: 0 2px;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+
+.islandLabelGhost {
+  display: inline-block;
+  padding: 0 2px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.islandLabelRest {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: rgb(226, 232, 240);
+  white-space: nowrap;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  will-change: transform, opacity;
   transition:
-    transform 0.3s cubic-bezier(0.22, 1.25, 0.36, 1),
-    background-color 0.25s ease,
-    border-color 0.25s ease;
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 
   :global([data-theme="light"]) & {
-    background: rgba(2, 132, 199, 0.1);
-    border-color: rgba(2, 132, 199, 0.22);
-    color: #0284c7;
+    color: rgb(30, 41, 59);
   }
 
-  .islandCollapsed:hover & {
-    background: rgba(56, 189, 248, 0.22);
-    border-color: rgba(0, 240, 255, 0.45);
-    transform: scale(1.06);
-
-    :global([data-theme="light"]) & {
-      background: rgba(2, 132, 199, 0.16);
-      border-color: rgba(3, 105, 161, 0.38);
-    }
-  }
-
-  @media (max-width: breakpoints.$s) {
-    width: 100%;
-    height: 100%;
-    background: transparent !important;
-    border: none !important;
+  .islandPillTrigger:hover &,
+  .islandPillTrigger:active & {
+    transform: translate3d(0, -19px, 0);
+    opacity: 0;
   }
 }
 
-.islandPillText {
-  flex: 1;
+.islandLabelHover {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
   text-align: left;
-  font-size: 0.825rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--neutral-on-background-strong, #ffffff);
+  font-size: 13px;
+  font-weight: 560;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  color: rgb(255, 255, 255);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  transform: translate3d(0, 19px, 0);
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 
   :global([data-theme="light"]) & {
-    color: #0f172a;
+    color: rgb(2, 6, 23);
   }
 
-  @media (max-width: breakpoints.$s) {
-    display: none;
+  .islandPillTrigger:hover & {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  .islandPillTrigger:active & {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.78;
   }
 }
 
 .islandKbd {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--liquid-pill-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  color: rgb(239, 243, 250);
   font-family: var(--font-code, monospace);
-  font-size: 0.675rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--neutral-on-background-weak, #cbd5e1);
   letter-spacing: 0.01em;
   flex-shrink: 0;
-  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 
   :global([data-theme="light"]) & {
-    background: rgba(15, 23, 42, 0.05);
-    border-color: rgba(15, 23, 42, 0.1);
-    color: #334155;
-  }
-
-  .islandCollapsed:hover & {
-    border-color: rgba(56, 189, 248, 0.3);
-    color: #ffffff;
-
-    :global([data-theme="light"]) & {
-      background: rgba(2, 132, 199, 0.08);
-      border-color: rgba(2, 132, 199, 0.24);
-      color: #0369a1;
-    }
+    color: rgb(15, 23, 42);
+    border-color: rgba(15, 23, 42, 0.14);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65);
   }
 
   @media (max-width: breakpoints.$s) {
     display: none;
+  }
+}
+
+.islandKbdText {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+
+  .islandPillTrigger:hover & {
+    transform: translate3d(1px, -1px, 0);
   }
 }
 
@@ -362,7 +384,7 @@
   width: 2px;
   height: 5px;
   border-radius: 99px;
-  background-color: #38bdf8;
+  background-color: #ffffff;
   transition: height 0.25s ease, background-color 0.25s ease;
 
   :global([data-theme="light"]) & {
@@ -433,6 +455,21 @@
     filter: blur(0px);
     transform: scale(1) translateY(0);
     pointer-events: auto;
+    /* Content mounts lazily when opened, so play the entrance explicitly. */
+    animation: modalContentIn 0.42s cubic-bezier(0.22, 1.15, 0.36, 1) 0.06s both;
+  }
+}
+
+@keyframes modalContentIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -441,14 +478,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(255, 255, 255, 0.02);
+  padding: 11px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 14, 17, 0.96);
   flex-shrink: 0;
 
   :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.45);
-    border-bottom-color: rgba(0, 0, 0, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   }
 
   @media (max-width: breakpoints.$s) {
@@ -459,28 +496,27 @@
 .headerIdentity {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
 }
 
 /* Once-UI Brand Badge Style Dynamic Island Capsule inside Header */
 .islandHeaderCapsule {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 26px;
-  padding: 0 10px;
+  gap: 5px;
+  height: 24px;
+  padding: 0 9px;
   border-radius: 999px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  color: #a5f3fc;
+  background: var(--liquid-pill-bg);
+  border: 1px solid var(--liquid-pill-border);
+  box-shadow: var(--liquid-pill-shadow);
+  color: #f4f4f5;
   font-family: var(--font-code, monospace);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 500;
   letter-spacing: -0.01em;
 
   :global([data-theme="light"]) & {
-    background: rgba(2, 132, 199, 0.09);
-    border-color: rgba(2, 132, 199, 0.24);
     color: #0369a1;
   }
 }
@@ -511,10 +547,10 @@
 .headerDomain {
   font-family: var(--font-code, monospace);
   font-size: 0.7rem;
-  color: #94a3b8;
+  color: #cbd5e1;
 
   :global([data-theme="light"]) & {
-    color: #64748b;
+    color: #475569;
   }
 }
 
@@ -527,26 +563,27 @@
 .headerIconBtn {
   width: 30px;
   height: 30px;
-  border-radius: 8px;
-  border: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
   background: transparent;
-  color: #94a3b8;
+  color: #cbd5e1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: all 0.2s ease;
 
   :global([data-theme="light"]) & {
-    color: #475569;
+    color: #334155;
   }
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.09);
+    background: var(--liquid-pill-bg);
+    border-color: var(--liquid-pill-border);
+    box-shadow: var(--liquid-pill-shadow);
     color: #ffffff;
 
     :global([data-theme="light"]) & {
-      background: rgba(15, 23, 42, 0.06);
       color: #020617;
     }
   }
@@ -613,26 +650,12 @@
   padding: 16px 12px;
 }
 
-/* Matches LearningTracker Icon Box (brand-alpha-weak + brand-alpha-medium) */
+/* 3D Liquid Metal Torus Medallion Avatar Wrapper */
 .welcomeAvatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  color: #38bdf8;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-
-  :global([data-theme="light"]) & {
-    background: rgba(2, 132, 199, 0.1);
-    border-color: rgba(2, 132, 199, 0.24);
-    color: #0284c7;
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
-  }
+  margin-bottom: 12px;
 }
 
 .welcomeHeading {
@@ -652,15 +675,15 @@
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.5;
-  color: #cbd5e1;
+  color: #e2e8f0;
   max-width: 290px;
 
   :global([data-theme="light"]) & {
-    color: #334155;
+    color: #1e293b;
   }
 }
 
-/* ThreadWelcome.Suggestions (2x2 Grid Cards matching Once UI Surface Cards) */
+/* ThreadWelcome.Suggestions (2x2 Grid Cards matching Liquid Glass Surface Cards) */
 .welcomeSuggestions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -674,38 +697,30 @@
   justify-content: center;
   gap: 3px;
   padding: 11px 12px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: var(--liquid-pill-bg);
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border: 1px solid var(--liquid-pill-border);
+  box-shadow: var(--liquid-pill-shadow);
   text-align: left;
   cursor: pointer;
   font-family: inherit;
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s cubic-bezier(0.22, 1.15, 0.36, 1);
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1.15, 0.36, 1);
 
   &:hover:not(:disabled) {
-    background: rgba(56, 189, 248, 0.09);
-    border-color: rgba(0, 229, 255, 0.35);
+    background: var(--liquid-glass-bg-hover);
+    border-color: var(--liquid-glass-border-hover);
+    box-shadow: var(--liquid-glass-shadow-hover);
     transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
     transform: scale(0.98);
-  }
-
-  :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.72);
-    border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-
-    &:hover:not(:disabled) {
-      background: rgba(2, 132, 199, 0.07);
-      border-color: rgba(3, 105, 161, 0.3);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
-    }
   }
 }
 
@@ -722,7 +737,7 @@
 
 .suggestionLabel {
   font-size: 0.7rem;
-  color: #94a3b8;
+  color: #cbd5e1;
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -730,7 +745,7 @@
   overflow: hidden;
 
   :global([data-theme="light"]) & {
-    color: #475569;
+    color: #334155;
   }
 }
 
@@ -743,7 +758,7 @@
   gap: 18px;
 }
 
-/* User Message (Right Aligned Pill matching Brand/Contrast Theme) */
+/* User Message (Right Aligned Liquid Glass Pill) */
 .userMessageRow {
   display: flex;
   justify-content: flex-end;
@@ -753,8 +768,17 @@
   max-width: 82%;
   padding: 10px 14px;
   border-radius: 18px 18px 4px 18px;
-  background: rgba(56, 189, 248, 0.16);
-  border: 1px solid rgba(56, 189, 248, 0.32);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.35);
   color: #f8fafc;
   font-size: 0.84rem;
   line-height: 1.5;
@@ -765,14 +789,20 @@
   }
 
   :global([data-theme="light"]) & {
-    background: #0369a1;
-    border-color: #0284c7;
+    background: linear-gradient(
+      135deg,
+      rgba(3, 105, 161, 0.84) 0%,
+      rgba(2, 132, 199, 0.74) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.65);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.18);
+    box-shadow:
+      0 6px 18px rgba(3, 105, 161, 0.22),
+      inset 0 1px 1px rgba(255, 255, 255, 0.55);
   }
 }
 
-/* Assistant Message (Left Aligned with Avatar & Action Bar) */
+/* Assistant Message (Left Aligned with 3D LiquidMark Avatar & Action Bar) */
 .assistantMessageRow {
   display: flex;
   align-items: flex-start;
@@ -781,25 +811,7 @@
 
 .assistantAvatarCol {
   flex-shrink: 0;
-  padding-top: 2px;
-}
-
-.assistantAvatar {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  color: #38bdf8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  :global([data-theme="light"]) & {
-    background: rgba(2, 132, 199, 0.1);
-    border-color: rgba(2, 132, 199, 0.22);
-    color: #0284c7;
-  }
+  padding-top: 1px;
 }
 
 .assistantBodyCol {
@@ -842,14 +854,14 @@
   }
 
   a {
-    color: #38bdf8;
+    color: #ffffff;
     text-decoration: underline;
     text-underline-offset: 3px;
     font-weight: 500;
     text-shadow: none !important;
 
     &:hover {
-      color: #7dd3fc;
+      color: #d4d4d8;
     }
 
     :global([data-theme="light"]) & {
@@ -865,12 +877,10 @@
     font-size: 0.78em;
     padding: 2px 5px;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--liquid-pill-bg);
+    border: 1px solid var(--liquid-pill-border);
 
     :global([data-theme="light"]) & {
-      background: rgba(15, 23, 42, 0.06);
-      border-color: rgba(15, 23, 42, 0.09);
       color: #0f172a;
     }
   }
@@ -885,11 +895,11 @@
   align-items: center;
   gap: 8px;
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: #cbd5e1;
   padding: 4px 0;
 
   :global([data-theme="light"]) & {
-    color: #475569;
+    color: #334155;
   }
 }
 
@@ -907,24 +917,24 @@
   gap: 4px;
   padding: 3px 7px;
   border-radius: 6px;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
-  color: #94a3b8;
+  color: #cbd5e1;
   font-size: 0.7rem;
   font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: all 0.15s ease;
 
   :global([data-theme="light"]) & {
-    color: #64748b;
+    color: #475569;
   }
 
   &:hover {
-    background: rgba(56, 189, 248, 0.1);
-    color: #38bdf8;
+    background: var(--liquid-pill-bg);
+    border-color: var(--liquid-pill-border);
+    color: #ffffff;
 
     :global([data-theme="light"]) & {
-      background: rgba(2, 132, 199, 0.08);
       color: #0284c7;
     }
   }
@@ -933,12 +943,16 @@
 .messageTimestamp {
   font-family: var(--font-code, monospace);
   font-size: 0.65rem;
-  color: #64748b;
+  color: #94a3b8;
   margin-left: auto;
+
+  :global([data-theme="light"]) & {
+    color: #64748b;
+  }
 }
 
 /* ==========================================================================
-   ComposerPrimitive.Root (Bottom Integrated Prompt Box)
+   ComposerPrimitive.Root (Bottom Integrated Liquid Glass Prompt Box)
    ========================================================================== */
 .composerWrapper {
   padding: 10px 14px 14px 14px;
@@ -954,29 +968,21 @@
   flex-direction: column;
   gap: 6px;
   padding: 10px 12px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  background: var(--liquid-pill-bg);
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border: 1px solid var(--liquid-pill-border);
+  box-shadow: var(--liquid-pill-shadow);
   transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 
   &:focus-within {
-    background: rgba(255, 255, 255, 0.075);
-    border-color: rgba(56, 189, 248, 0.45);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
-  }
-
-  :global([data-theme="light"]) & {
-    background: rgba(255, 255, 255, 0.78);
-    border-color: rgba(0, 0, 0, 0.1);
-
-    &:focus-within {
-      background: #ffffff;
-      border-color: rgba(2, 132, 199, 0.45);
-      box-shadow: 0 2px 12px rgba(2, 132, 199, 0.08);
-    }
+    background: var(--liquid-glass-bg-hover);
+    border-color: var(--liquid-glass-border-hover);
+    box-shadow: var(--liquid-glass-shadow-hover);
   }
 }
 
@@ -994,14 +1000,14 @@
   padding: 0;
 
   &::placeholder {
-    color: #94a3b8;
+    color: #cbd5e1;
   }
 
   :global([data-theme="light"]) & {
     color: #020617;
 
     &::placeholder {
-      color: #64748b;
+      color: #475569;
     }
   }
 
@@ -1022,11 +1028,11 @@
   align-items: center;
   gap: 4px;
   font-size: 0.68rem;
-  color: #94a3b8;
+  color: #cbd5e1;
   user-select: none;
 
   :global([data-theme="light"]) & {
-    color: #64748b;
+    color: #475569;
   }
 
   @media (max-width: breakpoints.$s) {
@@ -1034,13 +1040,16 @@
   }
 }
 
+/* Liquid Metal Send Button */
 .composerSendBtn {
-  width: 28px;
-  height: 28px;
+  position: relative;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  background: #38bdf8;
-  color: #04131a;
+  border: none;
+  outline: none;
+  background-color: rgb(30, 35, 44);
+  color: rgb(239, 243, 250);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1048,11 +1057,11 @@
   transition:
     transform 0.18s cubic-bezier(0.22, 1.25, 0.36, 1),
     opacity 0.18s ease,
-    background-color 0.18s ease;
+    filter 0.18s ease;
 
   &:hover:not(:disabled) {
     transform: scale(1.07);
-    background: #7dd3fc;
+    filter: brightness(1.08);
   }
 
   &:active:not(:disabled) {
@@ -1060,17 +1069,7 @@
   }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
     cursor: not-allowed;
-  }
-
-  :global([data-theme="light"]) & {
-    background: #0284c7;
-    border-color: #0369a1;
-    color: #ffffff;
-
-    &:hover:not(:disabled) {
-      background: #0369a1;
-    }
   }
 }

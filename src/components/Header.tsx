@@ -1,12 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { Flex, Row } from "@once-ui-system/core";
 
 import { routes, display, person, about, blog, learning, work, gallery } from "@/resources";
-import { ThemeToggle } from "./ThemeToggle";
+import { LiquidMetalNavbar, type NavRouteItem } from "./LiquidMetalNavbar";
+import { ArLogo } from "./ArLogo";
 import styles from "./Header.module.scss";
 
 type TimeDisplayProps = {
@@ -45,159 +47,103 @@ export default TimeDisplay;
 export const Header = () => {
   const pathname = usePathname() ?? "";
 
+  const navItems: NavRouteItem[] = [
+    ...(routes["/"]
+      ? [{ label: "Home", href: "/", active: pathname === "/" }]
+      : []),
+    ...(routes["/about"]
+      ? [{ label: about.label, href: "/about", active: pathname === "/about" }]
+      : []),
+    ...(routes["/projects"]
+      ? [
+          {
+            label: work.label,
+            href: "/projects",
+            active: pathname.startsWith("/projects"),
+          },
+        ]
+      : []),
+    ...(routes["/learning"]
+      ? [
+          {
+            label: learning.label,
+            href: "/learning",
+            active: pathname.startsWith("/learning"),
+          },
+        ]
+      : []),
+    ...(routes["/blog"]
+      ? [
+          {
+            label: blog.label,
+            href: "/blog",
+            active: pathname.startsWith("/blog"),
+          },
+        ]
+      : []),
+    ...(routes["/gallery"]
+      ? [
+          {
+            label: gallery.label,
+            href: "/gallery",
+            active: pathname.startsWith("/gallery"),
+          },
+        ]
+      : []),
+  ];
+
   return (
-    <>
+    <Row
+      data-nav-autohide
+      fitHeight
+      className={styles.position}
+      position="sticky"
+      as="header"
+      zIndex={9}
+      fillWidth
+      padding="8"
+      horizontal="center"
+      data-border="rounded"
+      s={{
+        position: "sticky",
+      }}
+    >
       <Row
-        data-nav-autohide
-        fitHeight
-        className={styles.position}
-        position="sticky"
-        as="header"
-        zIndex={9}
+        paddingLeft="16"
         fillWidth
-        padding="8"
-        horizontal="center"
-        data-border="rounded"
-        s={{
-          position: "fixed",
-        }}
+        vertical="center"
+        gap="16"
+        s={{ hide: true }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s" s={{ hide: true }}>
-          {display.location && <Row s={{ hide: true }}>Semarang, Indonesia</Row>}
-        </Row>
-        <Row fillWidth horizontal="center">
-          <Row
-            background="page"
-            border="neutral-alpha-weak"
-            radius="m-4"
-            shadow="l"
-            padding="4"
-            horizontal="center"
-            zIndex={1}
-          >
-            <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
-              {routes["/"] && (
-                <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
-              )}
-              <Line background="neutral-alpha-medium" vert maxHeight="24" />
-              {routes["/about"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      label={about.label}
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/projects"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/projects"
-                      label={work.label}
-                      selected={pathname.startsWith("/projects")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/projects"
-                      selected={pathname.startsWith("/projects")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/learning"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="graduationCap"
-                      href="/learning"
-                      label={learning.label}
-                      selected={pathname.startsWith("/learning")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="graduationCap"
-                      href="/learning"
-                      selected={pathname.startsWith("/learning")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/blog"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      label={blog.label}
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/gallery"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      label={gallery.label}
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                </>
-              )}
-              {display.themeSwitcher && (
-                <>
-                  <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                  <ThemeToggle />
-                </>
-              )}
-            </Row>
+        <Link
+          href="/"
+          aria-label="Beranda Muhammad Arinal Haq"
+          className={styles.logoLink}
+        >
+          <ArLogo className={styles.logoSvg} />
+        </Link>
+        {display.location && (
+          <Row textVariant="body-default-s" onBackground="neutral-weak">
+            Semarang, Indonesia
           </Row>
-        </Row>
-        <Flex fillWidth horizontal="end" vertical="center" s={{ hide: true }}>
-          <Flex
-            paddingRight="12"
-            horizontal="end"
-            vertical="center"
-            textVariant="body-default-s"
-            gap="20"
-          >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
-            </Flex>
+        )}
+      </Row>
+      <Row fillWidth horizontal="center">
+        <LiquidMetalNavbar items={navItems} />
+      </Row>
+      <Flex fillWidth horizontal="end" vertical="center" s={{ hide: true }}>
+        <Flex
+          paddingRight="12"
+          horizontal="end"
+          vertical="center"
+          textVariant="body-default-s"
+          gap="20"
+        >
+          <Flex s={{ hide: true }}>
+            {display.time && <TimeDisplay timeZone={person.location} />}
           </Flex>
         </Flex>
-      </Row>
-    </>
+      </Flex>
+    </Row>
   );
 };

@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Card,
   Column,
   Heading,
   Icon,
@@ -387,6 +388,64 @@ export default function About() {
               </Column>
             </>
           )}
+
+          {/* Guided Next Step: About -> Projects */}
+          <Column fillWidth marginTop="64" data-reveal>
+            <Card
+              href="/projects"
+              padding="24"
+              radius="l"
+              border="brand-alpha-strong"
+              background="surface"
+              fillWidth
+            >
+              <Row
+                fillWidth
+                horizontal="between"
+                vertical="center"
+                gap="24"
+                s={{ direction: "column", horizontal: "start" }}
+              >
+                <Column gap="8" flex={1}>
+                  <Row
+                    paddingY="4"
+                    paddingX="8"
+                    radius="full"
+                    background="brand-alpha-weak"
+                    border="brand-alpha-strong"
+                    vertical="center"
+                    gap="8"
+                    fitWidth
+                  >
+                    <Icon name="grid" size="xs" onBackground="brand-strong" />
+                    <Text variant="body-default-xs" weight="strong" onBackground="brand-strong">
+                      Langkah Selanjutnya • 02 / 03
+                    </Text>
+                  </Row>
+                  <Heading as="h3" variant="heading-strong-l">
+                    Lanjut ke Projects & Studi Kasus
+                  </Heading>
+                  <Text variant="body-default-s" onBackground="neutral-weak">
+                    Lihat bagaimana keahlian teknis di atas diterapkan secara nyata pada proyek produksi, mulai dari autonomous AI agent Hermes hingga visualisasi 3D WebGL.
+                  </Text>
+                </Column>
+                <Row
+                  vertical="center"
+                  gap="8"
+                  paddingY="8"
+                  paddingX="16"
+                  radius="full"
+                  background="brand-alpha-weak"
+                  border="brand-alpha-medium"
+                >
+                  <Text variant="label-default-s" onBackground="brand-strong">
+                    Eksplorasi Projects
+                  </Text>
+                  <Icon name="arrowRight" size="xs" onBackground="brand-strong" />
+                </Row>
+              </Row>
+            </Card>
+          </Column>
         </Column>
       </Row>
     </Column>

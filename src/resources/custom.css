@@ -3,22 +3,102 @@ body {
 }
 
 /* ==========================================================================
-   Typography Contrast Enhancement against 3D Cloud Backgrounds (Vanta.js)
+   iOS 27 Liquid Glass Design Tokens (3D Convex Gel Lens & Optical Refraction)
    ========================================================================== */
 
-/* Dark Mode Tokens & Contrast */
-[data-theme="dark"] {
-  --neutral-on-background-weak: #e2e8f0;   /* Slate 200 (replaces dim #b2b2b2) */
-  --neutral-on-background-medium: #f1f5f9; /* Slate 100 */
-  --neutral-on-background-strong: #ffffff; /* Pure crisp white */
-  --brand-on-background-weak: #a5f3fc;
-  --brand-on-background-medium: #38bdf8;
-  --brand-on-background-strong: #00f0ff;
-  --accent-on-background-weak: #a7f3d0;
-  --accent-on-background-medium: #34d399;
-  --accent-on-background-strong: #10b981;
+:root {
+  /* Optical blur + high saturation so moving 3D Vanta clouds refract clearly through glass */
+  --liquid-blur-strong: blur(16px) saturate(190%) contrast(106%);
+  --liquid-blur-medium: blur(10px) saturate(175%) contrast(105%);
+  --liquid-blur-subtle: blur(6px) saturate(160%);
+}
 
-  --surface-background: rgba(10, 21, 27, 0.65);
+/* ==========================================================================
+   Dark Mode Tokens — Pure Monochromatic Obsidian Glass (Apple visionOS Style)
+   ========================================================================== */
+[data-theme="dark"] {
+  color: #ffffff !important;
+  --neutral-on-background-weak: #ffffff;   /* Pure crisp white for 100% legibility */
+  --neutral-on-background-medium: #ffffff; /* Pure crisp white */
+  --neutral-on-background-strong: #ffffff; /* Pure crisp white */
+
+  /* Neutral white monochrome tokens in Dark Mode (No cyan / emerald AI slop) */
+  --brand-on-background-weak: #ffffff;
+  --brand-on-background-medium: #ffffff;
+  --brand-on-background-strong: #ffffff;
+  --accent-on-background-weak: #ffffff;
+  --accent-on-background-medium: #ffffff;
+  --accent-on-background-strong: #ffffff;
+
+  --brand-alpha-weak: rgba(255, 255, 255, 0.06);
+  --brand-alpha-medium: rgba(255, 255, 255, 0.12);
+  --brand-alpha-strong: rgba(255, 255, 255, 0.22);
+  --accent-alpha-weak: rgba(255, 255, 255, 0.06);
+  --accent-alpha-medium: rgba(255, 255, 255, 0.12);
+  --accent-alpha-strong: rgba(255, 255, 255, 0.22);
+
+  --brand-border-alpha-weak: rgba(255, 255, 255, 0.14);
+  --brand-border-alpha-medium: rgba(255, 255, 255, 0.22);
+  --brand-border-alpha-strong: rgba(255, 255, 255, 0.35);
+  --accent-border-alpha-weak: rgba(255, 255, 255, 0.14);
+  --accent-border-alpha-medium: rgba(255, 255, 255, 0.22);
+  --accent-border-alpha-strong: rgba(255, 255, 255, 0.35);
+
+  /* Monochromatic Liquid Glass — Neutral Smoked Obsidian with Sky Refraction */
+  --surface-background: rgba(14, 18, 24, 0.45);
+  --liquid-glass-bg:
+    radial-gradient(
+      135% 120% at 50% 0%,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.03) 42%,
+      rgba(14, 18, 24, 0.45) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 24, 30, 0.5) 0%,
+      rgba(10, 13, 18, 0.62) 100%
+    );
+  --liquid-glass-bg-hover:
+    radial-gradient(
+      135% 120% at 50% 0%,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 42%,
+      rgba(18, 22, 28, 0.48) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(26, 30, 38, 0.56) 0%,
+      rgba(14, 17, 24, 0.68) 100%
+    );
+  --liquid-glass-border: rgba(255, 255, 255, 0.18);
+  --liquid-glass-border-hover: rgba(255, 255, 255, 0.35);
+  --liquid-glass-shadow:
+    0 20px 48px -10px rgba(0, 0, 0, 0.55),
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.32),
+    inset 0 0 24px rgba(255, 255, 255, 0.03),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.38);
+  --liquid-glass-shadow-hover:
+    0 26px 56px -10px rgba(0, 0, 0, 0.68),
+    0 0 24px rgba(255, 255, 255, 0.1),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.45),
+    inset 0 0 28px rgba(255, 255, 255, 0.05),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.45);
+
+  --liquid-pill-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  ),
+  rgba(14, 18, 24, 0.4);
+  --liquid-pill-border: rgba(255, 255, 255, 0.16);
+  --liquid-pill-shadow:
+    0 4px 14px -2px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="dark"] body {
+  color: #ffffff !important;
 }
 
 [data-theme="dark"] h1,
@@ -27,27 +107,54 @@ body {
 [data-theme="dark"] h4,
 [data-theme="dark"] [class*="font-display"],
 [data-theme="dark"] [class*="font-heading"] {
-  color: var(--neutral-on-background-strong);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 4px 20px rgba(0, 0, 0, 0.55);
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 
-[data-theme="dark"] .neutral-on-background-weak {
-  color: var(--neutral-on-background-weak) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.65);
+/* Ensure all text classes render in pure white with crisp anti-bleed text-shadow */
+[data-theme="dark"] .neutral-on-background-weak,
+[data-theme="dark"] .neutral-on-background-medium,
+[data-theme="dark"] .neutral-on-background-strong,
+[data-theme="dark"] [class*="neutral-on-background"],
+[data-theme="dark"] [class*="brand-on-background"],
+[data-theme="dark"] [class*="accent-on-background"] {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(0, 0, 0, 0.75) !important;
 }
 
-[data-theme="dark"] .neutral-on-background-medium {
-  color: var(--neutral-on-background-medium) !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.65);
+/* All body copy, list items, titles, and descriptions in dark mode */
+[data-theme="dark"] p,
+[data-theme="dark"] li,
+[data-theme="dark"] .achievementText,
+[data-theme="dark"] .itemTitle,
+[data-theme="dark"] [class*="body-default"],
+[data-theme="dark"] [class*="body-strong"],
+[data-theme="dark"] [class*="heading-default"],
+[data-theme="dark"] [class*="heading-strong"] {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(0, 0, 0, 0.75);
 }
 
-[data-theme="dark"] .neutral-on-background-strong {
-  color: var(--neutral-on-background-strong) !important;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85), 0 3px 14px rgba(0, 0, 0, 0.6);
+[data-theme="dark"] [class*="neutral-strong-background"],
+[data-theme="dark"] [class*="neutral-background-strong"],
+[data-theme="dark"] [class*="neutral-solid-strong"] {
+  background: #ffffff !important;
 }
 
-[data-theme="dark"] a:not([class*="Button"]) {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+/* Override all brand & accent border utility classes in Dark Mode to Monochrome White/Silver */
+[data-theme="dark"] .brand-border-alpha-weak,
+[data-theme="dark"] .accent-border-alpha-weak {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+[data-theme="dark"] .brand-border-alpha-medium,
+[data-theme="dark"] .accent-border-alpha-medium {
+  border-color: rgba(255, 255, 255, 0.24) !important;
+}
+
+[data-theme="dark"] .brand-border-alpha-strong,
+[data-theme="dark"] .accent-border-alpha-strong {
+  border-color: rgba(255, 255, 255, 0.38) !important;
 }
 
 /* Light Mode Tokens & Contrast */
@@ -62,7 +169,60 @@ body {
   --accent-on-background-medium: #047857;
   --accent-on-background-strong: #065f46;
 
-  --surface-background: rgba(255, 255, 255, 0.85);
+  /* iOS 27 Light Liquid Glass — Water-Droplet Clear Center + Curved Sky Refraction */
+  --surface-background: rgba(255, 255, 255, 0.08);
+  --liquid-glass-bg:
+    radial-gradient(
+      125% 110% at 50% 0%,
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(255, 255, 255, 0.05) 52%,
+      rgba(186, 230, 253, 0.22) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(224, 242, 254, 0.18) 100%
+    );
+  --liquid-glass-bg-hover:
+    radial-gradient(
+      125% 110% at 50% 0%,
+      rgba(255, 255, 255, 0.48) 0%,
+      rgba(255, 255, 255, 0.09) 52%,
+      rgba(186, 230, 253, 0.3) 100%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(186, 230, 253, 0.24) 100%
+    );
+  --liquid-glass-border: rgba(255, 255, 255, 0.28);
+  --liquid-glass-border-hover: rgba(125, 211, 252, 0.55);
+  --liquid-glass-shadow:
+    0 14px 36px -8px rgba(15, 23, 42, 0.1),
+    0 4px 12px rgba(15, 23, 42, 0.04),
+    inset 0 3px 8px rgba(255, 255, 255, 0.55),
+    inset 0 -5px 12px rgba(186, 230, 253, 0.35),
+    inset 0 0 22px rgba(255, 255, 255, 0.2);
+  --liquid-glass-shadow-hover:
+    0 18px 44px -8px rgba(3, 105, 161, 0.16),
+    0 4px 14px rgba(15, 23, 42, 0.06),
+    inset 0 4px 10px rgba(255, 255, 255, 0.7),
+    inset 0 -6px 14px rgba(125, 211, 252, 0.42),
+    inset 0 0 26px rgba(255, 255, 255, 0.28);
+
+  --liquid-pill-bg: radial-gradient(
+    120% 120% at 50% 0%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.07) 58%,
+    rgba(186, 230, 253, 0.24) 100%
+  );
+  --liquid-pill-border: rgba(255, 255, 255, 0.26);
+  --liquid-pill-shadow:
+    0 6px 18px -4px rgba(15, 23, 42, 0.08),
+    inset 0 2px 5px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 6px rgba(186, 230, 253, 0.3);
 }
 
 /* In light mode, text must be clean and razor-sharp without any blurry white glow */
@@ -95,21 +255,219 @@ body {
   text-shadow: none !important;
 }
 
-/* Surface cards (e.g. Learning track cards, info boxes) */
-[data-theme="light"] [class*="surface-background"],
-[data-theme="light"] [class*="Card"] {
-  background-color: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(0, 0, 0, 0.09) !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+/* ==========================================================================
+   1. Primary Surfaces & Cards (3D Convex Liquid Droplet Lens)
+   ========================================================================== */
+.surface-background,
+[class*="Card"][class*="__card"] {
+  position: relative;
+  background: var(--liquid-glass-bg) !important;
+  backdrop-filter: var(--liquid-blur-strong) !important;
+  -webkit-backdrop-filter: var(--liquid-blur-strong) !important;
+  border: 1px solid var(--liquid-glass-border) !important;
+  box-shadow: var(--liquid-glass-shadow) !important;
+  transition:
+    background 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-[data-theme="dark"] [class*="surface-background"],
-[data-theme="dark"] [class*="Card"] {
-  background-color: rgba(10, 21, 27, 0.65) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+a [class*="Card"][class*="__card"]:hover,
+button [class*="Card"][class*="__card"]:hover,
+[role="link"] [class*="Card"][class*="__card"]:hover,
+[role="button"] [class*="Card"][class*="__card"]:hover {
+  background: var(--liquid-glass-bg-hover) !important;
+  border-color: var(--liquid-glass-border-hover) !important;
+  box-shadow: var(--liquid-glass-shadow-hover) !important;
+  transform: translateY(-3px) scale(1.008);
+}
+
+/* ==========================================================================
+   2. Nested Glass Containers, Callouts & Alpha Sub-Cards
+   ========================================================================== */
+.neutral-background-alpha-weak {
+  background: var(--liquid-pill-bg) !important;
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border-color: var(--liquid-pill-border) !important;
+  box-shadow: var(--liquid-pill-shadow);
+}
+
+[data-theme="light"] .brand-background-alpha-weak {
+  background: radial-gradient(
+    120% 120% at 50% 0%,
+    rgba(224, 242, 254, 0.48) 0%,
+    rgba(186, 230, 253, 0.1) 58%,
+    rgba(56, 189, 248, 0.24) 100%
+  ) !important;
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border-color: rgba(125, 211, 252, 0.38) !important;
+  box-shadow:
+    0 6px 18px -4px rgba(2, 132, 199, 0.1),
+    inset 0 2px 5px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 6px rgba(56, 189, 248, 0.22);
+}
+
+/* Dark Mode: Pure Monochromatic Liquid Glass Sub-Capsules */
+[data-theme="dark"] .brand-background-alpha-weak,
+[data-theme="dark"] .accent-background-alpha-weak {
+  background: var(--liquid-pill-bg) !important;
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border-color: var(--liquid-pill-border) !important;
+  box-shadow: var(--liquid-pill-shadow) !important;
+}
+
+[data-theme="light"] .accent-background-alpha-weak {
+  background: radial-gradient(
+    120% 120% at 50% 0%,
+    rgba(209, 250, 229, 0.48) 0%,
+    rgba(167, 243, 208, 0.1) 58%,
+    rgba(52, 211, 153, 0.24) 100%
+  ) !important;
+  backdrop-filter: var(--liquid-blur-subtle);
+  -webkit-backdrop-filter: var(--liquid-blur-subtle);
+  border-color: rgba(110, 231, 183, 0.38) !important;
+  box-shadow:
+    0 6px 18px -4px rgba(5, 150, 105, 0.1),
+    inset 0 2px 5px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 6px rgba(52, 211, 153, 0.22);
+}
+
+/* ==========================================================================
+   3. Tags & Badges (Translucent Liquid Droplet Capsules)
+   ========================================================================== */
+[class*="Tag"][class*="__tag"],
+#badge {
+  background: var(--liquid-pill-bg) !important;
+  backdrop-filter: var(--liquid-blur-medium) !important;
+  -webkit-backdrop-filter: var(--liquid-blur-medium) !important;
+  border: 1px solid var(--liquid-pill-border) !important;
+  box-shadow: var(--liquid-pill-shadow) !important;
+}
+
+/* ==========================================================================
+   4. Buttons & ToggleButtons (iOS 27 Refractive Capsule Buttons)
+   ========================================================================== */
+[class*="Button"][class*="__secondary"] {
+  background: var(--liquid-pill-bg) !important;
+  backdrop-filter: var(--liquid-blur-medium) !important;
+  -webkit-backdrop-filter: var(--liquid-blur-medium) !important;
+  border: 1px solid var(--liquid-pill-border) !important;
+  box-shadow: var(--liquid-pill-shadow) !important;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+[class*="Button"][class*="__secondary"]:hover {
+  background: var(--liquid-glass-bg-hover) !important;
+  border-color: var(--liquid-glass-border-hover) !important;
+  box-shadow: var(--liquid-glass-shadow-hover) !important;
+  transform: translateY(-2px) scale(1.02);
+}
+
+[data-theme="light"] [class*="Button"][class*="__primary"] {
+  background: radial-gradient(
+    120% 120% at 50% 0%,
+    rgba(56, 189, 248, 0.65) 0%,
+    rgba(2, 132, 199, 0.45) 55%,
+    rgba(3, 105, 161, 0.68) 100%
+  ) !important;
+  backdrop-filter: var(--liquid-blur-medium) !important;
+  -webkit-backdrop-filter: var(--liquid-blur-medium) !important;
+  border: 1px solid rgba(186, 230, 253, 0.45) !important;
+  box-shadow:
+    0 10px 26px -4px rgba(3, 105, 161, 0.32),
+    inset 0 2px 6px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 6px rgba(3, 105, 161, 0.35) !important;
+  color: #ffffff !important;
+}
+
+/* Dark Mode Primary Button: High-Contrast Crisp White Monochrome Capsule */
+[data-theme="dark"] [class*="Button"][class*="__primary"] {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #e4e4e7 100%
+  ) !important;
+  border: 1px solid #ffffff !important;
+  box-shadow:
+    0 10px 28px -4px rgba(0, 0, 0, 0.65),
+    0 0 20px rgba(255, 255, 255, 0.16),
+    inset 0 1px 2px #ffffff !important;
+  color: #09090b !important;
+}
+
+[data-theme="dark"] [class*="Button"][class*="__primary"] * {
+  color: #09090b !important;
+  text-shadow: none !important;
+}
+
+[class*="Button"][class*="__primary"]:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Filter ToggleButtons outside Header (e.g. Learning Tracker tabs) */
+main [class*="ToggleButton"][class*="__button"],
+section [class*="ToggleButton"][class*="__button"] {
+  border-radius: 999px !important;
+  border: 1px solid var(--liquid-pill-border) !important;
+  background: var(--liquid-pill-bg) !important;
+  backdrop-filter: var(--liquid-blur-subtle) !important;
+  -webkit-backdrop-filter: var(--liquid-blur-subtle) !important;
+  box-shadow: var(--liquid-pill-shadow) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+main [class*="ToggleButton"][class*="__selected"],
+section [class*="ToggleButton"][class*="__selected"] {
+  background: var(--liquid-glass-bg-hover) !important;
+  border-color: var(--liquid-glass-border-hover) !important;
+  box-shadow: var(--liquid-glass-shadow-hover) !important;
+}
+
+[data-theme="dark"] main [class*="ToggleButton"][class*="__selected"],
+[data-theme="dark"] section [class*="ToggleButton"][class*="__selected"] {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   5. Mobile Polish (lighter blur for GPU-constrained phones, no tap flash)
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root {
+    --liquid-blur-strong: blur(8px) saturate(160%) contrast(104%);
+    --liquid-blur-medium: blur(6px) saturate(150%);
+    --liquid-blur-subtle: blur(4px) saturate(140%);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Never let long words/URLs push the page wider than the phone viewport. */
+  body {
+    overflow-x: clip;
+  }
+
+  main,
+  main p,
+  main li {
+    overflow-wrap: anywhere;
+  }
+}
+
+
+/* Hide global footer on /home so nothing ever scrolls vertically on the fixed stage */
+body:has(#home-fixed-stage) > footer {
+  display: none !important;
 }

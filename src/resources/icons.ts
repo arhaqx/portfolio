@@ -14,6 +14,8 @@ import {
   HiOutlineRocketLaunch,
   HiOutlineClock,
   HiLockClosed,
+  HiChevronDown,
+  HiChevronUp,
 } from "react-icons/hi2";
 
 import {
@@ -67,6 +69,8 @@ export const iconLibrary: Record<string, IconType> = {
   checkCircle: PiCheckCircleDuotone,
   clock: HiOutlineClock,
   lock: HiLockClosed,
+  chevronDown: HiChevronDown,
+  chevronUp: HiChevronUp,
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,

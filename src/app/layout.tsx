@@ -115,8 +115,8 @@ export default async function RootLayout({
           }}
         />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/images/logo.png" />
+        
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         {/* Google Analytics (gtag.js) */}
         {gaId && (
           <>

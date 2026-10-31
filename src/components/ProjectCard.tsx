@@ -1,15 +1,15 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
 import {
   AvatarGroup,
-  Carousel,
   Column,
-  Flex,
   Heading,
-  SmartLink,
+  Icon,
   Text,
 } from "@once-ui-system/core";
-
+import { DepthCard, DepthLayer } from "@/components/motion";
 import styles from "./ProjectCard.module.scss";
 
 interface ProjectCardProps {
@@ -25,71 +25,105 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   href,
+  priority = false,
   images = [],
   title,
   content,
   description,
-  avatars,
+  avatars = [],
   link,
 }) => {
   return (
-    <Column fillWidth gap="m">
-      <div data-parallax="14" style={{ width: "100%" }}>
-        <Carousel
-          sizes="(max-width: 960px) 100vw, 960px"
-          items={images.map((image) => ({
-            slide: image,
-            alt: title,
-          }))}
-        />
-      </div>
-      <Flex
-        className={styles.details}
-        s={{ direction: "column" }}
-        fillWidth
-        paddingX="s"
-        paddingTop="12"
-        paddingBottom="24"
-        gap="l"
+    <div className={styles.projectCardWrapper}>
+      <DepthCard
+        maxRotation={12}
+        maxTranslation={12}
+        spotlight={true}
+        disableOnMobile={true}
       >
-        {title && (
-          <Flex flex={5}>
-            <Heading as="h2" wrap="balance" variant="heading-strong-xl">
-              {title}
-            </Heading>
-          </Flex>
+        {/* Parallax Layer 1: Single Featured Project Cover Image (No Slide / Carousel) */}
+        {images.length > 0 && (
+          <DepthLayer depth={18}>
+            <Link
+              href={href}
+              className={styles.imageLink}
+              aria-label={`Buka studi kasus ${title}`}
+            >
+              <div className={styles.imageFrame}>
+                <img
+                  src={images[0]}
+                  alt={title}
+                  loading={priority ? "eager" : "lazy"}
+                  className={styles.coverImage}
+                />
+              </div>
+            </Link>
+          </DepthLayer>
         )}
-        {(avatars?.length > 0 || description?.trim() || content?.trim()) && (
-          <Column flex={7} gap="16">
-            {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
-            {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-strong">
-                {description}
-              </Text>
+
+        {/* Parallax Layer 2: Project Details & Meta */}
+        <div className={styles.detailsWrapper}>
+          <Column fillWidth gap="12" flex={1}>
+            {title && (
+              <DepthLayer depth={36}>
+                <Link href={href} className={styles.titleLink}>
+                  <Heading
+                    as="h2"
+                    wrap="balance"
+                    variant="heading-strong-l"
+                    className={styles.projectTitle}
+                  >
+                    {title}
+                  </Heading>
+                </Link>
+              </DepthLayer>
             )}
-            <Flex gap="24" wrap>
-              {content?.trim() && (
-                <SmartLink
-                  suffixIcon="arrowRight"
-                  style={{ margin: "0", width: "fit-content" }}
-                  href={href}
+
+            {avatars?.length > 0 && (
+              <DepthLayer depth={30}>
+                <AvatarGroup avatars={avatars} size="s" reverse />
+              </DepthLayer>
+            )}
+
+            {description?.trim() && (
+              <DepthLayer depth={26}>
+                <Text
+                  variant="body-default-s"
+                  onBackground="neutral-strong"
+                  className={styles.projectDescription}
                 >
-                  <Text variant="body-default-s">Baca studi kasus</Text>
-                </SmartLink>
-              )}
-              {link && (
-                <SmartLink
-                  suffixIcon="arrowUpRightFromSquare"
-                  style={{ margin: "0", width: "fit-content" }}
-                  href={link}
-                >
-                  <Text variant="body-default-s">Lihat proyek</Text>
-                </SmartLink>
-              )}
-            </Flex>
+                  {description}
+                </Text>
+              </DepthLayer>
+            )}
+
+            {/* Flexible spacer so actions align at bottom across all cards */}
+            <div className={styles.actionsSpacer} />
+
+            <DepthLayer depth={44}>
+              <div className={styles.actionsRow}>
+                {content?.trim() && (
+                  <Link href={href} className={styles.actionPill}>
+                    <span>Baca studi kasus</span>
+                    <Icon name="arrowRight" size="xs" />
+                  </Link>
+                )}
+                {link && (
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.actionPill}
+                  >
+                    <span>Lihat proyek</span>
+                    <Icon name="arrowUpRightFromSquare" size="xs" />
+                  </a>
+                )}
+              </div>
+            </DepthLayer>
           </Column>
-        )}
-      </Flex>
-    </Column>
+        </div>
+      </DepthCard>
+    </div>
   );
 };

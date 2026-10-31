@@ -12,6 +12,7 @@ import {
   FiMinimize2,
   FiCornerDownLeft,
 } from "react-icons/fi";
+import { LiquidMark, LiquidSurface } from "../LiquidMetalNavbar";
 import styles from "./ChatWidget.module.scss";
 
 interface Message {
@@ -54,28 +55,6 @@ function formatCurrentTime(): string {
   const now = new Date();
   return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
-
-/**
- * Minimalist geometric bot/terminal mark (no cheesy AI sparkles)
- */
-const AssistantGlyph = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <rect x="3" y="4" width="18" height="16" rx="4" />
-    <line x1="8" y1="10" x2="10" y2="12" />
-    <line x1="8" y1="14" x2="10" y2="12" />
-    <line x1="13" y1="14" x2="16" y2="14" />
-  </svg>
-);
 
 /**
  * Dynamic Island animated waveform indicator
@@ -186,6 +165,10 @@ export const ChatWidget: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [hasUnreadReply, setHasUnreadReply] = useState(false);
+  // Expanded panel is only mounted while open (+ close animation) so its WebGL
+  // LiquidMark/LiquidSurface canvases don't exhaust mobile GPU context limits.
+  const [contentMounted, setContentMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -199,7 +182,22 @@ export const ChatWidget: React.FC = () => {
       typeof navigator !== "undefined" &&
         /Mac|iPhone|iPod|iPad/i.test(navigator.userAgent)
     );
+
+    const mq = window.matchMedia("(max-width: 768px)");
+    const syncMobile = () => setIsMobile(mq.matches);
+    syncMobile();
+    mq.addEventListener("change", syncMobile);
+    return () => mq.removeEventListener("change", syncMobile);
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setContentMounted(true);
+      return;
+    }
+    const timer = setTimeout(() => setContentMounted(false), 720);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   const triggerIslandMorph = useCallback((nextOpen: boolean) => {
     setIsAnimatingMorph(true);
@@ -408,7 +406,6 @@ export const ChatWidget: React.FC = () => {
 
   const handleRegenerate = () => {
     if (isLoading || messages.length < 2) return;
-    // Find the last user message
     const lastUserIndex = [...messages]
       .map((m) => m.role)
       .lastIndexOf("user");
@@ -437,6 +434,11 @@ export const ChatWidget: React.FC = () => {
   if (!mounted) return null;
 
   const isEmptyThread = messages.length === 0;
+  const triggerLabel = isLoading
+    ? "Sedang menjawab..."
+    : hasUnreadReply
+    ? "Balasan baru"
+    : "Tanya Arinal";
 
   return (
     <div
@@ -471,40 +473,72 @@ export const ChatWidget: React.FC = () => {
         aria-label="Arinal AI Assistant"
       >
         {/* ============================================================
-            COLLAPSED STATE: DYNAMIC ISLAND PILL TRIGGER
+            COLLAPSED STATE: LIQUID METAL PILL BUTTON + LIQUIDMARK LOGO
             ============================================================ */}
         <button
           type="button"
+          data-liquid-host
           className={styles.islandPillTrigger}
           onClick={() => triggerIslandMorph(true)}
           aria-label={`Buka Arinal AI Assistant (${isMac ? "Cmd+K" : "Ctrl+K"})`}
           aria-expanded={isOpen}
           tabIndex={isOpen ? -1 : 0}
         >
+          {/* WebGL Liquid Metal Chrome Perimeter Rim & Interactive Light Pool */}
+          {!isOpen && (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                borderRadius: "inherit",
+              }}
+            >
+              <LiquidSurface
+                material="navigation"
+                edgeWidth={2.5}
+                hoverLight={0.75}
+                liquid={0.95}
+                prism={0.65}
+                brightness={1.02}
+              />
+            </div>
+          )}
+
+          {/* Leading 3D Liquid Metal Torus Medallion Logo */}
           <span className={styles.islandLeading}>
-            {isLoading ? (
-              <IslandWaveform active />
-            ) : (
-              <span className={styles.islandOrb}>
-                <AssistantGlyph />
-              </span>
-            )}
+            <LiquidMark
+              size={34}
+              flow={isLoading ? 1.45 : 0.95}
+              brightness={1.05}
+            />
           </span>
 
-          <span className={styles.islandPillText}>
-            {isLoading
-              ? "Sedang menjawab..."
-              : hasUnreadReply
-              ? "Balasan baru tersedia"
-              : "Tanya Arinal"}
-          </span>
+          {/* Framer Sliding Dual-Label Text (GPU Transform-driven) */}
+          <div className={styles.islandSlidingLabel}>
+            <span className={styles.islandLabelGhost}>{triggerLabel}</span>
+            <span className={styles.islandLabelRest}>{triggerLabel}</span>
+            <span className={styles.islandLabelHover}>{triggerLabel}</span>
+          </div>
 
-          <kbd className={styles.islandKbd}>{isMac ? "⌘K" : "Ctrl K"}</kbd>
+          {/* Right KBD Capsule Badge */}
+          <span className={styles.islandKbd}>
+            <span className={styles.islandKbdText}>
+              {isLoading ? (
+                <IslandWaveform active />
+              ) : isMac ? (
+                "⌘K"
+              ) : (
+                "Ctrl K"
+              )}
+            </span>
+          </span>
         </button>
 
         {/* ============================================================
             EXPANDED STATE: ASSISTANT-UI MODAL + THREAD + COMPOSER
             ============================================================ */}
+        {contentMounted && (
         <div
           className={styles.assistantModalContent}
           aria-hidden={!isOpen}
@@ -512,15 +546,20 @@ export const ChatWidget: React.FC = () => {
           {/* Dynamic Island Top Notch / Modal Header */}
           <header className={styles.modalHeader}>
             <div className={styles.headerIdentity}>
+              <LiquidMark
+                size={30}
+                flow={isLoading ? 1.4 : 0.9}
+                brightness={1.05}
+              />
+              <div className={styles.headerTitles}>
+                <h2 className={styles.headerTitle}>Arinal AI</h2>
+                <span className={styles.headerDomain}>arhaq.dev</span>
+              </div>
               <div className={styles.islandHeaderCapsule}>
                 <IslandWaveform active={isLoading} />
                 <span className={styles.capsuleStatusText}>
                   {isLoading ? "Thinking..." : "RAG Active"}
                 </span>
-              </div>
-              <div className={styles.headerTitles}>
-                <h2 className={styles.headerTitle}>Arinal AI</h2>
-                <span className={styles.headerDomain}>arhaq.dev</span>
               </div>
             </div>
 
@@ -562,7 +601,7 @@ export const ChatWidget: React.FC = () => {
               <div className={styles.threadWelcome}>
                 <div className={styles.welcomeHero}>
                   <div className={styles.welcomeAvatar}>
-                    <AssistantGlyph />
+                    <LiquidMark size={54} flow={0.95} brightness={1.05} />
                   </div>
                   <h3 className={styles.welcomeHeading}>
                     Ada yang ingin ditanyakan?
@@ -615,9 +654,11 @@ export const ChatWidget: React.FC = () => {
                   return (
                     <div key={msg.id} className={styles.assistantMessageRow}>
                       <div className={styles.assistantAvatarCol}>
-                        <div className={styles.assistantAvatar}>
-                          <AssistantGlyph />
-                        </div>
+                        <LiquidMark
+                          size={28}
+                          flow={isWaiting ? 1.4 : 0.85}
+                          brightness={1.05}
+                        />
                       </div>
 
                       <div className={styles.assistantBodyCol}>
@@ -664,7 +705,13 @@ export const ChatWidget: React.FC = () => {
                                 aria-label="Ulangi jawaban"
                               >
                                 <FiRefreshCw size={12} />
-                                <span>Ulangi</span>
+                                <span
+                                  style={{
+                                    marginLeft: 2,
+                                  }}
+                                >
+                                  Ulangi
+                                </span>
                               </button>
                             )}
 
@@ -712,16 +759,39 @@ export const ChatWidget: React.FC = () => {
 
                 <button
                   type="submit"
+                  data-liquid-host
                   className={styles.composerSendBtn}
                   disabled={!input.trim() || isLoading}
                   aria-label="Kirim pesan"
                 >
-                  <FiArrowUp size={16} strokeWidth={2.5} />
+                  <span
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      pointerEvents: "none",
+                      borderRadius: "inherit",
+                    }}
+                  >
+                    <LiquidSurface
+                      material="dark"
+                      edgeWidth={1.8}
+                      hoverLight={0.7}
+                      liquid={0.9}
+                      prism={0.6}
+                      brightness={1.05}
+                    />
+                  </span>
+                  <FiArrowUp
+                    size={15}
+                    strokeWidth={2.5}
+                    style={{ position: "relative", zIndex: 1 }}
+                  />
                 </button>
               </div>
             </form>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

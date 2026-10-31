@@ -185,7 +185,7 @@ const mailchimp: MailchimpConfig = {
 
 // default schema data — pulls from content.tsx so there's one source of truth
 const schema: SchemaConfig = {
-  logo: "",
+  logo: "/images/AR.svg",
   type: "Person",
   name: person.name,
   description: home.description,
