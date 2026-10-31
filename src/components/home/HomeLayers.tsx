@@ -128,19 +128,25 @@ export const HomeLayers: React.FC = () => {
       const exploreReveal = exploreRevealRef.current;
 
       if (!prefersReducedMotion && exploreChars.length > 0) {
-        tl.fromTo(
-          exploreChars,
-          { yPercent: 70, opacity: 0, filter: "blur(10px)" },
-          {
-            yPercent: 0,
-            opacity: 1,
-            filter: "blur(0px)",
-            duration: 8,
-            stagger: 0.5,
-            ease: "power3.out",
-          },
-          70,
-        );
+        // Same timing as the previous 0.5 stagger, but each char gets its own tween so its filter
+        // is cleared to `none` the moment it lands. A lingering `blur(0px)` makes WebKit clip each
+        // glyph to its box, cutting descenders ("p") and boxing the text-shadow on iOS Safari.
+        exploreChars.forEach((char, i) => {
+          const start = 70 + i * 0.5;
+          tl.fromTo(
+            char,
+            { yPercent: 70, opacity: 0, filter: "blur(10px)" },
+            {
+              yPercent: 0,
+              opacity: 1,
+              filter: "blur(0px)",
+              duration: 8,
+              ease: "power3.out",
+            },
+            start,
+          );
+          tl.set(char, { filter: "none" }, start + 8);
+        });
       }
 
       if (!prefersReducedMotion && exploreReveal) {

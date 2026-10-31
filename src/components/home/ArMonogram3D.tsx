@@ -302,6 +302,12 @@ export const ArMonogram3D: React.FC<ArMonogram3DProps> = ({ className }) => {
     });
     io.observe(container);
 
+    // Frame 1 is faded out with GSAP autoAlpha (inline visibility:hidden) while the fixed stage
+    // stays on screen, so the IntersectionObserver still reports it as visible. Skip only the GPU
+    // draw while the hosting frame is hidden; all motion math keeps running, so the monogram is in
+    // exactly the same pose when the frame fades back in. Frees the GPU for the sky on Frames 2-3.
+    const hostFrame = container.closest("section");
+
     // React Bits Fluid Glass Interactive Cursor Tracking & Tilt
     const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
     const onPointerMove = (e: MouseEvent) => {
@@ -382,7 +388,9 @@ export const ArMonogram3D: React.FC<ArMonogram3DProps> = ({ className }) => {
       const t = now * 0.001;
       tiltGroup.position.y = Math.sin(t * 1.1) * 0.05;
 
-      renderer.render(scene, camera);
+      if (!hostFrame || hostFrame.style.visibility !== "hidden") {
+        renderer.render(scene, camera);
+      }
     };
 
     rafId = requestAnimationFrame(animate);

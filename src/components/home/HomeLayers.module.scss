@@ -153,7 +153,8 @@
 /* Individual character animated by the scroll-scrubbed GSAP timeline */
 .exploreChar {
   display: inline-block;
-  will-change: transform, opacity, filter;
+  /* No `filter` hint: a permanent filter layer makes WebKit clip glyph descenders & text-shadow */
+  will-change: transform, opacity;
 }
 
 /* Enlarged invisible hit area so the magnetic pull starts before the cursor touches the button */

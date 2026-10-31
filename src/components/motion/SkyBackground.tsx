@@ -31,8 +31,9 @@ const LIGHT_CONFIG = {
   scale: 1.0,
   scaleMobile: 4.0,
   texturePath: "/gallery/noise.png",
-  mouseControls: true,
-  touchControls: true,
+  // CLOUDS2 shader never reads iMouse, so pointer listeners only cost forced layout reads
+  mouseControls: false,
+  touchControls: false,
   gyroControls: false,
   minHeight: 200.0,
   minWidth: 200.0,
@@ -47,8 +48,9 @@ const DARK_CONFIG = {
   scale: 1.0,
   scaleMobile: 4.0,
   texturePath: "/gallery/noise.png",
-  mouseControls: true,
-  touchControls: true,
+  // CLOUDS2 shader never reads iMouse, so pointer listeners only cost forced layout reads
+  mouseControls: false,
+  touchControls: false,
   gyroControls: false,
   minHeight: 200.0,
   minWidth: 200.0,
@@ -163,6 +165,61 @@ export function SkyBackground() {
           vantaBaseProto._clouds2Patched = true;
         }
 
+        // Zero-visual-change engine patches on VantaBase (applied once, before construction):
+        //  - isOnScreen(): the sky is position:fixed full-viewport, so it is always on screen.
+        //    Vanta's version reads offsetHeight + getBoundingClientRect() EVERY frame, forcing a
+        //    synchronous layout that competes with GSAP / Lenis and causes frame-pacing hitches.
+        //  - initThree(): MSAA is disabled. The effect is one full-screen quad, so there are no
+        //    geometry edges for antialiasing to smooth; MSAA only adds a per-frame resolve cost.
+        //  - resize(): skipped when size & DPR are unchanged. Setting canvas width/height (even to
+        //    the same value) reallocates the drawing buffer; mobile browsers fire resize whenever
+        //    the URL bar shows/hides while the sky (100lvh) keeps the exact same size.
+        const perfProto = (window as unknown as {
+          VANTA?: {
+            VantaBase?: {
+              prototype?: Record<string, unknown> & { _perfPatched?: boolean };
+            };
+          };
+        }).VANTA?.VantaBase?.prototype;
+        if (perfProto && !perfProto._perfPatched) {
+          perfProto.isOnScreen = function () {
+            return true;
+          };
+
+          perfProto.initThree = function (this: {
+            el: HTMLElement;
+            renderer?: THREE.WebGLRenderer;
+            scene?: THREE.Scene;
+            options: { backgroundAlpha?: number };
+            applyCanvasStyles: (canvas: HTMLCanvasElement) => void;
+          }) {
+            this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+            this.el.appendChild(this.renderer.domElement);
+            this.applyCanvasStyles(this.renderer.domElement);
+            if (Number.isNaN(Number(this.options.backgroundAlpha))) {
+              this.options.backgroundAlpha = 1;
+            }
+            this.scene = new THREE.Scene();
+          };
+
+          const origBaseResize = perfProto.resize as (() => void) | undefined;
+          perfProto.resize = function (this: {
+            el?: HTMLElement;
+            renderer?: THREE.WebGLRenderer;
+            _lastSize?: string;
+          }) {
+            const el = this.el;
+            const key = el
+              ? `${el.offsetWidth}x${el.offsetHeight}@${window.devicePixelRatio}`
+              : "";
+            if (this.renderer && key && key === this._lastSize) return;
+            this._lastSize = key;
+            if (origBaseResize) origBaseResize.call(this);
+          };
+
+          perfProto._perfPatched = true;
+        }
+
         vantaEffect = CLOUDS2({
           el: containerRef.current,
           THREE,
@@ -190,9 +247,10 @@ export function SkyBackground() {
             mesh.material.needsUpdate = true;
           }
 
+          const bufferSize = new THREE.Vector2();
           const syncResolution = () => {
             if (effect.renderer && effect.uniforms?.iResolution?.value) {
-              const bufferSize = effect.renderer.getDrawingBufferSize(new THREE.Vector2());
+              effect.renderer.getDrawingBufferSize(bufferSize);
               if (
                 effect.uniforms.iResolution.value.x !== bufferSize.x ||
                 effect.uniforms.iResolution.value.y !== bufferSize.y
