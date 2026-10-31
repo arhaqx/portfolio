@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { getCloudRenderScale, startCloudAnimation, type CloudEffect } from "./cloudAnimation";
+import { CLOUD_FRAGMENT_SHADER } from "./cloudShader";
 import styles from "./SkyBackground.module.scss";
 
 /**
@@ -117,15 +118,6 @@ export function SkyBackground() {
         const currentTheme = getTheme();
         const currentConfig = getConfig(currentTheme);
 
-        // Remove Vanta's `sin(dot(coord,coord))` raymarch jitter so Windows/D3D11
-        // GPUs don't overflow float32 sin() range reduction
-        // and produce concentric curved Moiré rings radiating from (0,0).
-        const patchShaderString = (shader: string) =>
-          shader.replace(
-            "sin(dot(coord,coord))",
-            "0.0",
-          );
-
         // Vanta's `CLOUDS2` export is a factory arrow function `(opts) => new Effect(opts)`,
         // so `CLOUDS2.prototype` is undefined. Hook `VantaBase.prototype.init` (which runs inside
         // `super.init()` right before `initBasicShader()` compiles the ShaderMaterial) to patch
@@ -144,7 +136,7 @@ export function SkyBackground() {
           }) {
             const effectProto = Object.getPrototypeOf(this);
             if (effectProto && typeof effectProto.fragmentShader === "string" && !effectProto._shaderPatched) {
-              effectProto.fragmentShader = patchShaderString(effectProto.fragmentShader);
+              effectProto.fragmentShader = CLOUD_FRAGMENT_SHADER;
               effectProto._shaderPatched = true;
             }
             // Vanta already bound resize() to this instance in its constructor.
@@ -160,7 +152,7 @@ export function SkyBackground() {
               }
             };
             if (typeof this.fragmentShader === "string") {
-              this.fragmentShader = patchShaderString(this.fragmentShader);
+              this.fragmentShader = CLOUD_FRAGMENT_SHADER;
             }
             if (origBaseInit) origBaseInit.call(this);
           };
@@ -257,10 +249,16 @@ export function SkyBackground() {
           if (
             mesh?.material &&
             typeof mesh.material.fragmentShader === "string" &&
-            mesh.material.fragmentShader.includes("sin(dot(coord,coord))")
+            mesh.material.fragmentShader !== CLOUD_FRAGMENT_SHADER
           ) {
-            mesh.material.fragmentShader = patchShaderString(mesh.material.fragmentShader);
+            mesh.material.fragmentShader = CLOUD_FRAGMENT_SHADER;
             mesh.material.needsUpdate = true;
+          }
+
+          const texture = vantaEffect.uniforms.iTex?.value;
+          if (texture) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.needsUpdate = true;
           }
 
           // Resolution is synchronized by resize(), not polled on every frame.

@@ -101,8 +101,9 @@ test("Retina, 4K and mobile screens stay inside the cloud pixel budget", () => {
     [1920, 1080, 1],
   ]) {
     const ratio = dpr / getCloudRenderScale(width, height, dpr);
-    assert.ok(width * height * ratio ** 2 <= 1280 * 720 + 1);
+    assert.ok(width * height * ratio ** 2 <= 960 * 540 + 1);
     assert.ok(ratio <= 1, "background must not render at Retina pixel density");
+    if (width < 600) assert.ok(ratio <= 0.5, "phones need headroom for the page compositor");
   }
   const full = 2 / getCloudRenderScale(1440, 900, 2);
   const reduced = 2 / getCloudRenderScale(1440, 900, 2, 0.5);
@@ -148,6 +149,39 @@ test("sustained slow frames reduce resolution, while a single hitch does not", (
   const resizes = runtime.resizes;
   for (let i = 121; i <= 180; i++) runtime.frame(1800 + i * 100);
   assert.equal(runtime.resizes, resizes, "quality must stop reallocating at its lower bound");
+});
+
+test("an occasional dropped frame pattern is corrected before most frames become slow", (t) => {
+  const runtime = createRuntime(t);
+  let now = 0;
+  runtime.frame(now);
+  for (let i = 1; i <= 60; i++) {
+    now += i % 5 === 0 ? 1000 / 30 : 1000 / 60;
+    runtime.frame(now);
+  }
+  assert.ok(runtime.resizes > 0, "sustained 50 FPS should not evade the quality controller");
+  assert.ok(runtime.effect._cloudQuality < 1);
+});
+
+test("heavy GPU overload is addressed within the first sampling window", (t) => {
+  const runtime = createRuntime(t);
+  for (let i = 0; i <= 12; i++) runtime.frame(i * 100);
+  assert.equal(runtime.effect._cloudQuality, 0.5);
+  assert.equal(runtime.resizes, 1);
+});
+
+test("very slow GPUs still trigger adaptation instead of being mistaken for isolated stalls", (t) => {
+  const runtime = createRuntime(t);
+  for (let i = 0; i <= 12; i++) runtime.frame(i * 500);
+  assert.equal(runtime.effect._cloudQuality, 0.5);
+});
+
+test("one long stall followed by healthy frames does not permanently soften the sky", (t) => {
+  const runtime = createRuntime(t);
+  runtime.frame(0);
+  runtime.frame(1600);
+  for (let i = 1; i <= 120; i++) runtime.frame(1600 + (i * 1000) / 60);
+  assert.equal(runtime.resizes, 0);
 });
 
 test("reduced motion waits for the texture, then stays static and can redraw a theme change", (t) => {
