@@ -255,9 +255,9 @@
   }
 }
 
-/* "Muhammad" positioned top-left of center 3D "AR", shifted 0.7cm up matching user request */
+/* "Muhammad" positioned top-left of center 3D "AR", shifted 2cm up matching user request */
 .nameTopLeft {
-  top: calc(50% - 0.7cm);
+  top: calc(50% - 2cm);
   left: 50%;
   transform: translate3d(-94%, -85%, 0);
 
