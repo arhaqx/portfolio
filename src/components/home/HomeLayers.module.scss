@@ -220,13 +220,13 @@
   position: relative;
   width: 100%;
   max-width: 1200px;
-  height: clamp(360px, 52vw, 560px);
+  height: min(clamp(280px, 45vw, 520px), 54svh);
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media (max-width: breakpoints.$s) {
-    height: clamp(280px, 74vw, 380px);
+    height: clamp(260px, 70vw, 360px);
   }
 }
 
@@ -235,7 +235,7 @@
   margin: 0;
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
   font-weight: 700;
-  font-size: clamp(3.6rem, 9.2vw, 8.2rem);
+  font-size: clamp(2.4rem, min(7.5vw, 10.5svh), 6.5rem);
   line-height: 0.92;
   letter-spacing: -0.048em;
   color: var(--neutral-on-background-strong);
@@ -255,11 +255,11 @@
   }
 }
 
-/* "Muhammad" positioned top-left of center 3D "AR", shifted 2cm right & 0.5cm up */
+/* "Muhammad" positioned top-left of center 3D "AR" */
 .nameTopLeft {
-  top: calc(50% - 0.5cm);
-  left: calc(50% + 2cm);
-  transform: translate3d(-94%, -152%, 0);
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-90%, -90%, 0);
 
   :global([data-theme="dark"]) & {
     &,
@@ -270,11 +270,11 @@
   }
 }
 
-/* "Arinal" positioned bottom-right of center 3D "AR", matching the lower-right marked area */
+/* "Arinal" positioned bottom-right of center 3D "AR" */
 .nameBottomRight {
   top: 50%;
   left: 50%;
-  transform: translate3d(28%, 80%, 0);
+  transform: translate3d(24%, 68%, 0);
 }
 
 /* 3D "AR" Monogram centered and overlapping both words */
@@ -284,8 +284,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: clamp(460px, 54vw, 760px);
-  height: clamp(390px, 46vw, 640px);
+  width: min(clamp(280px, 44vw, 680px), 52svh);
+  height: min(clamp(240px, 38vw, 560px), 44svh);
   max-width: 100vw;
   display: flex;
   align-items: center;
@@ -298,8 +298,8 @@
   }
 
   @media (max-width: breakpoints.$s) {
-    width: min(84vw, 400px);
-    height: min(72vw, 340px);
+    width: min(84vw, 380px);
+    height: min(72vw, 320px);
   }
 }
 
@@ -318,24 +318,23 @@
   }
 }
 
-/* Editorial bottom bar (Ruler ticks on left + "SCROLL TO EXPLORE ↓" button) shifted 1.5cm up */
+/* Editorial bottom bar (Ruler ticks on left + centered "SCROLL TO EXPLORE ↓" button) */
 .layerOneFooter {
   position: absolute;
-  bottom: calc(1.5rem + 1.5cm);
+  bottom: clamp(1rem, 2.5svh, 1.75rem);
   left: 0;
   right: 0;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 2rem;
-  padding-right: calc(226px + 2.5rem);
+  padding: 0 clamp(1.5rem, 3vw, 2.5rem);
   pointer-events: none;
   z-index: 3;
 
   @media (max-width: breakpoints.$s) {
     justify-content: center;
     padding: 0 1rem;
-    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px) + 1.5cm);
+    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -382,19 +381,30 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  white-space: nowrap;
   transition:
     color 0.25s ease,
     transform 0.25s ease;
 
   &:hover {
     color: var(--neutral-on-background-strong);
-    transform: translateY(2px);
+    transform: translate(-50%, 2px);
   }
 
   @media (max-width: breakpoints.$s) {
+    position: static;
+    transform: none;
     padding: 0.45rem 0.85rem;
     font-size: 0.68rem;
     letter-spacing: 0.1em;
+
+    &:hover {
+      transform: translateY(2px);
+    }
   }
 }
 
@@ -410,5 +420,78 @@
   }
   50% {
     transform: translateY(3px);
+  }
+}
+
+/* ==========================================================================
+   Responsive Tuning for Short Laptop Viewports (1366x768, 1440x900, 1080p scaled)
+   ========================================================================== */
+@media (max-height: 740px) and (min-width: breakpoints.$s) {
+  .frameOne {
+    padding-top: 3.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .heroComposition {
+    height: min(48svh, 320px);
+  }
+
+  .heroWord {
+    font-size: clamp(2rem, min(7vw, 9.5svh), 4.2rem);
+  }
+
+  .monogramCenter {
+    width: min(38vw, 44svh, 300px);
+    height: min(32vw, 38svh, 250px);
+  }
+
+  .nameTopLeft {
+    transform: translate3d(-88%, -85%, 0);
+  }
+
+  .nameBottomRight {
+    transform: translate3d(22%, 65%, 0);
+  }
+
+  .layerOneFooter {
+    bottom: 0.85rem;
+  }
+}
+
+@media (max-height: 580px) and (min-width: breakpoints.$s) {
+  .frameOne {
+    padding-top: 3rem;
+  }
+
+  .heroComposition {
+    height: min(46svh, 260px);
+  }
+
+  .heroWord {
+    font-size: clamp(1.8rem, min(6.5vw, 8.8svh), 3.2rem);
+  }
+
+  .monogramCenter {
+    width: min(36vw, 40svh, 240px);
+    height: min(30vw, 34svh, 200px);
+  }
+
+  .rulerMarks {
+    display: none;
+  }
+
+  .layerOneFooter {
+    bottom: 0.5rem;
+  }
+}
+
+@media (max-height: 740px) {
+  .frameTwo,
+  .frameThree {
+    padding: 3.5rem 1.5rem 1.5rem;
+  }
+
+  .exploreHeroHeading {
+    font-size: clamp(2.4rem, min(7vw, 9svh), 4.6rem);
   }
 }
