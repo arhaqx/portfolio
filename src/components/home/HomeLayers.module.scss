@@ -86,6 +86,10 @@
   justify-content: center;
   pointer-events: auto;
   padding: 0 1.5rem;
+
+  @media (max-width: breakpoints.$s) {
+    padding: 0 1rem;
+  }
 }
 
 .exploreHeroRow {
@@ -100,6 +104,7 @@
     flex-direction: column;
     gap: 1.5rem;
     text-align: center;
+    width: 100%;
   }
 }
 
@@ -128,7 +133,13 @@
   }
 
   @media (max-width: breakpoints.$s) {
-    font-size: clamp(2.6rem, 11vw, 3.8rem);
+    font-size: clamp(1.85rem, 8.2vw, 2.5rem);
+    white-space: normal;
+    letter-spacing: -0.03em;
+    padding: 0 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     flex-wrap: wrap;
   }
 }
