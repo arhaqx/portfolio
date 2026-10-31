@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   Heading,
   Text,
@@ -14,7 +15,10 @@ import {
 import { home, about, person } from "@/resources";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { useSmoothScroll, StarBorder } from "@/components/motion";
-import { ArMonogram3D } from "./ArMonogram3D";
+const ArMonogram3D = dynamic(
+  () => import("./ArMonogram3D").then((m) => m.ArMonogram3D),
+  { ssr: false },
+);
 import { SplitText } from "@/components/SplitText";
 import styles from "./HomeLayers.module.scss";
 
