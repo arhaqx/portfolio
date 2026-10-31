@@ -158,8 +158,8 @@ export const ArMonogram3D: React.FC<ArMonogram3DProps> = ({ className }) => {
       bevelThickness: 28,
       bevelSize: 8,
       bevelOffset: 0,
-      bevelSegments: 8,
-      curveSegments: 12,
+      bevelSegments: 16,
+      curveSegments: 16,
     };
 
     const geometry = new THREE.ExtrudeGeometry(shapes, extrudeSettings);
@@ -349,7 +349,6 @@ export const ArMonogram3D: React.FC<ArMonogram3DProps> = ({ className }) => {
 
     let rafId = 0;
     let lastTime = performance.now();
-    let lastRenderTime = performance.now();
     let continuousAngle = 0;
 
     // Exact 8 seconds per 1 full 360° (2π radians) rotation
@@ -357,12 +356,7 @@ export const ArMonogram3D: React.FC<ArMonogram3DProps> = ({ className }) => {
 
     const animate = (now: number) => {
       rafId = requestAnimationFrame(animate);
-      if (!isVisible || (typeof document !== "undefined" && document.hidden)) return;
-
-      // Cap at ~60 FPS (interval >= 16ms) to eliminate redundant GPU burn on 120Hz/144Hz high-refresh displays
-      const elapsed = now - lastRenderTime;
-      if (elapsed < 16) return;
-      lastRenderTime = now - (elapsed % 16.666);
+      if (!isVisible) return;
 
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
