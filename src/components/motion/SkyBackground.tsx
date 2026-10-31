@@ -123,7 +123,7 @@ export function SkyBackground() {
         const patchShaderString = (shader: string) =>
           shader.replace(
             "sin(dot(coord,coord))",
-            "(2.0 * fract(52.9829189 * fract(dot(mod(coord, 256.0), vec2(0.06711056, 0.00583715)))))",
+            "0.0",
           );
 
         // Vanta's `CLOUDS2` export is a factory arrow function `(opts) => new Effect(opts)`,
