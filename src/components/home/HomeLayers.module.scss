@@ -255,9 +255,9 @@
   }
 }
 
-/* "Muhammad" positioned top-left of center 3D "AR", matching Javier Fadel aesthetic */
+/* "Muhammad" positioned top-left of center 3D "AR", shifted 1cm up matching user request */
 .nameTopLeft {
-  top: 50%;
+  top: calc(50% - 1cm);
   left: 50%;
   transform: translate3d(-94%, -85%, 0);
 
