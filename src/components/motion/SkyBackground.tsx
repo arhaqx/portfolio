@@ -58,6 +58,7 @@ type VantaEffect = {
   setOptions: (opts: Record<string, unknown>) => void;
   destroy: () => void;
   renderer: THREE.WebGLRenderer;
+  scene: THREE.Scene;
   onUpdate?: () => void;
   uniforms: Record<string, { value: unknown }> & {
     iResolution: { value: THREE.Vector2 };
@@ -121,7 +122,7 @@ export function SkyBackground() {
         const currentTheme = getTheme();
         const currentConfig = getConfig(currentTheme);
 
-        // Use Vanta's original shader, renderer and animation loop.
+        // Vanta supplies the cloud sampling, renderer and animation loop.
         vantaEffect = CLOUDS2({
           el: containerRef.current,
           THREE,
@@ -130,6 +131,18 @@ export function SkyBackground() {
 
         if (vantaEffect) {
           const effect = vantaEffect;
+          const mesh = effect.scene.children[0] as
+            | THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>
+            | undefined;
+          const material = mesh?.material;
+          // The radial ray-start jitter aliases into small rings and grain.
+          // Use a fixed start distance, preserving Vanta's cloud density and
+          // all 100 raymarch steps and four noise octaves.
+          if (material?.fragmentShader.includes("sin(dot(coord,coord))")) {
+            material.fragmentShader = material.fragmentShader.replace("sin(dot(coord,coord))", "0.0");
+            material.needsUpdate = true;
+          }
+
           const bufferSize = new THREE.Vector2();
           // Vanta omits devicePixelRatio from iResolution. Match the drawing
           // buffer so the original shader also fills Retina/mobile screens.
