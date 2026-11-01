@@ -1,0 +1,21 @@
+// Image dimensions keep gallery thumbnails at their original aspect ratios.
+export const projectImageDetails: Record<string, { width: number; height: number; caption: string }> = {
+  "/images/projects/hermes/cover.jpg": { width: 1376, height: 768, caption: "Hermes Autonomous Agent" },
+  "/images/projects/hermes/9router-dashboard.png": { width: 1024, height: 529, caption: "Dashboard 9Router" },
+  "/images/projects/hermes/telegram-bot.png": { width: 1024, height: 873, caption: "Interaksi melalui Telegram" },
+  "/images/projects/hermes/azure-terminal.png": { width: 1024, height: 579, caption: "Terminal Microsoft Azure" },
+  "/images/projects/parkir/dashboard-analitik.png": { width: 1024, height: 529, caption: "Dashboard analitik parkir" },
+  "/images/projects/parkir/form-petugas.png": { width: 1024, height: 532, caption: "Form laporan petugas" },
+  "/images/projects/parkir/riwayat-keaslian-foto.png": { width: 1024, height: 529, caption: "Riwayat dan verifikasi foto" },
+  "/images/projects/healspace/dashboard.png": { width: 1024, height: 530, caption: "Dashboard HealSpace" },
+  "/images/projects/healspace/konseling-ai.png": { width: 1024, height: 530, caption: "Konseling AI" },
+  "/images/projects/healspace/riwayat-asesmen.png": { width: 1024, height: 533, caption: "Riwayat asesmen" },
+  "/images/projects/healspace/relaksasi-box-breathing.png": { width: 1024, height: 532, caption: "Latihan pernapasan" },
+  "/images/projects/healspace/login.png": { width: 1024, height: 537, caption: "Halaman masuk" },
+  "/images/projects/denah-master/masterplan-detail.png": { width: 1024, height: 527, caption: "Visualisasi masterplan" },
+  "/images/projects/denah-master/sketsa-kasar.png": { width: 1024, height: 527, caption: "Sketsa pembagian lahan" },
+  "/images/projects/poliklinik/landing-page.png": { width: 1024, height: 555, caption: "Halaman utama poliklinik" },
+  "/images/projects/poliklinik/daftar-poli.png": { width: 1024, height: 578, caption: "Pendaftaran poli" },
+  "/images/projects/project-01/cover-03.jpg": { width: 1440, height: 810, caption: "Tampilan website Vinty · 1" },
+  "/images/projects/project-01/image-03.jpg": { width: 1440, height: 810, caption: "Tampilan website Vinty · 2" },
+};

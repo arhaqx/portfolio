@@ -85,12 +85,28 @@ function slugify(str: string): string {
   }).replace(/\-\-+/g, "-"); // Replace multiple - with single -
 }
 
-function createHeading(as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+const headingVariants = {
+  h1: "display-strong-xs",
+  h2: "heading-strong-xl",
+  h3: "heading-strong-l",
+  h4: "heading-strong-m",
+  h5: "heading-strong-s",
+  h6: "heading-strong-xs",
+} as const;
+
+function createHeading(as: keyof typeof headingVariants, linked = true) {
   const CustomHeading = ({
     children,
     ...props
-  }: Omit<React.ComponentProps<typeof HeadingLink>, "as" | "id">) => {
+  }: Pick<React.ComponentProps<typeof HeadingLink>, "children" | "className" | "style">) => {
     const slug = slugify(children as string);
+    if (!linked) {
+      return (
+        <Heading marginTop="24" marginBottom="12" as={as} id={slug} variant={headingVariants[as]} {...props}>
+          {children}
+        </Heading>
+      );
+    }
     return (
       <HeadingLink marginTop="24" marginBottom="12" as={as} id={slug} {...props}>
         {children}
@@ -204,10 +220,20 @@ const components = {
   SmartLink,
 };
 
-type CustomMDXProps = MDXRemoteProps & {
-  components?: typeof components;
+const plainHeadings = {
+  h1: createHeading("h1", false) as any,
+  h2: createHeading("h2", false) as any,
+  h3: createHeading("h3", false) as any,
+  h4: createHeading("h4", false) as any,
+  h5: createHeading("h5", false) as any,
+  h6: createHeading("h6", false) as any,
 };
 
-export function CustomMDX(props: CustomMDXProps) {
-  return <MDXRemote options={{ blockJS: false }} {...props} components={{ ...components, ...(props.components || {}) }} />;
+type CustomMDXProps = MDXRemoteProps & {
+  components?: typeof components;
+  headingLinks?: boolean;
+};
+
+export function CustomMDX({ headingLinks = true, ...props }: CustomMDXProps) {
+  return <MDXRemote options={{ blockJS: false }} {...props} components={{ ...components, ...(!headingLinks ? plainHeadings : {}), ...(props.components || {}) }} />;
 }

@@ -1,5 +1,11 @@
 @use "../breakpoints.scss" as breakpoints;
 
+@media (max-width: 1360px) {
+    .tableOfContents {
+        display: none !important;
+    }
+}
+
 .hover {
     transition: var(--transition-micro-medium);
 

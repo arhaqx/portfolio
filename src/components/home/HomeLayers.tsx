@@ -18,7 +18,12 @@ import { ArMonogram3D } from "./ArMonogram3D";
 import { SplitText } from "@/components/SplitText";
 import styles from "./HomeLayers.module.scss";
 
-const EXPLORE_WORDS = ["Let's", "Explore"];
+const EXPLORE_WORDS = ["work", "process", "journey"];
+const EXPLORE_LINKS = [
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Learning", href: "/learning" },
+];
 
 type QuickSetter = (value: number) => void;
 
@@ -32,7 +37,7 @@ export const HomeLayers: React.FC = () => {
   const layer3ContentRef = useRef<HTMLDivElement>(null);
 
   // Frame 3 motion targets
-  const exploreRevealRef = useRef<HTMLDivElement>(null);
+  const motionQueryRef = useRef<MediaQueryList | null>(null);
   const magnetZoneRef = useRef<HTMLDivElement>(null);
   const magnetRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLSpanElement>(null);
@@ -48,6 +53,21 @@ export const HomeLayers: React.FC = () => {
       const l3 = layer3Ref.current;
 
       if (!root || !l1 || !l2 || !l3) return;
+
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      motionQueryRef.current = motionQuery;
+      let wordCycle: gsap.core.Timeline | null = null;
+      let exploreIsReady = false;
+
+      const syncWordCycle = () => {
+        if (!wordCycle) return;
+        if (exploreIsReady && !document.hidden && !motionQuery.matches) {
+          wordCycle.play();
+        } else {
+          wordCycle.pause();
+          if (motionQuery.matches) wordCycle.pause(0);
+        }
+      };
 
       const setInteractiveLayer = (activeLayer: 1 | 2 | 3) => {
         l1.style.pointerEvents = activeLayer === 1 ? "auto" : "none";
@@ -76,6 +96,8 @@ export const HomeLayers: React.FC = () => {
             } else {
               setInteractiveLayer(3);
             }
+            exploreIsReady = p >= 0.87;
+            syncWordCycle();
           },
         },
       });
@@ -116,60 +138,61 @@ export const HomeLayers: React.FC = () => {
         )
         .to(l3, { autoAlpha: 1, duration: 18, ease: "none" }, 82);
 
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-
-      // Frame 3 choreography (scroll-scrubbed, fills the previously idle hold phase):
-      // 70 -> ~83.5: "Let's Explore" characters rise + blur-to-sharp, staggered
-      // 80 -> 86:    "Get Started" pill wipes in left-to-right via clip-path
-      // Reduced motion: skipped entirely, content stays static & fully visible.
-      const exploreChars = l3.querySelectorAll<HTMLElement>("[data-explore-char]");
-      const exploreReveal = exploreRevealRef.current;
-
-      if (!prefersReducedMotion && exploreChars.length > 0) {
-        // Same timing as the previous 0.5 stagger, but each char gets its own tween so its filter
-        // is cleared to `none` the moment it lands. A lingering `blur(0px)` makes WebKit clip each
-        // glyph to its box, cutting descenders ("p") and boxing the text-shadow on iOS Safari.
-        exploreChars.forEach((char, i) => {
-          const start = 70 + i * 0.5;
+      // Reveal the invitation in reading order as Frame 3 enters.
+      const exploreSteps = l3.querySelectorAll<HTMLElement>("[data-explore-step]");
+      if (!motionQuery.matches) {
+        exploreSteps.forEach((step, index) => {
           tl.fromTo(
-            char,
-            { yPercent: 70, opacity: 0, filter: "blur(10px)" },
+            step,
+            { y: 18, opacity: 0 },
             {
-              yPercent: 0,
+              y: 0,
               opacity: 1,
-              filter: "blur(0px)",
-              duration: 8,
+              duration: 6,
               ease: "power3.out",
             },
-            start,
+            70 + index * 2.6,
           );
-          tl.set(char, { filter: "none" }, start + 8);
         });
       }
 
-      if (!prefersReducedMotion && exploreReveal) {
-        // All-percentage insets so GSAP can interpolate; negative insets keep hover shadow unclipped
-        tl.fromTo(
-          exploreReveal,
-          { clipPath: "inset(-80% 100% -80% -15%)", opacity: 0 },
-          {
-            clipPath: "inset(-80% -15% -80% -15%)",
-            opacity: 1,
-            duration: 6,
-            ease: "power2.out",
-          },
-          80,
-        );
+      const rotatingWords = l3.querySelectorAll<HTMLElement>("[data-explore-word]");
+      if (rotatingWords.length > 1) {
+        gsap.set(rotatingWords, { yPercent: 65, autoAlpha: 0 });
+        gsap.set(rotatingWords[0], { yPercent: 0, autoAlpha: 1 });
+        wordCycle = gsap.timeline({ paused: true, repeat: -1 });
+        rotatingWords.forEach((word, index) => {
+          const nextWord = rotatingWords[(index + 1) % rotatingWords.length];
+          const changeAt = (index + 1) * 4 - 0.65;
+          wordCycle!
+            .fromTo(word, { yPercent: 0, autoAlpha: 1 }, {
+              yPercent: -65,
+              autoAlpha: 0,
+              duration: 0.65,
+              ease: "power3.inOut",
+              immediateRender: false,
+            }, changeAt)
+            .fromTo(nextWord, { yPercent: 65, autoAlpha: 0 }, {
+              yPercent: 0,
+              autoAlpha: 1,
+              duration: 0.65,
+              ease: "power3.inOut",
+              immediateRender: false,
+            }, changeAt);
+        });
       }
+
+      exploreIsReady = (tl.scrollTrigger?.progress ?? 0) >= 0.87;
+      syncWordCycle();
+      document.addEventListener("visibilitychange", syncWordCycle);
+      motionQuery.addEventListener("change", syncWordCycle);
 
       // Magnetic CTA: only on fine pointers (mouse / trackpad) without reduced motion
       const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
       const magnet = magnetRef.current;
       const arrow = arrowRef.current;
 
-      if (!prefersReducedMotion && finePointer && magnet && arrow) {
+      if (finePointer && magnet && arrow) {
         magnetRefs.current = {
           x: gsap.quickTo(magnet, "x", { duration: 0.6, ease: "power3" }),
           y: gsap.quickTo(magnet, "y", { duration: 0.6, ease: "power3" }),
@@ -180,7 +203,11 @@ export const HomeLayers: React.FC = () => {
       const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
       return () => {
         cancelAnimationFrame(frame);
+        document.removeEventListener("visibilitychange", syncWordCycle);
+        motionQuery.removeEventListener("change", syncWordCycle);
         magnetRefs.current = null;
+        motionQueryRef.current = null;
+        wordCycle?.kill();
         tl.kill();
       };
     },
@@ -194,7 +221,7 @@ export const HomeLayers: React.FC = () => {
   const handleMagnetMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const setters = magnetRefs.current;
     const zone = magnetZoneRef.current;
-    if (!setters || !zone) return;
+    if (!setters || !zone || motionQueryRef.current?.matches) return;
 
     const rect = zone.getBoundingClientRect();
     const dx = e.clientX - (rect.left + rect.width / 2);
@@ -378,27 +405,32 @@ export const HomeLayers: React.FC = () => {
           </section>
 
           {/* ====================================================================
-              FRAME 3: Let's Explore (Heroic) + Get Started (React Bits StarBorder)
+              FRAME 3: Explore the work, process, and journey
               ==================================================================== */}
           <section
             ref={layer3Ref}
             id="home-layer-3"
             className={`${styles.frameSection} ${styles.frameThree}`}
-            aria-label="Let's Explore"
+            aria-label="Jelajahi karya dan perjalanan saya"
           >
             <div ref={layer3ContentRef} className={styles.frameExploreHero}>
-              <div className={styles.exploreHeroRow}>
-                <h2 className={styles.exploreHeroHeading} aria-label="Let's Explore">
-                  {EXPLORE_WORDS.map((word) => (
-                    <span key={word} className={styles.exploreWord} aria-hidden="true">
-                      {Array.from(word).map((char, ci) => (
-                        <span key={ci} data-explore-char className={styles.exploreChar}>
-                          {char}
-                        </span>
-                      ))}
-                    </span>
-                  ))}
+              <div className={styles.exploreContent}>
+                <p className={styles.exploreEyebrow} data-explore-step>A closer look</p>
+                <h2 className={styles.exploreHeroHeading} aria-label="Explore the work, process, and journey." data-explore-step>
+                  <span aria-hidden="true" className={styles.exploreHeadingPrefix}>Explore the</span>
+                  <span className={styles.exploreWordWindow} aria-hidden="true">
+                    {EXPLORE_WORDS.map((word) => (
+                      <span key={word} data-explore-word className={styles.exploreRotatingWord}>
+                        {word}<span className={styles.explorePeriod}>.</span>
+                      </span>
+                    ))}
+                  </span>
                 </h2>
+                <p className={styles.exploreDescription} data-explore-step>
+                  Kenali perjalanan saya, jelajahi karya pilihan,{" "}
+                  <br className={styles.exploreDescriptionBreak} />
+                  dan temukan proses di balik setiap solusi.
+                </p>
 
                 <div
                   ref={magnetZoneRef}
@@ -406,7 +438,7 @@ export const HomeLayers: React.FC = () => {
                   onMouseMove={handleMagnetMove}
                   onMouseLeave={handleMagnetLeave}
                 >
-                  <div ref={exploreRevealRef} className={styles.exploreReveal}>
+                  <div className={styles.exploreReveal} data-explore-step>
                     <div ref={magnetRef} className={styles.magnetTarget}>
                       <StarBorder
                         as={Link}
@@ -426,6 +458,14 @@ export const HomeLayers: React.FC = () => {
                     </div>
                   </div>
                 </div>
+                <nav className={styles.exploreLinks} aria-label="Jelajahi portofolio" data-explore-step>
+                  {EXPLORE_LINKS.map((link, index) => (
+                    <React.Fragment key={link.href}>
+                      {index > 0 ? <span className={styles.exploreLinkSeparator} aria-hidden="true">·</span> : null}
+                      <Link href={link.href} className={styles.exploreLink}>{link.label}</Link>
+                    </React.Fragment>
+                  ))}
+                </nav>
               </div>
             </div>
           </section>

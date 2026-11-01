@@ -106,10 +106,10 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     ],
     content: `Pengalaman Organisasi & Rekam Jejak Kepemimpinan Arinal:
 1. UKM Musik Universitas Dian Nuswantoro (UDINUS):
-   - Pengalaman: 3 tahun aktif di Sie Kreatif, dengan 2 tahun di antaranya dipercaya memimpin langsung sebagai Koordinator / Creative Director (Oktober 2022 – Juli 2023).
+   - Posisi: Koordinator / Creative Director (Sie Kreatif), Oktober 2022 – Juni 2025.
    - Tanggung Jawab: Merancang konsep besar (*big idea*) visual branding, desain grafis promosi, tata panggung acara musik, arah musikalitas, serta memimpin dan membina anggota tim kreatif.
 2. Himpunan Mahasiswa Teknik Informatika (HMTI UDINUS):
-   - Posisi: Pengurus Divisi Litbang (Penelitian & Pengembangan) (Agustus 2023 – Desember 2023).
+   - Posisi: Pengurus Divisi Litbang (Penelitian & Pengembangan), Juni 2022 – Mei 2023.
    - Tanggung Jawab: Mengelola kuesioner dan survei aspirasi mahasiswa untuk mengukur keberhasilan program kerja, menganalisis data, serta menjadi panitia aktif dalam Seminar Nasional Teknologi Informasi (SEMNASTI).
 3. Karakter ENTJ & Soft Skills Teruji:
    - Pembelajar berbasis lingkungan dan pengalaman nyata.
@@ -126,7 +126,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     ],
     content: `Pengalaman Magang di Dinas Komunikasi, Informatika, Statistik dan Persandian (Diskominfo) Kota Semarang:
 - Posisi: Full Stack Web Developer Intern
-- Periode: Maret 2024 – Oktober 2024 (6 Bulan Penuh)
+- Periode: Mei – Oktober 2023 (6 bulan)
 - Tanggung Jawab & Kontribusi:
   1. Mengembangkan fitur-fitur baru serta melakukan pemeliharaan sistem (maintenance) secara rutin pada berbagai portal web sekolah negeri dan kedinasan di lingkup Kota Semarang.
   2. Melakukan bug fixing intensif pada antarmuka dan backend berbasis PHP/Laravel.

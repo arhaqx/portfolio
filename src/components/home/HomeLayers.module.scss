@@ -92,35 +92,45 @@
   }
 }
 
-.exploreHeroRow {
-  display: inline-flex;
+.exploreContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.5rem, 3.5vw, 3rem);
-  flex-wrap: wrap;
+  gap: clamp(20px, 3vh, 28px);
   pointer-events: auto;
+  text-align: center;
 
   @media (max-width: breakpoints.$s) {
-    flex-direction: column;
-    gap: 1.5rem;
-    text-align: center;
-    width: 100%;
+    gap: 20px;
   }
+}
+
+.exploreEyebrow {
+  margin: 0;
+  font-family: var(--font-code), monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--neutral-on-background-weak);
 }
 
 .exploreHeroHeading {
   margin: 0;
   display: flex;
-  flex-wrap: nowrap;
+  align-items: baseline;
+  flex-wrap: wrap;
   justify-content: center;
   column-gap: 0.26em;
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
   font-weight: 800;
-  font-size: clamp(3.2rem, 7.5vw, 6.2rem);
-  line-height: 1;
+  font-size: clamp(3rem, 6.8vw, 5.8rem);
+  line-height: 1.16;
   letter-spacing: -0.04em;
   color: var(--neutral-on-background-strong);
-  white-space: nowrap;
   pointer-events: auto;
   user-select: none;
   text-shadow: 0 4px 28px rgba(15, 23, 42, 0.12);
@@ -133,35 +143,126 @@
   }
 
   @media (max-width: breakpoints.$s) {
-    font-size: clamp(1.85rem, 8.2vw, 2.5rem);
-    white-space: normal;
+    flex-direction: column;
+    align-items: center;
+    font-size: clamp(2.35rem, 10vw, 3.5rem);
     letter-spacing: -0.03em;
     padding: 0 0.5rem;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    flex-wrap: wrap;
   }
 }
 
-/* Word wrapper keeps characters of one word together when wrapping */
-.exploreWord {
-  display: inline-flex;
+.exploreHeadingPrefix {
   white-space: nowrap;
 }
 
-/* Individual character animated by the scroll-scrubbed GSAP timeline */
-.exploreChar {
+.exploreWordWindow {
+  display: inline-grid;
+  overflow: hidden;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+  text-align: left;
+
+  @media (max-width: breakpoints.$s) {
+    text-align: center;
+  }
+}
+
+.exploreRotatingWord {
+  grid-area: 1 / 1;
   display: inline-block;
-  /* No `filter` hint: a permanent filter layer makes WebKit clip glyph descenders & text-shadow */
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
   will-change: transform, opacity;
+
+  &:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.explorePeriod {
+  opacity: 0.5;
+}
+
+.exploreDescription {
+  max-width: 36rem;
+  margin: 0;
+  color: var(--neutral-on-background-weak);
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
+  line-height: 1.7;
+  text-wrap: balance;
+
+  @media (max-width: breakpoints.$s) {
+    font-size: 0.975rem;
+  }
+}
+
+.exploreDescriptionBreak {
+  @media (max-width: breakpoints.$s) {
+    display: none;
+  }
+}
+
+.exploreLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.5vw, 24px);
+}
+
+.exploreLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--neutral-on-background-weak);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 9px;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--neutral-on-background-strong);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
+}
+
+.exploreLinkSeparator {
+  color: var(--neutral-on-background-weak);
+  opacity: 0.45;
 }
 
 /* Enlarged invisible hit area so the magnetic pull starts before the cursor touches the button */
 .magnetZone {
   display: inline-flex;
-  padding: 2.25rem;
-  margin: -2.25rem;
+  padding: 1rem 2.25rem;
+  margin: -1rem -2.25rem;
   pointer-events: auto;
 
   @media (max-width: breakpoints.$s) {
@@ -170,7 +271,7 @@
   }
 }
 
-/* Clip-path wipe reveal target (scroll-scrubbed) */
+/* Scroll reveal stays separate from the magnetic button movement. */
 .exploreReveal {
   display: inline-flex;
 }
@@ -209,6 +310,33 @@
   line-height: 1;
   display: inline-block;
   will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exploreContent [data-explore-step] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .exploreRotatingWord {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: none !important;
+
+    &:first-child {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  }
+
+  .exploreLink::after {
+    transition: none;
+  }
+
+  .magnetTarget,
+  .getStartedArrow {
+    transform: none !important;
+  }
 }
 
 /* ==========================================================================

@@ -16,6 +16,7 @@ interface ProjectCardProps {
   href: string;
   priority?: boolean;
   images: string[];
+  previewImage?: string;
   title: string;
   content: string;
   description: string;
@@ -27,12 +28,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   href,
   priority = false,
   images = [],
+  previewImage,
   title,
   content,
   description,
   avatars = [],
   link,
 }) => {
+  const coverImage = previewImage ?? images[0];
+
   return (
     <div className={styles.projectCardWrapper}>
       <DepthCard
@@ -42,7 +46,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         disableOnMobile={true}
       >
         {/* Parallax Layer 1: Single Featured Project Cover Image (No Slide / Carousel) */}
-        {images.length > 0 && (
+        {coverImage && (
           <DepthLayer depth={18}>
             <Link
               href={href}
@@ -51,7 +55,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             >
               <div className={styles.imageFrame}>
                 <img
-                  src={images[0]}
+                  src={coverImage}
                   alt={title}
                   loading={priority ? "eager" : "lazy"}
                   className={styles.coverImage}

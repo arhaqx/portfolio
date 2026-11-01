@@ -162,6 +162,8 @@ export interface About extends BasePageConfig {
       timeframe: string;
       /** Role or job title */
       role: string;
+      /** Related project detail page, when available */
+      projectHref?: `/projects/${string}`;
       /** Category badge/tag (e.g. INDEPENDENT SYSTEM, INTERNSHIP, TRAINING) */
       tag?: string;
       /** Achievements at the company */
@@ -191,6 +193,17 @@ export interface About extends BasePageConfig {
       name: string;
       /** Description of studies */
       description: React.ReactNode;
+    }>;
+  };
+  /** Organizational experience section */
+  organizations: {
+    display: boolean;
+    title: string;
+    entries: Array<{
+      name: string;
+      role: string;
+      timeframe: string;
+      projectHref?: `/projects/${string}`;
     }>;
   };
   /** Technical skills section */

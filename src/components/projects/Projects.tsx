@@ -1,6 +1,7 @@
 import { getPosts } from "@/utils/utils";
 import { Grid } from "@once-ui-system/core";
 import { ProjectCard } from "@/components";
+import { projectPreviews } from "@/resources/project-previews";
 
 interface ProjectsProps {
   range?: [number, number?];
@@ -9,7 +10,8 @@ interface ProjectsProps {
 }
 
 export function Projects({ range, exclude, columns = 2 }: ProjectsProps) {
-  let allProjects = getPosts(["src", "app", "projects", "projects"]);
+  let allProjects = getPosts(["src", "app", "projects", "projects"])
+    .filter((post) => post.metadata.category !== "visual-design");
 
   // Exclude by slug (exact match)
   if (exclude && exclude.length > 0) {
@@ -40,6 +42,7 @@ export function Projects({ range, exclude, columns = 2 }: ProjectsProps) {
           key={post.slug}
           href={`/projects/${post.slug}`}
           images={post.metadata.images}
+          previewImage={projectPreviews[post.slug]}
           title={post.metadata.title}
           description={post.metadata.summary}
           content={post.content}

@@ -992,10 +992,11 @@ export function LiquidSurface({
 
 const MEDALLION_CSS = `
 .lm-medallion{position:relative;display:inline-grid;place-items:center;flex-shrink:0;isolation:isolate;user-select:none}
-.lm-medallion[data-renderer=pending]{visibility:hidden}
 .lm-medallion .lmm-layer{position:absolute;pointer-events:none;user-select:none;border-radius:50%}
 .lm-medallion .lmm-torus{background:radial-gradient(ellipse at 24% 10%,#fff,transparent 40%),conic-gradient(from var(--lmm-phase,-44deg),#deedff,#273a58 8%,#fff 20%,#d6e9ff 26%,#182136 34%,#6b81a1 42%,#f8fdff 49%,#bddcff 55%,#263246 66%,#f5d8ae 72%,#fff 79%,#192336 89%,#deedff);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:saturate(var(--lmm-saturation,1.2)) drop-shadow(0 1px 1px #060b1488)}
 .lm-medallion[data-renderer=webgl] .lmm-torus{visibility:hidden}
+.lm-medallion .lmm-canvas{visibility:hidden}
+.lm-medallion[data-renderer=webgl] .lmm-canvas{visibility:visible}
 .lm-medallion .lmm-center{transition:transform 150ms cubic-bezier(.2,.8,.2,1)}
 .lm-medallion[data-pressed=true]:not([data-still=true]) .lmm-center{transform:scale(.98)}
 `;
@@ -1009,6 +1010,7 @@ export function LiquidMark({
   flow?: number;
   brightness?: number;
 }) {
+  const { theme } = useAppTheme();
   const [reduced, setReduced] = useState(false);
   const [active, setActive] = useState(false);
   const [pressed, setPressed] = useState(false);
@@ -1071,15 +1073,8 @@ export function LiquidMark({
     const canvas = canvasRef.current;
     if (!root || !canvas || typeof window === "undefined") return;
 
-    const torus = root.querySelector<HTMLElement>(".lmm-torus");
-    let currentRenderer = "";
     const showRenderer = (mode: string) => {
-      if (currentRenderer === mode) return;
-      currentRenderer = mode;
-      root.dataset.renderer = mode;
-      root.style.visibility = mode === "pending" ? "hidden" : "visible";
-      canvas.style.visibility = mode === "webgl" ? "visible" : "hidden";
-      if (torus) torus.style.visibility = mode === "fallback" ? "visible" : "hidden";
+      if (root.dataset.renderer !== mode) root.dataset.renderer = mode;
     };
 
     let gl: WebGLRenderingContext | null = null;
@@ -1105,7 +1100,6 @@ export function LiquidMark({
     let suppressPress = false;
 
     showRenderer("pending");
-    canvas.style.opacity = "0";
 
     const cleanupGPU = () => {
       if (!gl) return;
@@ -1216,10 +1210,8 @@ export function LiquidMark({
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       if (gl.isContextLost()) {
         showRenderer("fallback");
-        canvas.style.opacity = "0";
         return;
       }
-      canvas.style.opacity = "1";
       showRenderer("webgl");
     };
 
@@ -1305,10 +1297,19 @@ export function LiquidMark({
       wake();
     };
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        last = 0;
+      } else {
+        resize();
+      }
+    };
+
     const onLost = (event: Event) => {
       event.preventDefault();
       lost = true;
-      canvas.style.opacity = "0";
       showRenderer("fallback");
       cancelAnimationFrame(frame);
       frame = 0;
@@ -1316,8 +1317,11 @@ export function LiquidMark({
     };
     const onRestored = () => setVersion((v) => v + 1);
 
-    wakeRef.current = wake;
+    // Repaint immediately on theme changes, even when animation is paused.
+    wakeRef.current = resize;
     document.addEventListener("pointermove", pointerMove, { passive: true });
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("pageshow", resize);
     window.addEventListener("resize", resize, { passive: true });
     canvas.addEventListener("webglcontextlost", onLost);
     canvas.addEventListener("webglcontextrestored", onRestored);
@@ -1328,6 +1332,8 @@ export function LiquidMark({
       stopped = true;
       cancelAnimationFrame(frame);
       document.removeEventListener("pointermove", pointerMove);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("pageshow", resize);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("webglcontextlost", onLost);
       canvas.removeEventListener("webglcontextrestored", onRestored);
@@ -1340,7 +1346,7 @@ export function LiquidMark({
     if (previousPress.current && !pressed && !still) releaseCount.current += 1;
     previousPress.current = pressed;
     wakeRef.current?.();
-  }, [size, still, active, pressed, flow, brightness]);
+  }, [size, still, active, pressed, flow, brightness, theme]);
 
   return (
     <div
@@ -1377,7 +1383,6 @@ export function LiquidMark({
           flexShrink: 0,
           isolation: "isolate",
           userSelect: "none",
-          visibility: "hidden",
         }}
       >
         <style>{MEDALLION_CSS}</style>
@@ -1404,14 +1409,13 @@ export function LiquidMark({
             pointerEvents: "none",
             userSelect: "none",
             borderRadius: "50%",
-            visibility: "hidden",
             inset: Math.max(1, displaySize * 0.095 - thickness / 2),
             padding: thickness,
           }}
         />
         <canvas
           ref={canvasRef}
-          className="lmm-layer"
+          className="lmm-layer lmm-canvas"
           aria-hidden="true"
           width={1}
           height={1}
@@ -1421,11 +1425,9 @@ export function LiquidMark({
             pointerEvents: "none",
             userSelect: "none",
             borderRadius: "50%",
-            visibility: "hidden",
             inset: "-10%",
             width: "120%",
             height: "120%",
-            opacity: 0,
             filter: `brightness(${surfaceClamp(brightness, 0.4, 1.3)})`,
           }}
         />

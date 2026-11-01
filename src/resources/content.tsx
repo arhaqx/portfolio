@@ -110,7 +110,7 @@ const about: About = {
     display: true, // set to false to hide this section
     title: "Pengalaman Kerja & Proyek",
     tag: "PENGALAMAN & PROYEK",
-    headline: <>Jejak Rekayasa & Pengalaman Produksi</>,
+    headline: <>Dari Ide ke Sistem yang Berjalan</>,
     description: (
       <>
         Implementasi sistem AI otonom, infrastruktur cloud, dan pengembangan aplikasi web full-stack pada instansi pemerintah maupun sektor industri.
@@ -122,6 +122,7 @@ const about: About = {
         timeframe: "2026 – Sekarang",
         tag: "INDEPENDENT SYSTEM",
         role: "AI Systems & Cloud Engineer",
+        projectHref: "/projects/hermes-autonomous-agent-azure",
         achievements: [
           <>
             Merancang dan mengoperasikan autonomous AI agent 24/7 di atas infrastruktur Microsoft Azure (Ubuntu 24.04 LTS VM) yang terintegrasi dengan Telegram multi-topic message broker untuk eksekusi tugas jarak jauh dan penjadwalan cronjob otomatis.
@@ -141,7 +142,7 @@ const about: About = {
       },
       {
         company: "Dinas Komunikasi, Informatika, Statistik dan Persandian Kota Semarang",
-        timeframe: "Maret 2024 – Oktober 2024",
+        timeframe: "Mei 2023 – Oktober 2023",
         tag: "INTERNSHIP",
         role: "Full Stack Web Developer Intern",
         achievements: [
@@ -159,6 +160,7 @@ const about: About = {
         timeframe: "Juli 2026 – Agustus 2026",
         tag: "CLIENT WORK",
         role: "Full Stack Developer (Contract)",
+        projectHref: "/projects/sistem-informasi-parkir-pt-worthfind",
         achievements: [
           <>
             Membangun sistem manajemen lahan parkir pabrik terintegrasi berbasis Next.js, Node.js REST API, dan PostgreSQL untuk mendigitalisasi kalkulasi retribusi dan pemantauan kapasitas slot kendaraan secara real-time.
@@ -181,6 +183,7 @@ const about: About = {
         timeframe: "April 2026 – Mei 2026",
         tag: "CAPSTONE PROJECT",
         role: "Lead Full Stack Developer",
+        projectHref: "/projects/healspace-self-check-platform",
         achievements: [
           <>
             Memimpin pengembangan platform kesehatan mental terpadu (healspace.my.id) pada proyek akhir kolaboratif Dicoding Bootcamp menggunakan React, Tailwind CSS, Django REST Framework, dan PostgreSQL.
@@ -203,6 +206,7 @@ const about: About = {
         timeframe: "Maret 2026 – April 2026",
         tag: "FREELANCE",
         role: "3D Front-End Developer",
+        projectHref: "/projects/denah-master",
         achievements: [
           <>
             Mengembangkan aplikasi visualisasi 3D WebGL interaktif untuk simulasi pembagian lahan kavling seluas 9.910 m² menggunakan Three.js dan React Three Fiber.
@@ -225,6 +229,7 @@ const about: About = {
         timeframe: "Februari 2026",
         tag: "CLIENT WORK",
         role: "Frontend Web Developer",
+        projectHref: "/projects/vinty-coffee-and-space",
         achievements: [
           <>
             Merancang dan merilis landing page responsif dengan katalog menu digital terintegrasi untuk memudahkan eksplorasi produk dan memperkuat presensi digital kafe.
@@ -244,6 +249,7 @@ const about: About = {
         timeframe: "Februari 2024",
         tag: "ACADEMIC PROJECT",
         role: "Full Stack Web Developer & UI/UX",
+        projectHref: "/projects/poliklinik-kampus-udinus",
         achievements: [
           <>
             Mendigitalisasi alur operasional layanan kesehatan kampus melalui aplikasi web terpadu berbasis framework Laravel dan database MySQL.
@@ -292,8 +298,29 @@ const about: About = {
         description: <>Dicoding Fullstack Web Developer Bootcamp (2026)</>,
       },
       {
+        name: "DBS Foundation & Dicoding",
+        description: <>DBS Foundation Coding Camp 2026</>,
+      },
+      {
         name: "Lembaga Sertifikasi Profesi (LSP)",
         description: <>Sertifikat Kompetensi Bidang Pemrograman Web / TI (2024)</>,
+      },
+    ],
+  },
+  organizations: {
+    display: true,
+    title: "Pengalaman Organisasi",
+    entries: [
+      {
+        name: "UKM Musik UDINUS",
+        role: "Koordinator / Creative Director (Sie Kreatif)",
+        timeframe: "Oktober 2022 – Juni 2025",
+        projectHref: "/projects/ukm-musik-visual-design",
+      },
+      {
+        name: "HMTI UDINUS",
+        role: "Pengurus Divisi Litbang",
+        timeframe: "Juni 2022 – Mei 2023",
       },
     ],
   },

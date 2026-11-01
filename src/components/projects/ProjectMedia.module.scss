@@ -1,0 +1,77 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(2, 6, 16, 0.96);
+  color: #fff;
+
+  &[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &::backdrop {
+    background: rgba(2, 6, 16, 0.8);
+  }
+}
+
+.lightboxHeader {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px clamp(12px, 2vw, 32px);
+}
+
+.imageTitle {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+.closeButton {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+
+  span {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+}
+
+.lightboxViewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 clamp(12px, 2vw, 32px) 24px;
+}
+
+.fullImage {
+  object-fit: contain;
+}

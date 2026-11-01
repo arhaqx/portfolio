@@ -7,7 +7,6 @@ import {
   Icon,
   IconButton,
   Line,
-  Media,
   Tag,
   Text,
   Meta,
@@ -47,6 +46,11 @@ export default function About() {
       items: about.studies.institutions.map((institution) => institution.name),
     },
     {
+      title: about.organizations.title,
+      display: about.organizations.display,
+      items: about.organizations.entries.map((entry) => entry.name),
+    },
+    {
       title: about.technical.title,
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
@@ -69,6 +73,7 @@ export default function About() {
       />
       {about.tableOfContent.display && (
         <Column
+          className={styles.tableOfContents}
           left="0"
           style={{ top: "50%", transform: "translateY(-50%)" }}
           position="fixed"
@@ -265,25 +270,17 @@ export default function About() {
                         ),
                       )}
                     </Column>
-                    {experience.images && experience.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" s={{ paddingTop: "12" }} gap="12" wrap>
-                        {experience.images.map((image, imgIndex) => (
-                          <Row
-                            key={imgIndex}
-                            border="neutral-medium"
-                            radius="l"
-                            fillWidth
-                            style={{ overflow: "hidden" }}
-                            s={{ minWidth: "100%", height: "auto" }}
-                          >
-                            <Media
-                              radius="l"
-                              sizes="(max-width: 768px) 100vw, 600px"
-                              alt={image.alt}
-                              src={image.src}
-                            />
-                          </Row>
-                        ))}
+                    {experience.projectHref && (
+                      <Row paddingTop="8">
+                        <Button
+                          href={experience.projectHref}
+                          variant="secondary"
+                          size="s"
+                          suffixIcon="arrowRight"
+                          aria-label={`Lihat studi kasus ${experience.company}`}
+                        >
+                          Lihat studi kasus
+                        </Button>
                       </Row>
                     )}
                     {index < about.work.experiences.length - 1 && (
@@ -328,6 +325,48 @@ export default function About() {
             </>
           )}
 
+          {about.organizations.display && (
+            <>
+              <Heading
+                data-split="lines"
+                as="h2"
+                id={about.organizations.title}
+                variant="display-strong-s"
+                marginBottom="m"
+              >
+                {about.organizations.title}
+              </Heading>
+              <Column data-stagger fillWidth gap="l" marginBottom="40">
+                {about.organizations.entries.map((entry, index) => (
+                  <Column key={entry.name} fillWidth gap="4">
+                    <Text id={entry.name} variant="heading-strong-l" className={styles.itemTitle}>
+                      {entry.name}
+                    </Text>
+                    <Text variant="heading-default-xs" onBackground="neutral-weak">
+                      {entry.role} · {entry.timeframe}
+                    </Text>
+                    {entry.projectHref && (
+                      <Row paddingTop="8">
+                        <Button
+                          href={entry.projectHref}
+                          variant="secondary"
+                          size="s"
+                          suffixIcon="arrowRight"
+                          aria-label={`Lihat karya visual ${entry.name}`}
+                        >
+                          Lihat karya visual
+                        </Button>
+                      </Row>
+                    )}
+                    {index < about.organizations.entries.length - 1 && (
+                      <Line background="neutral-alpha-weak" marginY="16" />
+                    )}
+                  </Column>
+                ))}
+              </Column>
+            </>
+          )}
+
           {about.technical.display && (
             <>
               <Heading
@@ -354,29 +393,6 @@ export default function About() {
                           <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
                             {tag.name}
                           </Tag>
-                        ))}
-                      </Row>
-                    )}
-                    {skill.images && skill.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" gap="12" wrap s={{ paddingTop: "12" }}>
-                        {skill.images.map((image, imgIndex) => (
-                          <Row
-                            key={imgIndex}
-                            border="neutral-medium"
-                            radius="m"
-                            fillWidth
-                            minWidth={image.width}
-                            height={image.height}
-                            s={{ minWidth: "100%", height: "auto" }}
-                            style={{ overflow: "hidden" }}
-                          >
-                            <Media
-                              radius="m"
-                              sizes="(max-width: 768px) 100vw, 600px"
-                              alt={image.alt}
-                              src={image.src}
-                            />
-                          </Row>
                         ))}
                       </Row>
                     )}

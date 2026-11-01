@@ -5,11 +5,9 @@ import {
   Schema,
   AvatarGroup,
   Button,
-  Carousel,
   Column,
   Flex,
   Heading,
-  Media,
   Text,
   SmartLink,
   Row,
@@ -21,6 +19,8 @@ import { formatDate } from "@/utils/formatDate";
 import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/projects/Projects";
+import { VisualDesignProject } from "@/components/projects/VisualDesignProject";
+import { ProjectGallery } from "@/components/projects/ProjectMedia";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "projects", "projects"]);
@@ -67,6 +67,10 @@ export default async function Project({
 
   if (!post) {
     notFound();
+  }
+
+  if (post.metadata.category === "visual-design") {
+    return <VisualDesignProject title={post.metadata.title} summary={post.metadata.summary} slug={post.slug} />;
   }
 
   const avatars =
@@ -129,39 +133,15 @@ export default async function Project({
         )}
       </Row>
 
-      {/* Hero Media: Carousel if multiple images, single Media if only one */}
-      {post.metadata.images.length > 1 ? (
-        <Carousel
-          priority
-          aspectRatio="16 / 9"
-          indicator="line"
-          items={post.metadata.images.map((image) => ({
-            slide: image,
-            alt: post.metadata.title,
-          }))}
-        />
-      ) : (
-        post.metadata.images.length === 1 && (
-          <Media
-            priority
-            aspectRatio="16 / 9"
-            radius="m"
-            alt={post.metadata.title}
-            src={post.metadata.images[0]}
-          />
-        )
-      )}
-
       {/* Case Study Content Body */}
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        <CustomMDX source={post.content} />
+        <CustomMDX source={post.content} headingLinks={false} />
       </Column>
 
-      {/* Detail Screenshots Section: Showcasing all remaining images inside the case study */}
-      {post.metadata.images.length > 1 && (
-        <Column fillWidth gap="24" horizontal="center" marginTop="32">
+      {post.metadata.images.length > 0 && (
+        <Column as="section" id="galeri-proyek" aria-labelledby="galeri-proyek-heading" fillWidth gap="24" horizontal="center" marginTop="32">
           <Line maxWidth="40" />
-          <Heading as="h2" variant="heading-strong-xl" align="center">
+          <Heading as="h2" id="galeri-proyek-heading" variant="heading-strong-xl" align="center">
             Galeri & Tangkapan Layar Proyek
           </Heading>
           <Text
@@ -172,27 +152,7 @@ export default async function Project({
           >
             Dokumentasi visual detail arsitektur, antarmuka pengguna, dan alur sistem.
           </Text>
-          <Column fillWidth gap="24" maxWidth="s">
-            {post.metadata.images.slice(1).map((img, idx) => (
-              <Column
-                key={idx}
-                fillWidth
-                gap="8"
-                radius="l"
-                overflow="hidden"
-                border="neutral-alpha-medium"
-                background="surface"
-              >
-                <Media
-                  src={img}
-                  alt={`${post.metadata.title} - Screenshot ${idx + 2}`}
-                  aspectRatio="16 / 9"
-                  radius="m"
-                  enlarge
-                />
-              </Column>
-            ))}
-          </Column>
+          <ProjectGallery images={post.metadata.images} title={post.metadata.title} />
         </Column>
       )}
 

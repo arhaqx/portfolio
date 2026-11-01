@@ -1,6 +1,7 @@
 import { Card, Column, Heading, Icon, Meta, Row, Schema, Text } from "@once-ui-system/core";
 import { baseURL, about, person, work } from "@/resources";
 import { Projects } from "@/components/projects/Projects";
+import { CreativeWork } from "@/components/projects/CreativeWork";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -32,6 +33,7 @@ export default function ProjectsPage() {
         {work.title}
       </Heading>
       <Projects />
+      <CreativeWork />
 
       {/* Guided Next Step: Projects -> Learning */}
       <Column fillWidth paddingX="l" marginTop="24" data-reveal>
