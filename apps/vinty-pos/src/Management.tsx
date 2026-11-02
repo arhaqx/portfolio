@@ -264,7 +264,7 @@ export function Inventory({
             edit({
               id: `menu-${Date.now().toString(36)}`,
               name: "",
-              category: "Coffee",
+              category: "Classic Coffee",
               description: "",
               price: 0,
               stock: 0,

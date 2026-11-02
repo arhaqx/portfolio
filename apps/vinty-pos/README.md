@@ -1,8 +1,8 @@
 # Vinty POS
 
-A functional single-register POS prototype for **Vinty Coffee & Space**, Muhammad Arinal Haq's own café in Jepara. Expo + React Native + TypeScript power both the mobile app and the interactive web demo embedded in the portfolio.
+A functional single-register POS prototype for **Vinty Coffee & Space** in Jepara. Project date: **15 February 2026**. Expo + React Native + TypeScript power both the mobile app and the interactive web demo embedded in the portfolio.
 
-The previous third-party POS is separate from this newly developed application. The menu, prices, stock, and illustrations shipped here are sample data, and the app is not presented as an operational production deployment.
+The catalog follows the supplied Vinty menu: 34 menu items represented by 44 serving variants, with original prices in rupiah. The orange VINTY wordmark and house mark follow the supplied identity. Stock and transactions are simulated; product images are illustrations. The app is not presented as an operational production deployment.
 
 ## Run the app
 
@@ -45,8 +45,9 @@ Open `/projects/vinty-coffee-and-space/demo`, or `/demos/vinty-pos/index.html` f
 
 - All money uses integer rupiah; percentage rates use integer basis points.
 - Discount is rounded from the subtotal; service and tax are separately rounded from the discounted subtotal. Tax excludes service. Both fees default to zero; this demo rule is configurable data, not a statement about the café's actual tax policy.
-- Inventory tracks servings/portions, not ingredient recipes or COGS.
+- Inventory tracks servings/portions per menu variant, not ingredient recipes or COGS.
 - Checkout creates immutable item/name/price snapshots and updates stock/cart/orders in one AsyncStorage value. The UI acknowledges payment only after a successful storage write.
+- Catalog revision 2 upgrades the original sample catalog while preserving stored orders, custom menu items, stock quantities, and historical prices. An existing unpaid cart keeps its original prices until completed or emptied; the official menu is then applied. Retired sample products remain inactive for historical stock reversals.
 - Storage key: `vinty-pos:v1`, with a validated schema and optimistic revision check. Web Locks serialize writes across supported browser tabs. Use one active register session; older browsers without Web Locks do not have a full concurrent-write guarantee.
 - Orders and cart survive normal reloads. Unsaved customer/table/note fields and pending payment forms are transient. App data is device/browser-local and can be lost if the user clears site/app storage. CSV export is a transaction report, not a restorable complete backup.
 - Business dates and daily receipt sequences use `Asia/Jakarta`. Daily reports count paid, nonvoided orders and include configured tax/service in revenue.

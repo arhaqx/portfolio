@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { initialState, parseState, type POSState } from "./model";
+import { initialState, migrateCatalog, parseState, type POSState } from "./model";
 
 const STORAGE_KEY = "vinty-pos:v1";
 
 export async function loadState(): Promise<POSState> {
   const raw = await AsyncStorage.getItem(STORAGE_KEY);
-  return raw === null ? initialState() : parseState(raw);
+  return raw === null ? initialState() : migrateCatalog(parseState(raw));
 }
 
 export async function saveState(next: POSState, expectedRevision: number): Promise<POSState> {
@@ -13,7 +13,7 @@ export async function saveState(next: POSState, expectedRevision: number): Promi
     const current = await loadState();
     if (current.revision !== expectedRevision)
       throw new Error("Data berubah di tab lain. Muat ulang aplikasi sebelum melanjutkan.");
-    const persisted = { ...next, revision: expectedRevision + 1 };
+    const persisted = { ...migrateCatalog(next), revision: expectedRevision + 1 };
     // One storage key commits inventory, order snapshots, and cart together.
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));
     return persisted;

@@ -20,7 +20,7 @@ export default function VintyPOSDemo() {
             Vinty POS
           </Heading>
           <Text variant="body-default-s" onBackground="neutral-weak">
-            Dari kedai sendiri, menjadi aplikasi kasir yang bisa kamu coba.
+            Aplikasi kasir Vinty Coffee & Space, siap kamu coba.
           </Text>
         </Column>
         <Row gap="8" wrap>
@@ -51,8 +51,8 @@ export default function VintyPOSDemo() {
           buat.
         </Text>
         <Text variant="body-default-xs" onBackground="neutral-weak">
-          Demo memakai menu dan harga contoh. Data tersimpan di perangkat ini. Pembayaran dicatat
-          sebagai simulasi tanpa perpindahan dana.
+          Menu dan harga mengikuti referensi Vinty. Stok dan transaksi adalah simulasi. Data
+          tersimpan di perangkat ini. Pembayaran dicatat sebagai simulasi tanpa perpindahan dana.
         </Text>
       </Column>
       <iframe

@@ -226,19 +226,19 @@ const about: About = {
       },
       {
         company: "Vinty Coffee & Space Jepara",
-        timeframe: "November 2026",
-        tag: "PERSONAL BUSINESS",
-        role: "Business Owner & POS Developer",
+        timeframe: "15 Februari 2026",
+        tag: "SOFTWARE PROJECT",
+        role: "POS Developer",
         projectHref: "/projects/vinty-coffee-and-space",
         achievements: [
           <>
-            Mengembangkan POS Expo dan React Native untuk kafe milik pribadi: kasir, transaksi manual, stok per porsi, struk, dan laporan penjualan dengan penyimpanan lokal serta demo web interaktif.
+            Mengembangkan POS Expo dan React Native untuk Vinty Coffee & Space: katalog menu asli, transaksi manual, stok per varian, struk, dan laporan penjualan dengan penyimpanan lokal serta demo web interaktif.
           </>,
         ],
         images: [
           {
-            src: "/images/projects/vinty-pos/register.jpg",
-            alt: "Antarmuka kasir Vinty POS untuk kafe milik pribadi",
+            src: "/images/projects/vinty-pos/register-menu.jpg",
+            alt: "Antarmuka kasir Vinty POS dengan logo dan menu Vinty Coffee & Space",
             width: 16,
             height: 9,
           },

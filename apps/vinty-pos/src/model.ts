@@ -1,6 +1,16 @@
+import { CATALOG_VERSION, LEGACY_SEED_IDS, VINTY_CATALOG } from "./catalog";
 import { assertRupiah, multiplyMoney, percentage, sumMoney } from "./money";
 
-export const CATEGORIES = ["Semua", "Coffee", "Non-coffee", "Makanan", "Camilan"] as const;
+export const CATEGORIES = [
+  "Semua",
+  "Classic Coffee",
+  "Flavoured Coffee",
+  "Mocktail",
+  "Milk Based",
+  "Snack & Bites",
+  "Tea Series",
+  "All Day",
+] as const;
 export type Category = (typeof CATEGORIES)[number];
 export type Product = {
   id: string;
@@ -44,6 +54,7 @@ export type Order = Totals & {
 };
 export type POSState = {
   schemaVersion: 1;
+  catalogVersion?: number;
   revision: number;
   products: Product[];
   cart: CartLine[];
@@ -61,140 +72,40 @@ export type Checkout = {
   note: string;
 };
 
-const catalog: Product[] = [
-  {
-    id: "kopi-susu",
-    name: "Kopi Susu Vinty",
-    category: "Coffee",
-    description: "Espresso, susu segar & gula aren",
-    price: 24000,
-    stock: 40,
-    art: "kopi-susu",
-    active: true,
-    featured: true,
-  },
-  {
-    id: "latte",
-    name: "Café Latte",
-    category: "Coffee",
-    description: "Double espresso & silky steamed milk",
-    price: 26000,
-    stock: 30,
-    art: "latte",
-    active: true,
-  },
-  {
-    id: "americano",
-    name: "Iced Americano",
-    category: "Coffee",
-    description: "Bold espresso, air mineral & es batu",
-    price: 20000,
-    stock: 35,
-    art: "americano",
-    active: true,
-  },
-  {
-    id: "caramel",
-    name: "Caramel Macchiato",
-    category: "Coffee",
-    description: "Espresso, vanilla & caramel drizzle",
-    price: 29000,
-    stock: 25,
-    art: "caramel",
-    active: true,
-  },
-  {
-    id: "matcha",
-    name: "Matcha Latte",
-    category: "Non-coffee",
-    description: "Japanese matcha & susu segar",
-    price: 28000,
-    stock: 20,
-    art: "matcha",
-    active: true,
-    featured: true,
-  },
-  {
-    id: "chocolate",
-    name: "Signature Chocolate",
-    category: "Non-coffee",
-    description: "Rich cocoa & creamy fresh milk",
-    price: 26000,
-    stock: 20,
-    art: "chocolate",
-    active: true,
-  },
-  {
-    id: "lychee",
-    name: "Lychee Tea",
-    category: "Non-coffee",
-    description: "Jasmine tea & buah leci",
-    price: 22000,
-    stock: 25,
-    art: "lychee",
-    active: true,
-  },
-  {
-    id: "strawberry",
-    name: "Strawberry Milk",
-    category: "Non-coffee",
-    description: "Strawberry compote & susu segar",
-    price: 25000,
-    stock: 18,
-    art: "strawberry",
-    active: true,
-  },
-  {
-    id: "croissant",
-    name: "Butter Croissant",
-    category: "Camilan",
-    description: "Flaky, golden & freshly baked",
-    price: 23000,
-    stock: 12,
-    art: "croissant",
-    active: true,
-  },
-  {
-    id: "fries",
-    name: "French Fries",
-    category: "Camilan",
-    description: "Kentang renyah & house seasoning",
-    price: 22000,
-    stock: 15,
-    art: "fries",
-    active: true,
-  },
-  {
-    id: "rice",
-    name: "Chicken Rice Bowl",
-    category: "Makanan",
-    description: "Nasi hangat, ayam & signature sauce",
-    price: 32000,
-    stock: 14,
-    art: "rice",
-    active: true,
-  },
-  {
-    id: "platter",
-    name: "Vinty Platter",
-    category: "Makanan",
-    description: "Sosis, kentang & crispy chicken",
-    price: 38000,
-    stock: 10,
-    art: "platter",
-    active: true,
-  },
-];
-
 export function initialState(): POSState {
   return {
     schemaVersion: 1,
+    catalogVersion: CATALOG_VERSION,
     revision: 0,
-    products: catalog.map((product) => ({ ...product })),
+    products: VINTY_CATALOG.map((product) => ({ ...product })),
     cart: [],
     orders: [],
     settings: { taxBps: 0, serviceBps: 0 },
   };
+}
+
+export function migrateCatalog(state: POSState): POSState {
+  if (state.catalogVersion === CATALOG_VERSION || state.cart.length > 0) return state;
+  const categories: Record<string, Product["category"]> = {
+    Coffee: "Flavoured Coffee",
+    "Non-coffee": "Milk Based",
+    Makanan: "All Day",
+    Camilan: "Snack & Bites",
+  };
+  const currentIds = new Set(VINTY_CATALOG.map((product) => product.id));
+  const products = VINTY_CATALOG.map((seed) => {
+    const previous = state.products.find((product) => product.id === seed.id);
+    return previous ? { ...seed, stock: previous.stock, active: previous.active } : { ...seed };
+  });
+  // Keep custom products and archived sample items for historical stock reversals.
+  const retained = state.products
+    .filter((product) => !currentIds.has(product.id))
+    .map((product) => ({
+      ...product,
+      category: categories[product.category] ?? product.category,
+      active: LEGACY_SEED_IDS.has(product.id) ? false : product.active,
+    }));
+  return { ...state, catalogVersion: CATALOG_VERSION, products: [...products, ...retained] };
 }
 
 export function businessDate(date: Date | string): string {
@@ -442,6 +353,9 @@ export function parseState(raw: string): POSState {
   const data = JSON.parse(raw) as POSState;
   if (
     data?.schemaVersion !== 1 ||
+    (data.catalogVersion !== undefined &&
+      data.catalogVersion !== 1 &&
+      data.catalogVersion !== CATALOG_VERSION) ||
     !Number.isInteger(data.revision) ||
     data.revision < 0 ||
     !Array.isArray(data.products) ||
@@ -461,7 +375,9 @@ export function parseState(raw: string): POSState {
       typeof product.description !== "string" ||
       typeof product.art !== "string" ||
       typeof product.active !== "boolean" ||
-      !CATEGORIES.slice(1).includes(product.category)
+      ![...CATEGORIES.slice(1), "Coffee", "Non-coffee", "Makanan", "Camilan"].includes(
+        product.category,
+      )
     )
       throw new Error("Data menu tidak valid.");
     assertRupiah(product.price);

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import {
   Modal,
+  Image,
   Pressable,
   ScrollView,
   Text,
@@ -131,12 +132,20 @@ export function Dialog({
 export function Empty({
   title,
   detail,
-  symbol = "v.",
+  symbol,
 }: { title: string; detail: string; symbol?: string }) {
   return (
     <View style={s.empty}>
       <View style={s.emptyIcon}>
-        <Text style={{ color: colors.brown, fontSize: 26, fontFamily: "serif" }}>{symbol}</Text>
+        {symbol ? (
+          <Text style={{ color: colors.brown, fontSize: 26, fontFamily: "serif" }}>{symbol}</Text>
+        ) : (
+          <Image
+            source={require("../assets/logo-mark.png")}
+            style={{ width: 37, height: 32 }}
+            resizeMode="contain"
+          />
+        )}
       </View>
       <Text style={[s.text, { fontWeight: "600", textAlign: "center" }]}>{title}</Text>
       <Text style={[s.muted, { textAlign: "center", maxWidth: 240 }]}>{detail}</Text>

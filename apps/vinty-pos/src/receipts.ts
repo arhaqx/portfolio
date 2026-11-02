@@ -1,6 +1,7 @@
 import { Platform, Share } from "react-native";
 import { type Order, ordersCsv } from "./model";
 import { formatMoney } from "./money";
+import { logoSvg } from "./brand";
 
 const escapeHtml = (value: string) =>
   value.replace(
@@ -59,7 +60,7 @@ export async function shareReceipt(order: Order): Promise<void> {
 export async function printReceipt(order: Order): Promise<void> {
   const { printAsync } = await import("expo-print");
   await printAsync({
-    html: `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><title>${escapeHtml(order.id)}</title><style>body{font:12px monospace;color:rgb(40,35,30);max-width:320px;margin:24px auto}pre{white-space:pre-wrap;line-height:1.7}h1{font:28px Georgia;text-align:center}@media print{@page{margin:12mm}}</style></head><body><h1>vinty.</h1><pre>${escapeHtml(receiptText(order))}</pre></body></html>`,
+    html: `<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><title>${escapeHtml(order.id)}</title><style>body{font:12px monospace;color:rgb(40,35,30);max-width:320px;margin:24px auto}pre{white-space:pre-wrap;line-height:1.7}header{text-align:center}header svg{width:150px;height:auto}@media print{@page{margin:12mm}}</style></head><body><header>${logoSvg}</header><pre>${escapeHtml(receiptText(order))}</pre></body></html>`,
   });
 }
 

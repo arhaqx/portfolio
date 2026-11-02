@@ -107,7 +107,10 @@ function ProductCard({
         >
           {product.category}
         </Text>
-        <Text numberOfLines={1} style={[s.text, { fontWeight: "600", fontSize: 13 }]}>
+        <Text
+          numberOfLines={2}
+          style={[s.text, { fontWeight: "600", fontSize: 13, minHeight: 40 }]}
+        >
           {product.name}
         </Text>
         <Text numberOfLines={1} style={[s.muted, { fontSize: 10 }]}>
@@ -507,24 +510,25 @@ export function Register({
                 Satu kopi, satu obrolan, satu pesanan pada waktunya.
               </Text>
             </View>
-            <Text
+            <Image
+              source={require("../assets/logo-mark.png")}
               style={{
                 position: "absolute",
-                right: -6,
-                bottom: -30,
-                fontFamily: serif,
-                fontSize: 190,
-                color: "rgba(126,99,63,0.1)",
+                right: -8,
+                bottom: -10,
+                width: 165,
+                height: 145,
+                opacity: 0.1,
               }}
-            >
-              v.
-            </Text>
+              resizeMode="contain"
+            />
           </View>
           <View style={[s.between, { flexWrap: "wrap", gap: 14 }]}>
             <View>
               <Text style={s.subheading}>Temukan menu favorit</Text>
               <Text style={[s.muted, { marginTop: 4 }]}>
-                {state.products.filter((product) => product.active).length} menu siap diracik
+                {state.products.filter((product) => product.active).length} pilihan menu siap
+                disajikan
               </Text>
             </View>
             <View style={{ minWidth: 170, flexGrow: width < 600 ? 1 : 0 }}>
@@ -582,7 +586,7 @@ export function Register({
             />
           )}
           <Text style={[s.muted, { fontSize: 10, marginBottom: 8 }]}>
-            Menu, harga, dan ilustrasi merupakan contoh untuk demonstrasi.
+            Menu dan harga mengikuti menu Vinty. Stok adalah simulasi; gambar merupakan ilustrasi.
           </Text>
         </View>
         {wide && cart}

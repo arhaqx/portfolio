@@ -1,13 +1,14 @@
 import { Platform, StyleSheet } from "react-native";
 
 export const colors = {
-  page: "rgb(247,246,242)",
-  surface: "rgb(255,254,251)",
+  page: "rgb(255,249,244)",
+  surface: "rgb(255,255,255)",
   ink: "rgb(48,44,37)",
   muted: "rgb(124,121,110)",
-  border: "rgb(231,228,219)",
-  brown: "rgb(87,64,45)",
-  cream: "rgb(238,229,211)",
+  border: "rgb(242,226,215)",
+  brand: "rgb(255,145,77)",
+  brown: "rgb(163,61,15)",
+  cream: "rgb(255,229,210)",
   sage: "rgb(101,114,79)",
   sageLight: "rgb(233,238,224)",
   danger: "rgb(166,65,49)",

@@ -5,6 +5,7 @@ import {
   cartTotals,
   checkout,
   initialState,
+  migrateCatalog,
   ordersCsv,
   parseState,
   report,
@@ -32,11 +33,11 @@ const withCart = () => setQuantity(setQuantity(initialState(), "kopi-susu", 2), 
 test("rupiah totals round once per fee after discount", () => {
   const state = updateSettings(withCart(), { taxBps: 1000, serviceBps: 500 });
   assert.deepEqual(cartTotals(state, 1000), {
-    subtotal: 76000,
-    discount: 7600,
-    service: 3420,
-    tax: 6840,
-    total: 78660,
+    subtotal: 52000,
+    discount: 5200,
+    service: 2340,
+    tax: 4680,
+    total: 53820,
   });
   assert.equal(percentage(25001, 500), 1250);
   assert.throws(() => sumMoney([Number.MAX_SAFE_INTEGER, 1]));
@@ -47,8 +48,8 @@ test("checkout records cash change, snapshots prices, decrements stock and clear
   const previous = withCart();
   const { state, order } = checkout(previous, input, now);
   assert.equal(order.id, "VNT-20261102-0001");
-  assert.equal(order.total, 76000);
-  assert.equal(order.change, 24000);
+  assert.equal(order.total, 52000);
+  assert.equal(order.change, 48000);
   assert.equal(order.note, "Less ice");
   assert.equal(state.products.find((product) => product.id === "kopi-susu")!.stock, 38);
   assert.equal(state.products.find((product) => product.id === "matcha")!.stock, 19);
@@ -100,8 +101,8 @@ test("removing a cart item restores availability without changing physical stock
 test("changing a menu price does not rewrite historical receipts", () => {
   const { state } = checkout(withCart(), input, now);
   const changed = updateProduct(state, { ...state.products[0], price: 30000 });
-  assert.equal(changed.orders[0].items[0].price, 24000);
-  assert.equal(changed.orders[0].total, 76000);
+  assert.equal(changed.orders[0].items[0].price, 16000);
+  assert.equal(changed.orders[0].total, 52000);
 });
 
 test("inventory updates reject fractional, negative or reserved stock and inactive cart products", () => {
@@ -121,7 +122,7 @@ test("deactivated menus cannot be added to cart", () => {
 
 test("void restores stock once, records reason and excludes revenue", () => {
   const { state, order } = checkout(withCart(), input, now);
-  assert.equal(report(state).revenue, 76000);
+  assert.equal(report(state).revenue, 52000);
   const cancelled = voidOrder(state, order.id, "Pesanan keliru", now);
   assert.equal(cancelled.products[0].stock, 40);
   assert.equal(cancelled.orders[0].status, "voided");
@@ -156,9 +157,9 @@ test("reports aggregate cash, QRIS and bestseller quantities from actual paid or
   );
   const stats = report(second.state);
   assert.equal(stats.orders, 2);
-  assert.equal(stats.revenue, 100000);
-  assert.equal(stats.cash, 76000);
-  assert.equal(stats.qris, 24000);
+  assert.equal(stats.revenue, 68000);
+  assert.equal(stats.cash, 52000);
+  assert.equal(stats.qris, 16000);
   assert.equal(stats.items, 4);
   assert.equal(stats.bestsellers[0].quantity, 3);
 });
@@ -167,7 +168,7 @@ test("CSV quotes embedded commas and neutralizes spreadsheet formulas", () => {
   const { order } = checkout(withCart(), { ...input, customer: '=HYPERLINK("bad","x")' }, now);
   const csv = ordersCsv([order]);
   assert.ok(csv.includes('"\'=HYPERLINK(""bad"",""x"")"'));
-  assert.ok(csv.includes("76000"));
+  assert.ok(csv.includes("52000"));
   assert.ok(csv.split("\r\n").length === 2);
 });
 
@@ -196,4 +197,123 @@ test("invalid saved transaction totals and invalid rates are rejected", () => {
   assert.throws(() => parseState(JSON.stringify(state)));
   assert.throws(() => updateSettings(initialState(), { taxBps: 3001, serviceBps: 0 }));
   assert.throws(() => updateSettings(initialState(), { taxBps: 100.5, serviceBps: 0 }));
+});
+
+test("official catalog has 44 serving variants across the seven menu categories", () => {
+  const products = initialState().products;
+  assert.equal(products.length, 44);
+  const counts = new Map<string, number>();
+  for (const product of products)
+    counts.set(product.category, (counts.get(product.category) ?? 0) + 1);
+  assert.deepEqual(Object.fromEntries(counts), {
+    "Flavoured Coffee": 7,
+    "Classic Coffee": 8,
+    Mocktail: 3,
+    "Milk Based": 11,
+    "Snack & Bites": 6,
+    "Tea Series": 4,
+    "All Day": 5,
+  });
+  const prices: Record<string, number> = {
+    "Kopsu Vinty": 16000,
+    "French Fries": 16000,
+    "Lychee Tea": 15000,
+    "Chipy Chips": 12000,
+    "Katsu Mentai": 26000,
+    "Ricebowl Beef Teriyaki": 27000,
+  };
+  for (const [name, price] of Object.entries(prices))
+    assert.equal(products.find((product) => product.name === name)?.price, price);
+  assert.ok(!products.some((product) => product.name.includes("Croissant")));
+});
+
+test("Classic Coffee prices distinguish Robusta and Arabica for both temperatures", () => {
+  const products = initialState().products;
+  for (const temperature of ["Hot", "Cold"])
+    for (const [name, price] of [
+      ["Americano Robusta", 15000],
+      ["Americano Arabica", 17000],
+      ["Caffe Latte Robusta", 20000],
+      ["Caffe Latte Arabica", 22000],
+    ] as const) {
+      assert.equal(
+        products.find((product) => product.name === `${name} · ${temperature}`)?.price,
+        price,
+      );
+    }
+  for (const temperature of ["Hot", "Cold"])
+    for (const [name, price] of [
+      ["Matcha Latte", 20000],
+      ["Choco", 18000],
+      ["Taro", 18000],
+      ["Redvelvet", 18000],
+    ] as const) {
+      assert.equal(
+        products.find((product) => product.name === `${name} · ${temperature}`)?.price,
+        price,
+      );
+    }
+});
+
+function legacyState() {
+  const state = initialState();
+  state.catalogVersion = 1;
+  state.products = state.products.filter((product) => ["kopi-susu", "matcha"].includes(product.id));
+  state.products[0] = {
+    ...state.products[0],
+    name: "Kopi Susu Vinty",
+    price: 24000,
+    category: "Coffee" as (typeof state.products)[number]["category"],
+  };
+  state.products[1] = {
+    ...state.products[1],
+    price: 28000,
+    category: "Non-coffee" as (typeof state.products)[number]["category"],
+  };
+  state.products.push({
+    ...state.products[0],
+    id: "croissant",
+    name: "Butter Croissant",
+    price: 23000,
+  });
+  state.products.push({
+    ...state.products[0],
+    id: "custom-local",
+    name: "Menu lokal",
+    price: 12000,
+    stock: 7,
+  });
+  return state;
+}
+
+test("catalog migration preserves historical prices, orders, local stock and custom menus", () => {
+  const legacy = legacyState();
+  const paid = checkout(setQuantity(setQuantity(legacy, "kopi-susu", 2), "matcha", 1), input, now);
+  assert.equal(paid.order.total, 76000);
+  const migrated = migrateCatalog(parseState(JSON.stringify(paid.state)));
+  assert.equal(migrated.catalogVersion, 2);
+  assert.equal(migrated.products.find((product) => product.id === "kopi-susu")?.price, 16000);
+  assert.equal(migrated.products.find((product) => product.id === "kopi-susu")?.stock, 38);
+  assert.equal(migrated.products.find((product) => product.id === "croissant")?.active, false);
+  assert.equal(migrated.products.find((product) => product.id === "custom-local")?.stock, 7);
+  assert.equal(migrated.orders[0].total, 76000);
+  assert.equal(migrated.orders[0].items[0].price, 24000);
+  assert.equal(parseState(JSON.stringify(migrated)).orders.length, 1);
+});
+
+test("an unpaid legacy cart keeps its original price until completion or removal", () => {
+  const pending = setQuantity(legacyState(), "kopi-susu", 1);
+  assert.strictEqual(migrateCatalog(pending), pending);
+  assert.equal(cartTotals(pending).total, 24000);
+  const paid = checkout(pending, input, now);
+  const migrated = migrateCatalog(paid.state);
+  assert.equal(migrated.orders[0].total, 24000);
+  assert.equal(migrated.products[0].price, 16000);
+  assert.equal(migrateCatalog(setQuantity(pending, "kopi-susu", 0)).catalogVersion, 2);
+});
+
+test("catalog migration is idempotent and does not overwrite later local edits", () => {
+  const current = updateProduct(initialState(), { ...initialState().products[0], price: 19000 });
+  assert.strictEqual(migrateCatalog(current), current);
+  assert.equal(migrateCatalog(current).products[0].price, 19000);
 });

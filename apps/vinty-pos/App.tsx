@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { CATALOG_VERSION } from "./src/catalog";
 import { Inventory, Orders, Reports } from "./src/Management";
 import { Register, type Mutate } from "./src/Register";
 import { businessDate, report, type Order, type POSState } from "./src/model";
@@ -93,7 +94,12 @@ function VintyPOS() {
       <View
         style={[s.app, { alignItems: "center", justifyContent: "center", padding: 30, gap: 20 }]}
       >
-        <Text style={{ fontFamily: serif, fontSize: 50, color: colors.brown }}>vinty.</Text>
+        <Image
+          source={require("./assets/logo.png")}
+          accessibilityLabel="Logo Vinty"
+          style={{ width: 190, height: 75 }}
+          resizeMode="contain"
+        />
         {loadError ? (
           <>
             <Text
@@ -200,11 +206,12 @@ function VintyPOS() {
             }}
           >
             <View style={{ gap: 7, paddingHorizontal: 9 }}>
-              <Text
-                style={{ fontFamily: serif, fontSize: 39, letterSpacing: -2, color: colors.brown }}
-              >
-                vinty.
-              </Text>
+              <Image
+                source={require("./assets/logo.png")}
+                accessibilityLabel="Logo Vinty"
+                style={{ width: 145, height: 58 }}
+                resizeMode="contain"
+              />
               <Text style={{ fontSize: 8, letterSpacing: 2.5, color: colors.muted }}>
                 COFFEE & SPACE
               </Text>
@@ -265,9 +272,16 @@ function VintyPOS() {
           >
             <View style={s.between}>
               <View style={{ gap: 5 }}>
-                <Text style={s.eyebrow}>
-                  {desktop ? "VINTY COFFEE & SPACE" : "VINTY. / COFFEE & SPACE"}
-                </Text>
+                {desktop ? (
+                  <Text style={s.eyebrow}>VINTY COFFEE & SPACE</Text>
+                ) : (
+                  <Image
+                    source={require("./assets/logo.png")}
+                    accessibilityLabel="Logo Vinty"
+                    style={{ width: 85, height: 34 }}
+                    resizeMode="contain"
+                  />
+                )}
                 <Text
                   style={{
                     color: colors.ink,
@@ -303,7 +317,7 @@ function VintyPOS() {
           >
             <View style={[s.between, { flexWrap: "wrap" }]}>
               <Text style={{ color: colors.muted, fontSize: 10, letterSpacing: 0.6 }}>
-                DEMO INTERAKTIF · MENU & HARGA CONTOH
+                DEMO INTERAKTIF · MENU VINTY
               </Text>
               <Text style={[s.muted, { fontSize: 10 }]}>
                 {stats.orders} transaksi hari ini ·{" "}
@@ -312,6 +326,14 @@ function VintyPOS() {
                 </Text>
               </Text>
             </View>
+            {state.catalogVersion !== CATALOG_VERSION && (
+              <View style={{ padding: 14, backgroundColor: colors.cream, borderRadius: 10 }}>
+                <Text style={s.text}>
+                  Menu Vinty terbaru akan diterapkan setelah pesanan saat ini selesai atau keranjang
+                  dikosongkan. Harga pesanan yang sedang dibuat tetap dipertahankan.
+                </Text>
+              </View>
+            )}
             {!!error && (
               <View
                 accessibilityRole="alert"
@@ -477,13 +499,13 @@ function VintyPOS() {
         <Dialog title="Dari kedai, untuk kedai." onClose={() => setAbout(false)}>
           <Text style={[s.heading, { fontFamily: serif, fontWeight: "400" }]}>Vinty POS</Text>
           <Text style={s.text}>
-            Proyek POS untuk Vinty Coffee & Space, kafe milik pribadi Muhammad Arinal Haq di Jepara.
-            Dibangun dengan Expo, React Native, dan TypeScript.
+            Aplikasi POS untuk Vinty Coffee & Space di Jepara. Dibangun dengan Expo, React Native,
+            dan TypeScript.
           </Text>
           <Text style={s.muted}>
-            Versi ini adalah demo satu kasir. Menu dan harga adalah data contoh. Data disimpan pada
-            perangkat ini; belum ada akun, sinkronisasi server, payment gateway, atau integrasi
-            printer Bluetooth.
+            Versi ini adalah demo satu kasir. Menu dan harga mengikuti menu Vinty; stok dan
+            transaksi adalah simulasi. Data disimpan pada perangkat ini; belum ada akun,
+            sinkronisasi server, payment gateway, atau integrasi printer Bluetooth.
           </Text>
           <Text style={s.muted}>
             Pembayaran QRIS dicatat secara manual. Demo ini tidak memindahkan uang. Muatan aplikasi

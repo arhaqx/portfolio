@@ -1,10 +1,10 @@
 # Vinty POS implementation record
 
-Date: 2 November 2026 (Asia/Jakarta).
+Project date: 15 February 2026 (Asia/Jakarta).
 
 ## 1. Inspect the existing portfolio
 
-The existing Vinty project described a landing page, used unrelated/starter imagery, and linked to `arhaqx/veloce-landing-page`. The user clarified that Vinty is their own café. Scope was updated to a new POS application and a personal-business case study, retaining the existing project URL.
+The existing Vinty project described a landing page, used unrelated/starter imagery, and linked to `arhaqx/veloce-landing-page`. Scope was updated to a POS application and technical case study for Vinty Coffee & Space, retaining the existing project URL.
 
 ## 2. Inspect public Expo POS repositories
 
@@ -18,7 +18,7 @@ The new app is not a wholesale fork of RetailPOS. Its broader connector, payment
 
 ## 3. Build a focused, runnable application
 
-Keep the Expo app in `apps/vinty-pos` with its own lockfile and React dependency set. Implement domain rules as pure TypeScript. Use a single-versioned AsyncStorage snapshot, revision comparisons, and browser Web Locks. Add cashier, order fulfillment/voiding, product/stock editing, reports, CSV, and receipts. Create original illustrative menu assets; all seeded menu/pricing data remains explicitly marked as sample.
+Keep the Expo app in `apps/vinty-pos` with its own lockfile and React dependency set. Implement domain rules as pure TypeScript. Use a single-versioned AsyncStorage snapshot, revision comparisons, and browser Web Locks. Add cashier, order fulfillment/voiding, product/stock editing, reports, CSV, and receipts. Use the supplied menu and brand identity. Transcribe 34 menu items into 44 sellable serving variants with Hot/Cold and Robusta/Arabica choices where listed. Preserve original menu spellings and rupiah prices. Keep stock and transactions explicitly marked as simulated; product artwork remains illustrative.
 
 ## 4. Verify before showcasing
 
@@ -31,3 +31,7 @@ Preserve `/projects/vinty-coffee-and-space`. Add `/projects/vinty-coffee-and-spa
 ## Release boundary
 
 This deliverable is a functional single-register prototype with tested application logic and exported bundles. It does not establish production café use, native device compatibility, payment processing, multi-register operation, or a published APK. Device testing and an authenticated EAS build are needed for an installable Android release.
+
+## Menu and identity references
+
+Menu names, prices, serving markers, orange colour, wordmark spacing, and house geometry follow the supplied Vinty references and public menu at https://menuvinty.my.canva.site/. The wordmark is exported from the source logo lettering as SVG outlines; no font is required at runtime. The house icon is reproduced as a vector from the supplied reference. Catalog changes migrate local data without rewriting historical transaction snapshots.
