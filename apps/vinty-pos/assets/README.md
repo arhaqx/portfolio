@@ -1,1 +1,0 @@
-Vinty logo: SVG outlines reproduce the original wordmark lettering, spacing, orange colour and house mark from the supplied Vinty identity. Product artwork is original illustrative artwork, not product photographs. Menu names and prices follow the supplied Vinty menu.

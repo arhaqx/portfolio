@@ -52,6 +52,7 @@ Built with **Next.js 16 (Turbopack)** and **React 19**, this portfolio showcases
   - **HealSpace Platform:** Mental health self-check & consultation web platform (React + Django REST + DASS-21).
   - **Poliklinik Kampus UDINUS:** Clinical registration & medical records system (Laravel & MySQL).
   - **Sistem Informasi Parkir PT Worthfind:** Real-time parking management platform (Next.js + Django).
+  - **Vinty POS:** Expo / React Native cashier app with the original Vinty menu, inventory, receipts, and sales reports. The [application source](https://github.com/arhaqx/veloce-landing-page) and [web deployment](https://veloce-landing-page.vercel.app) are independent of this repository. The portfolio retains the case study, screenshots, and embedded demo; `next.config.mjs` proxies `/demos/vinty-pos/:path*` to the application deployment, preserving the demo URL and browser storage origin. Building this portfolio does not install or export Expo.
 - 📚 **Notion-Style Learning Tracker (`/learning`):** Real-time interactive progress tracker for certified programs and ongoing technical curricula:
   - **IBM Full-Stack JavaScript Developer Professional Certificate** (12 Spesialisasi Kursus via IBM Skills Network & Coursera — 100% Selesai & Terverifikasi).
   - **DBS Foundation Coding Camp 2026** (Alumni Track — 100% Completed ahead of schedule).

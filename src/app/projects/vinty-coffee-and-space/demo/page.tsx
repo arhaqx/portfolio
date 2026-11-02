@@ -72,7 +72,7 @@ export default function VintyPOSDemo() {
           Satu kode aplikasi untuk mobile dan web · Penyimpanan lokal · QRIS manual
         </Text>
         <Button
-          href="https://github.com/arhaqx/portfolio/tree/main/apps/vinty-pos"
+          href="https://github.com/arhaqx/veloce-landing-page"
           variant="tertiary"
           size="s"
           suffixIcon="arrowUpRightFromSquare"

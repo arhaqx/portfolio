@@ -22,7 +22,7 @@ link: "/projects/vinty-coffee-and-space/demo"
 
 Aplikasi menggunakan Expo dan React Native untuk antarmuka lintas platform. Implementasi yang sama diekspor menjadi demo web agar alurnya dapat dicoba langsung dari portofolio.
 
-[Coba demo interaktif](/projects/vinty-coffee-and-space/demo) · [Buka POS layar penuh](/demos/vinty-pos/index.html) · [Lihat source aplikasi](https://github.com/arhaqx/portfolio/tree/main/apps/vinty-pos)
+[Coba demo interaktif](/projects/vinty-coffee-and-space/demo) · [Buka POS layar penuh](/demos/vinty-pos/index.html) · [Lihat source aplikasi](https://github.com/arhaqx/veloce-landing-page)
 
 ## Alur dari pesanan sampai struk
 
@@ -37,6 +37,7 @@ Pesanan bergerak dari baru, disiapkan, siap disajikan, hingga selesai. Pembatala
 ## Keputusan engineering
 
 - **Satu basis kode:** Expo, React Native, dan TypeScript untuk aplikasi mobile serta demo browser. UI menyesuaikan layar desktop dan ponsel.
+- **Repository aplikasi terpisah:** source, dependensi, pengujian, dan deployment POS dikelola di repository sendiri. Portofolio menampilkan studi kasus dan menghubungkan demo melalui URL yang sama.
 - **Nominal rupiah bulat:** perhitungan memakai integer, dengan pembulatan persentase yang konsisten. Pajak dan layanan dapat dikonfigurasi; default keduanya 0%.
 - **Transaksi sebagai snapshot:** nama dan harga menu disalin ke transaksi. Perubahan harga berikutnya tidak mengubah struk lama.
 - **Penyimpanan lokal:** AsyncStorage menyimpan inventori, transaksi, dan keranjang dalam satu snapshot berversi. Kegagalan penyimpanan tidak ditampilkan sebagai pembayaran berhasil.
@@ -47,7 +48,7 @@ Pesanan bergerak dari baru, disiapkan, siap disajikan, hingga selesai. Pembatala
 
 Saya meninjau [RetailPOS](https://github.com/n17foo/retailpos), [offline-sync](https://github.com/hasebusman/offline-sync), dan [Fluffy Expo](https://github.com/thoriqdharmawan/fluffy-expo). RetailPOS dipilih sebagai referensi karena menggunakan Expo/React Native dan menyertakan lisensi Apache 2.0 yang dapat diperiksa.
 
-Utilitas uang diadaptasi dari RetailPOS pada commit `5994067`, lalu diubah untuk rupiah bulat, validasi safe integer, dan persentase dalam basis points. Identitas Vinty, antarmuka kasir, katalog, pengelolaan transaksi dan stok, laporan, pengujian, serta integrasi portofolio dikembangkan untuk proyek ini. Rincian asal kode dan salinan lisensi tersedia di [THIRD_PARTY_NOTICES.md](https://github.com/arhaqx/portfolio/blob/main/apps/vinty-pos/THIRD_PARTY_NOTICES.md).
+Utilitas uang diadaptasi dari RetailPOS pada commit `5994067`, lalu diubah untuk rupiah bulat, validasi safe integer, dan persentase dalam basis points. Identitas Vinty, antarmuka kasir, katalog, pengelolaan transaksi dan stok, laporan, pengujian, serta integrasi portofolio dikembangkan untuk proyek ini. Rincian asal kode dan salinan lisensi tersedia di [THIRD_PARTY_NOTICES.md](https://github.com/arhaqx/veloce-landing-page/blob/main/THIRD_PARTY_NOTICES.md).
 
 ## Validasi dan batas versi ini
 

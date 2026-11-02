@@ -194,6 +194,7 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
 - Proyek aplikasi kasir untuk Vinty Coffee & Space di Jepara. Peran Arinal: POS Developer. Tanggal proyek: 15 Februari 2026.
 - Menu mengikuti referensi Vinty: 34 menu, 44 varian penyajian, termasuk Hot/Cold dan Robusta/Arabica. Logo memakai wordmark VINTY dan simbol rumah oranye.
 - Aplikasi berbasis Expo, React Native, TypeScript, dan AsyncStorage: katalog, keranjang, dine in/take away, diskon, tunai dengan hitung kembalian, QRIS manual, struk, stok per porsi, status pesanan, pembatalan, laporan WIB, serta ekspor CSV.
+- Source aplikasi dan deployment terpisah dari repository portofolio: https://github.com/arhaqx/veloce-landing-page. Aplikasi web mandiri: https://veloce-landing-page.vercel.app.
 - Demo web tersedia di /projects/vinty-coffee-and-space/demo. Versi ini adalah demo satu kasir dengan menu dan harga sesuai referensi Vinty, stok/transaksi simulasi, serta penyimpanan lokal; belum terintegrasi payment gateway, autentikasi staf, backend sinkronisasi, atau printer Bluetooth. Jangan mengklaim sudah dipakai operasional, memiliki pengguna aktif, atau menghasilkan peningkatan bisnis terukur.
 - Referensi open source: n17foo/retailpos (Apache-2.0), dengan adaptasi utilitas uang dan atribusi. UI Vinty dan alur bisnis dikembangkan khusus untuk proyek ini.`
   },

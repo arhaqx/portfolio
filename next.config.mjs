@@ -22,6 +22,17 @@ const nextConfig = {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
   },
+  async rewrites() {
+    return {
+      // Keep the demo URL and storage origin while the Expo app deploys independently.
+      beforeFiles: [
+        {
+          source: "/demos/vinty-pos/:path*",
+          destination: "https://veloce-landing-page.vercel.app/demos/vinty-pos/:path*",
+        },
+      ],
+    };
+  },
   async redirects() {
     return [
       {

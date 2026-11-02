@@ -48,5 +48,7 @@ next-env.d.ts
 /*.jpg
 /AR.svg
 
-# Expo demo is rebuilt from apps/vinty-pos during the portfolio build.
+# Vinty POS source and deployment now live in arhaqx/veloce-landing-page.
+# Ignore any local dependencies and generated export left from the former embedded app.
+/apps/vinty-pos/
 /public/demos/vinty-pos/
