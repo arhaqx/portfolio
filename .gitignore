@@ -47,3 +47,6 @@ next-env.d.ts
 # root temp screenshots & loose assets
 /*.jpg
 /AR.svg
+
+# Expo demo is rebuilt from apps/vinty-pos during the portfolio build.
+/public/demos/vinty-pos/

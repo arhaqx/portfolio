@@ -5,5 +5,5 @@ export const projectPreviews: Record<string, string> = {
   "healspace-self-check-platform": "/images/projects/previews/healspace-monitor.webp",
   "denah-master": "/images/projects/previews/denah-master-monitor.webp",
   "poliklinik-kampus-udinus": "/images/projects/previews/poliklinik-monitor.webp",
-  "vinty-coffee-and-space": "/images/projects/previews/vinty-monitor.webp",
+  "vinty-coffee-and-space": "/images/projects/vinty-pos/register.jpg",
 };

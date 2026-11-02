@@ -1,30 +1,54 @@
 ---
-title: "Vinty Coffee & Space Jepara – Landing Page & Digital Menu"
-publishedAt: "2026-02-28"
-summary: "Merancang dan mengembangkan antarmuka landing page yang responsif untuk menampilkan profil bisnis serta katalog menu digital guna meningkatkan presensi online kafe."
+title: "Vinty Coffee & Space — Point of Sale"
+publishedAt: "2026-11-02"
+summary: "Mengembangkan POS Expo dan React Native untuk kafe milik pribadi: kasir, stok, struk, dan laporan penjualan dalam satu aplikasi. Dilengkapi demo web interaktif dengan penyimpanan lokal."
+image: "/images/projects/vinty-pos/register.jpg"
 images:
-  - "/images/projects/project-01/cover-03.jpg"
-  - "/images/projects/project-01/image-03.jpg"
+  - "/images/projects/vinty-pos/register.jpg"
+  - "/images/projects/vinty-pos/reports.jpg"
+  - "/images/projects/vinty-pos/mobile.jpg"
+tag: "PERSONAL BUSINESS"
 team:
   - name: "Muhammad Arinal Haq"
-    role: "Frontend Web Developer"
+    role: "Business Owner & POS Developer"
     avatar: "/images/arinal-crop.jpg"
     linkedIn: "https://linkedin.com/in/arxhaq"
-link: "https://github.com/arhaqx/veloce-landing-page"
+link: "/projects/vinty-coffee-and-space/demo"
 ---
 
-## Overview
+## Dari pemilik kedai menjadi pembuat sistem
 
-**Vinty Coffee & Space** adalah kafe dan communal workspace modern di Jepara. Proyek ini bertujuan untuk memperkuat *branding* digital kafe serta memberikan kemudahan bagi pelanggan dalam mengeksplorasi fasilitas, suasana ruang, dan katalog menu minuman serta makanan secara online.
+**Vinty Coffee & Space adalah kafe milik pribadi saya di Jepara.** Kebutuhan operasional sebelumnya ditangani dengan sistem POS pihak ketiga. Proyek ini berangkat dari kesempatan untuk merancang sendiri alur kasir yang sesuai dengan konteks kedai, sekaligus memperdalam pengembangan aplikasi lintas platform.
 
-## Fitur Utama
+Hasilnya adalah **Vinty POS**, aplikasi Expo dan React Native untuk mencatat pesanan, memproses pembayaran manual, mengelola stok per porsi, serta membaca ringkasan penjualan. Implementasi yang sama diekspor menjadi demo web agar alurnya dapat dicoba langsung dari portofolio.
 
-- **Responsive Landing Page**: Desain modern dan estetik yang menyesuaikan dengan sempurna di layar smartphone, tablet, maupun desktop.
-- **Katalog Menu Digital**: Penyajian menu terstruktur dengan filter kategori (Coffee, Non-Coffee, Food, Snacks) dan informasi harga.
-- **Galeri & Suasana Kafe**: Menampilkan foto-foto spot workspace dan interior kafe untuk menarik pengunjung kerja/nongkrong.
-- **Integrasi Kontak & Lokasi**: Tautan langsung ke Google Maps dan pemesanan WhatsApp.
+[Coba demo interaktif](/projects/vinty-coffee-and-space/demo) · [Buka POS layar penuh](/demos/vinty-pos/index.html) · [Lihat source aplikasi](https://github.com/arhaqx/portfolio/tree/main/apps/vinty-pos)
 
-## Teknologi yang Digunakan
+## Alur dari pesanan sampai struk
 
-- **Frontend**: React, Next.js / Modern JavaScript, CSS3
-- **Design & Assets**: UI/UX responsive design, optimalisasi aset gambar untuk kecepatan loading tinggi
+Kasir mencari menu atau memilih kategori Coffee, Non-coffee, Makanan, dan Camilan. Pesanan dapat berupa dine in dengan nomor meja atau take away, dilengkapi nama pelanggan, catatan, dan diskon 0%, 5%, atau 10%.
+
+Pada pembayaran tunai, sistem memvalidasi uang diterima dan menghitung kembalian. QRIS tersedia sebagai **pencatatan manual dengan konfirmasi**, tanpa payment gateway atau perpindahan dana. Setelah transaksi berhasil disimpan, stok dikurangi, keranjang dikosongkan, dan struk dapat disimpan, dibagikan, atau dicetak melalui fasilitas perangkat.
+
+Pesanan bergerak dari baru, disiapkan, siap disajikan, hingga selesai. Pembatalan membutuhkan alasan, mengembalikan stok satu kali, dan mengecualikan transaksi dari omzet. Catatan pembatalan tetap disimpan.
+
+## Keputusan engineering
+
+- **Satu basis kode:** Expo, React Native, dan TypeScript untuk aplikasi mobile serta demo browser. UI menyesuaikan layar desktop dan ponsel.
+- **Nominal rupiah bulat:** perhitungan memakai integer, dengan pembulatan persentase yang konsisten. Pajak dan layanan dapat dikonfigurasi; default keduanya 0%.
+- **Transaksi sebagai snapshot:** nama dan harga menu disalin ke transaksi. Perubahan harga berikutnya tidak mengubah struk lama.
+- **Penyimpanan lokal:** AsyncStorage menyimpan inventori, transaksi, dan keranjang dalam satu snapshot berversi. Kegagalan penyimpanan tidak ditampilkan sebagai pembayaran berhasil.
+- **Perlindungan konflik:** pengecekan revisi dan Web Locks pada browser yang mendukung mencegah penulisan bersamaan dari tab yang berbeda. Aplikasi ditujukan untuk satu sesi kasir.
+- **Laporan berbasis transaksi:** omzet, jumlah pesanan, rata-rata nilai transaksi, menu terlaris, serta pembagian tunai dan QRIS dihitung dari data tersimpan. Filter harian menggunakan zona waktu Asia/Jakarta. CSV tersedia untuk ekspor.
+
+## Referensi open source dan kontribusi
+
+Saya meninjau [RetailPOS](https://github.com/n17foo/retailpos), [offline-sync](https://github.com/hasebusman/offline-sync), dan [Fluffy Expo](https://github.com/thoriqdharmawan/fluffy-expo). RetailPOS dipilih sebagai referensi karena menggunakan Expo/React Native dan menyertakan lisensi Apache 2.0 yang dapat diperiksa.
+
+Utilitas uang diadaptasi dari RetailPOS pada commit `5994067`, lalu diubah untuk rupiah bulat, validasi safe integer, dan persentase dalam basis points. Identitas Vinty, antarmuka kasir, katalog, pengelolaan transaksi dan stok, laporan, pengujian, serta integrasi portofolio dikembangkan untuk proyek ini. Rincian asal kode dan salinan lisensi tersedia di [THIRD_PARTY_NOTICES.md](https://github.com/arhaqx/portfolio/blob/main/apps/vinty-pos/THIRD_PARTY_NOTICES.md).
+
+## Validasi dan batas versi ini
+
+Pengujian otomatis mencakup perhitungan tagihan dan kembalian, penolakan uang kurang dan stok tidak cukup, konfirmasi QRIS, snapshot harga, pembatalan, urutan nomor struk, batas tanggal WIB, konsistensi laporan, serta validasi data tersimpan. Build web dan bundel Android/Hermes diperiksa, dilengkapi uji alur transaksi di browser.
+
+**Versi yang ditampilkan merupakan demo fungsional satu kasir dengan menu, harga, dan ilustrasi contoh.** Data pada browser dan aplikasi mobile disimpan terpisah di perangkat masing-masing. Versi ini belum mencakup autentikasi staf, sinkronisasi antarperangkat, backup server, stok bahan baku, payment gateway, atau printer Bluetooth. Penggunaan operasional dan rilis APK memerlukan validasi perangkat serta konfigurasi lebih lanjut.

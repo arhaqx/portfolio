@@ -226,19 +226,19 @@ const about: About = {
       },
       {
         company: "Vinty Coffee & Space Jepara",
-        timeframe: "Februari 2026",
-        tag: "CLIENT WORK",
-        role: "Frontend Web Developer",
+        timeframe: "November 2026",
+        tag: "PERSONAL BUSINESS",
+        role: "Business Owner & POS Developer",
         projectHref: "/projects/vinty-coffee-and-space",
         achievements: [
           <>
-            Merancang dan merilis landing page responsif dengan katalog menu digital terintegrasi untuk memudahkan eksplorasi produk dan memperkuat presensi digital kafe.
+            Mengembangkan POS Expo dan React Native untuk kafe milik pribadi: kasir, transaksi manual, stok per porsi, struk, dan laporan penjualan dengan penyimpanan lokal serta demo web interaktif.
           </>,
         ],
         images: [
           {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Vinty Coffee & Space",
+            src: "/images/projects/vinty-pos/register.jpg",
+            alt: "Antarmuka kasir Vinty POS untuk kafe milik pribadi",
             width: 16,
             height: 9,
           },

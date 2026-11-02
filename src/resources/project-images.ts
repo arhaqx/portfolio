@@ -16,6 +16,7 @@ export const projectImageDetails: Record<string, { width: number; height: number
   "/images/projects/denah-master/sketsa-kasar.png": { width: 1024, height: 527, caption: "Sketsa pembagian lahan" },
   "/images/projects/poliklinik/landing-page.png": { width: 1024, height: 555, caption: "Halaman utama poliklinik" },
   "/images/projects/poliklinik/daftar-poli.png": { width: 1024, height: 578, caption: "Pendaftaran poli" },
-  "/images/projects/project-01/cover-03.jpg": { width: 1440, height: 810, caption: "Tampilan website Vinty · 1" },
-  "/images/projects/project-01/image-03.jpg": { width: 1440, height: 810, caption: "Tampilan website Vinty · 2" },
+  "/images/projects/vinty-pos/register.jpg": { width: 1440, height: 900, caption: "Kasir Vinty POS · menu dan keranjang pesanan" },
+  "/images/projects/vinty-pos/reports.jpg": { width: 1440, height: 900, caption: "Laporan penjualan dari transaksi demo yang tersimpan" },
+  "/images/projects/vinty-pos/mobile.jpg": { width: 390, height: 844, caption: "Vinty POS pada viewport ponsel · Expo web" },
 };

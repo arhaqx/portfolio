@@ -184,15 +184,17 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
   },
   {
     id: "project_vinty_coffee",
-    title: "Proyek Landing Page & Menu Digital Vinty Coffee & Space Jepara",
+    title: "Vinty POS — Aplikasi Kasir untuk Kafe Milik Pribadi",
     category: "projects",
-    url: "/projects",
+    url: "/projects/vinty-coffee-and-space",
     keywords: [
-      "vinty", "coffee", "kafe", "jepara", "landing page", "menu digital", "frontend", "katalog"
+      "vinty", "coffee", "kafe", "jepara", "pos", "kasir", "expo", "react native", "stok", "transaksi", "usaha pribadi"
     ],
-    content: `Proyek Web Vinty Coffee & Space Jepara:
-- Peran Arinal: Frontend Web Developer (Februari 2026)
-- Fitur: Desain antarmuka landing page responsif bernuansa estetik, katalog menu makanan/minuman digital interaktif, dan optimasi presensi online kafe.`
+    content: `Vinty POS — Vinty Coffee & Space Jepara (November 2026):
+- Vinty adalah kafe milik pribadi Muhammad Arinal Haq. Perannya: Business Owner & POS Developer, bukan proyek untuk klien eksternal.
+- Aplikasi baru berbasis Expo, React Native, TypeScript, dan AsyncStorage: katalog, keranjang, dine in/take away, diskon, tunai dengan hitung kembalian, QRIS manual, struk, stok per porsi, status pesanan, pembatalan, laporan WIB, serta ekspor CSV.
+- Demo web tersedia di /projects/vinty-coffee-and-space/demo. Versi ini adalah demo satu kasir dengan data contoh dan penyimpanan lokal; belum terintegrasi payment gateway, autentikasi staf, backend sinkronisasi, atau printer Bluetooth. Jangan mengklaim sudah dipakai operasional, memiliki pengguna aktif, atau menghasilkan peningkatan bisnis terukur.
+- Referensi open source: n17foo/retailpos (Apache-2.0), dengan adaptasi utilitas uang dan atribusi. UI Vinty dan alur bisnis dikembangkan khusus untuk proyek ini.`
   },
   {
     id: "project_poliklinik_udinus",
