@@ -95,6 +95,15 @@ export function SkyBackground() {
         const currentConfig = getConfig(currentTheme);
 
         // Zero-visual-change engine patches on VantaBase (applied once, before construction):
+        //  - fragmentShader: fixes 3 bugs in Vanta's bundled CLOUDS shader on WebGL/D3D11 GPUs:
+        //      1. Replaces 1D scalar `hash(n + C)` (which D3D11 fxc constant-folds into
+        //         discontinuous `mad(n, 0.011, C*0.011)` across 30% of grid cell boundaries,
+        //         creating sharp triangles, diagonal slices, and sky bands) with a 3D corner
+        //         hash evaluated on exact `p0 = floor(x)` / `p1 = p0 + 1.0` lattice vertices
+        //         plus a C2 quintic Perlin interpolation curve.
+        //      2. Adds a near-camera smooth fade (`t = 0.8..2.4`) so cloud puffs passing the
+        //         camera never clip against the lens as raw cubic grid geometry.
+        //      3. Keeps camera elevation gently bounded when the cursor moves to the bottom UI.
         //  - isOnScreen(): the sky is position:fixed full-viewport, so it is always on screen.
         //    Vanta's version reads offsetHeight + getBoundingClientRect() EVERY frame, forcing a
         //    synchronous layout that competes with GSAP / Lenis and causes frame-pacing hitches.
@@ -103,6 +112,45 @@ export function SkyBackground() {
         //  - resize(): skipped when size & DPR are unchanged. Setting canvas width/height (even to
         //    the same value) reallocates the drawing buffer; mobile browsers fire resize whenever
         //    the URL bar shows/hides while the sky (100lvh) keeps the exact same size.
+        const patchCloudsShader = (shader: string) =>
+          shader
+            .replace(
+              /float hash\(float p\)[\s\S]*?const float constantTime = 1000\.;/,
+              `float hash(vec3 p) {
+  p = fract(p * vec3(0.1031, 0.1030, 0.0973));
+  p += dot(p, p.yxz + 33.33);
+  return fract((p.x + p.y) * p.z);
+}
+
+float noise( vec3 x ){
+    vec3 p0 = floor(x);
+    vec3 p1 = p0 + 1.0;
+    vec3 f = fract(x);
+    f = f*f*f*(f*(f*6.0-15.0)+10.0);
+    return mix(
+      mix(mix(hash(vec3(p0.x,p0.y,p0.z)), hash(vec3(p1.x,p0.y,p0.z)), f.x),
+          mix(hash(vec3(p0.x,p1.y,p0.z)), hash(vec3(p1.x,p1.y,p0.z)), f.x), f.y),
+      mix(mix(hash(vec3(p0.x,p0.y,p1.z)), hash(vec3(p1.x,p0.y,p1.z)), f.x),
+          mix(hash(vec3(p0.x,p1.y,p1.z)), hash(vec3(p1.x,p1.y,p1.z)), f.x), f.y),
+      f.z);
+}
+
+const float constantTime = 10.;`,
+            )
+            .replace(
+              /#define MARCH\(STEPS,MAPLOD\)[\s\S]*?float t = 0\.0;/,
+              `#define MARCH(STEPS,MAPLOD) for(int i=0; i<STEPS; i++) { vec3 pos = ro + t*rd; if( pos.y<-3.0 || pos.y>2.0 || sum.a > 0.99 ) break; float fade = smoothstep(0.8, 2.4, t); float den = MAPLOD( pos ) * fade; if( den>0.01 ) { float dif = clamp((den - MAPLOD(pos+0.3*sundir)*fade)/0.6, 0.0, 1.0 ); sum = integrate( sum, dif, den, bgcol, t ); } t += max(0.075,0.02*t); }
+
+vec4 raymarch( in vec3 ro, in vec3 rd, in vec3 bgcol, in ivec2 px ){
+    vec4 sum = vec4(0.0);
+
+    float t = 0.8;`,
+            )
+            .replace(
+              "m.y = (1.0 - m.y) * 0.33 + 0.28;",
+              "m.y = (1.0 - clamp(m.y, 0.0, 1.0) * 0.6) * 0.25 + 0.42;",
+            );
+
         const perfProto = (window as unknown as {
           VANTA?: {
             VantaBase?: {
@@ -111,6 +159,26 @@ export function SkyBackground() {
           };
         }).VANTA?.VantaBase?.prototype;
         if (perfProto && !perfProto._perfPatched) {
+          const origBaseInit = perfProto.init as (() => void) | undefined;
+          perfProto.init = function (this: { fragmentShader?: string }) {
+            const effectProto = Object.getPrototypeOf(this) as {
+              fragmentShader?: string;
+              _cloudsShaderPatched?: boolean;
+            } | null;
+            if (
+              effectProto &&
+              typeof effectProto.fragmentShader === "string" &&
+              !effectProto._cloudsShaderPatched
+            ) {
+              effectProto.fragmentShader = patchCloudsShader(effectProto.fragmentShader);
+              effectProto._cloudsShaderPatched = true;
+            }
+            if (typeof this.fragmentShader === "string") {
+              this.fragmentShader = patchCloudsShader(this.fragmentShader);
+            }
+            if (origBaseInit) origBaseInit.call(this);
+          };
+
           perfProto.isOnScreen = function () {
             return true;
           };
@@ -160,6 +228,7 @@ export function SkyBackground() {
           const effect = vantaEffect as unknown as {
             onUpdate?: () => void;
             renderer?: THREE.WebGLRenderer;
+            scene?: THREE.Scene;
             width: number;
             height: number;
             mouseX?: number;
@@ -171,6 +240,19 @@ export function SkyBackground() {
               iMouse?: { value: THREE.Vector2 };
             };
           };
+
+          // Safety fallback: ensure compiled ShaderMaterial uses the patched fragmentShader
+          const mesh = effect.scene?.children?.[0] as
+            | THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>
+            | undefined;
+          if (
+            mesh?.material &&
+            typeof mesh.material.fragmentShader === "string" &&
+            mesh.material.fragmentShader.includes("float hash(float p)")
+          ) {
+            mesh.material.fragmentShader = patchCloudsShader(mesh.material.fragmentShader);
+            mesh.material.needsUpdate = true;
+          }
 
           const bufferSize = new THREE.Vector2();
           const syncResolution = () => {
